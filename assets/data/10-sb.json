@@ -1,0 +1,375 @@
+{
+  "id": 10,
+  "label": "Square",
+  "labelAr": "مربعات مجوفة",
+  "symbol": "/icons/10.svg",
+  "types": [
+    {
+      "name": "Square",
+      "symbol": "/icons/s-sb.svg",
+      "flag": "/icons/eu.png",
+      "variants": [
+        {
+          "size": "6×6",
+          "name": {
+            "ar": "6×6",
+            "en": "6×6"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 6,
+          "weight": "0.28"
+        },
+        {
+          "size": "8×8",
+          "name": {
+            "ar": "8×8",
+            "en": "8×8"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 8,
+          "weight": "0.5"
+        },
+        {
+          "size": "10×10",
+          "name": {
+            "ar": "10×10",
+            "en": "10×10"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 10,
+          "weight": "0.78"
+        },
+        {
+          "size": "12×12",
+          "name": {
+            "ar": "12×12",
+            "en": "12×12"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 12,
+          "weight": 1.13
+        },
+        {
+          "size": "14×14",
+          "name": {
+            "ar": "14×14",
+            "en": "14×14"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 14,
+          "weight": "1.54"
+        },
+        {
+          "size": "16×16",
+          "name": {
+            "ar": "16×16",
+            "en": "16×16"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 16,
+          "weight": 2.1
+        },
+        {
+          "size": "18×18",
+          "name": {
+            "ar": "18×18",
+            "en": "18×18"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 18,
+          "weight": "2.54"
+        },
+        {
+          "size": "20×20",
+          "name": {
+            "ar": "20×20",
+            "en": "20×20"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 20,
+          "weight": 3.14
+        },
+        {
+          "size": "22×22",
+          "name": {
+            "ar": "22×22",
+            "en": "22×22"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 22,
+          "weight": 3.8
+        },
+        {
+          "size": "25×25",
+          "name": {
+            "ar": "25×25",
+            "en": "25×25"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 25,
+          "weight": "4.91"
+        },
+        {
+          "size": "30×30",
+          "name": {
+            "ar": "30×30",
+            "en": "30×30"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 30,
+          "weight": 7.6
+        },
+        {
+          "size": "32×32",
+          "name": {
+            "ar": "32×32",
+            "en": "32×32"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 32,
+          "weight": 8.4
+        },
+        {
+          "size": "35×35",
+          "name": {
+            "ar": "35×35",
+            "en": "35×35"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 35,
+          "weight": "9.62"
+        },
+        {
+          "size": "40×40",
+          "name": {
+            "ar": "40×40",
+            "en": "40×40"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 40,
+          "weight": "12.56"
+        },
+        {
+          "size": "45×45",
+          "name": {
+            "ar": "45×45",
+            "en": "45×45"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 45,
+          "weight": "15.9"
+        },
+        {
+          "size": "50×50",
+          "name": {
+            "ar": "50×50",
+            "en": "50×50"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 50,
+          "weight": "19.62"
+        },
+        {
+          "size": "55×55",
+          "name": {
+            "ar": "55×55",
+            "en": "55×55"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 55,
+          "weight": "23.75"
+        },
+        {
+          "size": "60×60",
+          "name": {
+            "ar": "60×60",
+            "en": "60×60"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 60,
+          "weight": "28.26"
+        },
+        {
+          "size": "65×65",
+          "name": {
+            "ar": "65×65",
+            "en": "65×65"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 65,
+          "weight": "33.17"
+        },
+        {
+          "size": "70×70",
+          "name": {
+            "ar": "70×70",
+            "en": "70×70"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 70,
+          "weight": "38.46"
+        },
+        {
+          "size": "75×75",
+          "name": {
+            "ar": "75×75",
+            "en": "75×75"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 75,
+          "weight": "44.136"
+        },
+        {
+          "size": "80×80",
+          "name": {
+            "ar": "80×80",
+            "en": "80×80"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 80,
+          "weight": "50.24"
+        },
+        {
+          "size": "85×85",
+          "name": {
+            "ar": "85×85",
+            "en": "85×85"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 85,
+          "weight": "56.72"
+        },
+        {
+          "size": "90×90",
+          "name": {
+            "ar": "90×90",
+            "en": "90×90"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 90,
+          "weight": "63.58"
+        },
+        {
+          "size": "100×100",
+          "name": {
+            "ar": "100×100",
+            "en": "100×100"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 100,
+          "weight": "78.5"
+        },
+        {
+          "size": "115×115",
+          "name": {
+            "ar": "115×115",
+            "en": "115×115"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 115,
+          "weight": "103.82"
+        },
+        {
+          "size": "120×120",
+          "name": {
+            "ar": "120×120",
+            "en": "120×120"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 120,
+          "weight": "113.04"
+        },
+        {
+          "size": "125×125",
+          "name": {
+            "ar": "125×125",
+            "en": "125×125"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 125,
+          "weight": "122.66"
+        },
+        {
+          "size": "130×130",
+          "name": {
+            "ar": "130×130",
+            "en": "130×130"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 130,
+          "weight": "132.66"
+        },
+        {
+          "size": "150×150",
+          "name": {
+            "ar": "150×150",
+            "en": "150×150"
+          },
+          "img": "/icons/s-sb.svg",
+          "bigImg": "/icons/b-sb.svg",
+          "country": "eu",
+          "w": 150,
+          "weight": "176.62"
+        }
+      ]
+    }
+  ]
+}

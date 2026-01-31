@@ -1,0 +1,338 @@
+[
+  {
+    "id": 1,
+    "label": "HP",
+    "labelAr": "زوايا متساوية",
+    "symbol": "/icons/1.svg",
+    "variants": [
+      {
+        "size": "20x20x3",
+        "thickness": 3,
+        "nameAr": "زاوية 20×20×3",
+        "nameEn": "Angle 20x20x3",
+        "img": "/icons/s-hp1.svg",
+        "bigImg": "/icons/b-hp1.svg"
+      },
+      {
+        "size": "25x25x3",
+        "thickness": 3,
+        "nameAr": "زاوية 25×25×3",
+        "nameEn": "Angle 25x25x3",
+        "img": "/icons/s-hp2.svg",
+        "bigImg": "/icons/b-hp2.svg"
+      },
+      {
+        "size": "30x30x4",
+        "thickness": 4,
+        "nameAr": "زاوية 30×30×4",
+        "nameEn": "Angle 30x30x4",
+        "img": "/icons/s-hp3.svg",
+        "bigImg": "/icons/b-hp3.svg"
+      },
+      {
+        "size": "40x40x4",
+        "thickness": 4,
+        "nameAr": "زاوية 40×40×4",
+        "nameEn": "Angle 40x40x4",
+        "img": "/icons/s-hp4.svg",
+        "bigImg": "/icons/b-hp4.svg"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "label": "IPE",
+    "labelAr": "زوايا غير متساوية",
+    "symbol": "/icons/2.svg",
+    "variants": [
+      {
+        "size": "20x20x3",
+        "thickness": 3,
+        "nameAr": "زاوية 20×20×3",
+        "nameEn": "Angle 20x20x3",
+        "img": "/icons/I1.svg",
+        "bigImg": "/icons/ip1.svg"
+      },
+      {
+        "size": "25x25x3",
+        "thickness": 3,
+        "nameAr": "زاوية 25×25×3",
+        "nameEn": "Angle 25x25x3",
+        "img": "/icons/I2.svg",
+        "bigImg": "/icons/ip1-1.svg"
+      },
+      {
+        "size": "30x30x4",
+        "thickness": 4,
+        "nameAr": "زاوية 30×30×4",
+        "nameEn": "Angle 30x30x4",
+        "img": "/icons/I3.svg",
+        "bigImg": "/icons/ip2.svg"
+      },
+      {
+        "size": "40x40x4",
+        "thickness": 4,
+        "nameAr": "زاوية 40×40×4",
+        "nameEn": "Angle 40x40x4",
+        "img": "/icons/I4.svg",
+        "bigImg": "/icons/ip3.svg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "label": "U",
+    "labelAr": "قناة حرف C",
+    "symbol": "/icons/3.svg",
+    "variants": [
+      {
+        "size": "100x50x5",
+        "thickness": 5,
+        "nameAr": "قناة 100×50×5",
+        "nameEn": "C-Channel 100x50x5",
+        "img": "/icons/u1.svg",
+        "bigImg": "/icons/b-u1.svg"
+      },
+      {
+        "size": "100x50x5",
+        "thickness": 5,
+        "nameAr": "قناة 100×50×5",
+        "nameEn": "C-Channel 100x50x5",
+        "img": "/icons/u2.svg",
+        "bigImg": "/icons/b-u2.svg"
+      },
+      {
+        "size": "100x50x5",
+        "thickness": 5,
+        "nameAr": "قناة 100×50×5",
+        "nameEn": "C-Channel 100x50x5",
+        "img": "/icons/u3.svg",
+        "bigImg": "/icons/b-u3.svg"
+      },
+      {
+        "size": "100x50x5",
+        "thickness": 5,
+        "nameAr": "قناة 100×50×5",
+        "nameEn": "C-Channel 100x50x5",
+        "img": "/icons/u4.svg",
+        "bigImg": "/icons/b-u4.svg"
+      },
+      {
+        "size": "100x50x5",
+        "thickness": 5,
+        "nameAr": "قناة 100×50×5",
+        "nameEn": "C-Channel 100x50x5",
+        "img": "/icons/u5.svg",
+        "bigImg": "/icons/b-u5.svg"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "label": "EA",
+    "labelAr": "زاوية حرف L",
+    "symbol": "/icons/4.svg",
+    "variants": [
+      {
+        "size": "40x20x4",
+        "thickness": 4,
+        "nameAr": "زاوية L 40×20×4",
+        "nameEn": "L-Angle 40x20x4",
+        "img": "/icons/s-ea.svg",
+        "bigImg": "/icons/b-ea.svg"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "label": "L-Angle Equal",
+    "labelAr": "زاوية متساوية",
+    "symbol": "/icons/5.svg",
+    "variants": [
+      {
+        "size": "50x50x5",
+        "thickness": 5,
+        "nameAr": "زاوية 50×50×5",
+        "nameEn": "Angle 50x50x5",
+        "img": "/icons/s-ua.svg",
+        "bigImg": "/icons/b-ua.svg"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "label": "T",
+    "labelAr": "مقطع حرف T",
+    "symbol": "/icons/6.svg",
+    "variants": [
+      {
+        "size": "60x60x6",
+        "thickness": 6,
+        "nameAr": "مقطع T 60×60×6",
+        "nameEn": "T-Section 60x60x6",
+        "img": "/icons/s-t.svg",
+        "bigImg": "/icons/b-t.svg"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "label": "SHE",
+    "labelAr": "أنبوب مربع",
+    "symbol": "/icons/7.svg",
+    "variants": [
+      {
+        "size": "40x40x2",
+        "thickness": 2,
+        "nameAr": "أنبوب مربع 40×40×2",
+        "nameEn": "Square Tube 40x40x2",
+        "img": "/icons/s-she.svg",
+        "bigImg": "/icons/b-she.svg"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "label": "RHE",
+    "labelAr": "أنبوب مستطيل",
+    "symbol": "/icons/8.svg",
+    "variants": [
+      {
+        "size": "60x40x3",
+        "thickness": 3,
+        "nameAr": "أنبوب مستطيل 60×40×3",
+        "nameEn": "Rectangle Tube 60x40x3",
+        "img": "/icons/s-rhe.svg",
+        "bigImg": "/icons/b-rhe.svg"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "label": "PB",
+    "labelAr": "مسدس الأضلاع",
+    "symbol": "/icons/9.svg",
+    "variants": [
+      {
+        "size": "20",
+        "thickness": 5,
+        "nameAr": "مسدس 20",
+        "nameEn": "Hexagon 20",
+        "img": "/icons/s-pb.svg",
+        "bigImg": "/icons/b-pb.svg"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "label": "SB",
+    "labelAr": "قضيب مربع",
+    "symbol": "/icons/10.svg",
+    "variants": [
+      {
+        "size": "25x25",
+        "thickness": 6,
+        "nameAr": "قضيب مربع 25×25",
+        "nameEn": "Square Bar 25x25",
+        "img": "/icons/s-sb.svg",
+        "bigImg": "/icons/b-sb.svg"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "label": "RB",
+    "labelAr": "قضيب دائري",
+    "symbol": "/icons/11.svg",
+    "variants": [
+      {
+        "size": "Ø20",
+        "thickness": 20,
+        "nameAr": "قضيب دائري Ø20",
+        "nameEn": "Round Bar Ø20",
+        "img": "/icons/s-rb.svg",
+        "bigImg": "/icons/b-rb.svg"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "label": "S",
+    "labelAr": "قضيب مسطح",
+    "symbol": "/icons/12.svg",
+    "variants": [
+      {
+        "size": "50x5",
+        "thickness": 5,
+        "nameAr": "قضيب مسطح 50×5",
+        "nameEn": "Flat Bar 50x5",
+        "img": "/icons/s-s.svg",
+        "bigImg": "/icons/b-s.svg"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "label": "Strip",
+    "labelAr": "شريط معدني",
+    "symbol": "/icons/13.svg",
+    "variants": [
+      {
+        "size": "20x1",
+        "thickness": 1,
+        "nameAr": "شريط 20×1",
+        "nameEn": "Strip 20x1",
+        "img": "/icons/s-k.svg",
+        "bigImg": "/icons/b-k.svg"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "label": "pipe",
+    "labelAr": "شريط معدني",
+    "symbol": "/icons/i16.svg",
+    "variants": [
+      {
+        "size": "25x1.5",
+        "thickness": 1.5,
+        "nameAr": "شريط 25×1.5",
+        "nameEn": "Strip 25x1.5",
+        "img": "/icons/s-pipe.svg",
+        "bigImg": "/icons/b-pipe.svg"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "label": "Z",
+    "labelAr": "شريط معدني",
+    "symbol": "/icons/i15.svg",
+    "variants": [
+      {
+        "size": "30x2",
+        "thickness": 2,
+        "nameAr": "شريط 30×2",
+        "nameEn": "Strip 30x2",
+        "img": "/icons/s-z.svg",
+        "bigImg": "/icons/b-z.svg"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "label": "C",
+    "labelAr": "شريط معدني",
+    "symbol": "/icons/i14.svg",
+    "variants": [
+      {
+        "size": "35x2.5",
+        "thickness": 2.5,
+        "nameAr": "شريط 35×2.5",
+        "nameEn": "Strip 35x2.5",
+        "img": "/icons/s-c.svg",
+        "bigImg": "/icons/b-c.svg"
+      }
+    ]
+  }
+]

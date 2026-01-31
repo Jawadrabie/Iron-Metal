@@ -1,0 +1,84 @@
+{
+  "expo": {
+    "name": "Iron&Metal",
+    "slug": "mobile",
+    "scheme": "ironmetal",
+    "version": "1.0.5",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "NEVER"
+    },
+    "orientation": "portrait",
+    "icon": "./assets/icon/logo6.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/icon/logo6.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.akafi.ironmetal",
+      "buildNumber": "14",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "associatedDomains": ["applinks:iron-metal.net", "applinks:www.iron-metal.net"]
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon/logo6.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.alabuotrading.ironmetal",
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "category": ["BROWSABLE", "DEFAULT"],
+          "data": [
+            {
+              "scheme": "https",
+              "host": "iron-metal.net",
+              "pathPrefix": "/"
+            },
+            {
+              "scheme": "https",
+              "host": "www.iron-metal.net",
+              "pathPrefix": "/"
+            }
+          ]
+        },
+        {
+          "action": "VIEW",
+          "category": ["BROWSABLE", "DEFAULT"],
+          "data": [
+            {
+              "scheme": "ironmetal"
+            }
+          ]
+        }
+      ]
+
+    },
+    "web": {
+      "favicon": "./assets/icon/logo6.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bb9dca3c-7b06-473d-a39a-66ebda95f1d5"
+      }
+    },
+    "plugins": [
+      "expo-web-browser",
+      "expo-asset",
+      "expo-font",
+      "expo-notifications"
+    ],
+    "owner": "mnqwzxp"
+  }
+}

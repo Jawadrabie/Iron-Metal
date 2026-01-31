@@ -1,0 +1,24 @@
+{
+  "id": 16,
+  "label": "C",
+  "labelAr": "شريط معدني",
+  "symbol": "/icons/i14.svg",
+  "types": [
+    {
+      "name": "Strip",
+      "symbol": "/icons/s-c.svg",
+      "flag": "/icons/eu.png",
+      "variants": [
+        {
+          "size": "add your own",
+          "name": {
+            "ar": "add your own",
+            "en": "add your own"
+          },
+          "img": "/icons/s-c.svg",
+          "bigImg": "/icons/b-c.svg"
+        }
+      ]
+    }
+  ]
+}

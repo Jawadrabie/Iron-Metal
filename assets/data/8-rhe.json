@@ -1,0 +1,3993 @@
+{
+  "id": 8,
+  "label": "RHS",
+  "labelAr": "مقاطع مجوفة مستطيلة",
+  "symbol": "/icons/8.svg",
+  "types": [
+    {
+      "name": "RHS \" EN 10219-2 CR \"",
+      "symbol": "/icons/8.svg",
+      "flag": "/icons/eu.png",
+      "variants": [
+        {
+          "size": "10X20X0.7 mm",
+          "name": {
+            "ar": "10X20X0.7 mm",
+            "en": "10X20X0.7 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 0.7,
+          "weight": 0.33,
+          "theoreticalWeight": 0.33,
+          "actualWeight": 0.299
+        },
+        {
+          "size": "10X20X0.8 mm",
+          "name": {
+            "ar": "10X20X0.8 mm",
+            "en": "10X20X0.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 0.8,
+          "weight": 0.377,
+          "theoreticalWeight": 0.377,
+          "actualWeight": 0.337
+        },
+        {
+          "size": "10X20X0.9 mm",
+          "name": {
+            "ar": "10X20X0.9 mm",
+            "en": "10X20X0.9 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 0.9,
+          "weight": 0.424,
+          "theoreticalWeight": 0.424,
+          "actualWeight": 0.373
+        },
+        {
+          "size": "10X20X1.0 mm",
+          "name": {
+            "ar": "10X20X1.0 mm",
+            "en": "10X20X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.0,
+          "weight": 0.471,
+          "theoreticalWeight": 0.471,
+          "actualWeight": 0.408
+        },
+        {
+          "size": "10X20X1.1 mm",
+          "name": {
+            "ar": "10X20X1.1 mm",
+            "en": "10X20X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.1,
+          "weight": 0.518,
+          "theoreticalWeight": 0.518,
+          "actualWeight": 0.442
+        },
+        {
+          "size": "10X20X1.2 mm",
+          "name": {
+            "ar": "10X20X1.2 mm",
+            "en": "10X20X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.2,
+          "weight": 0.565,
+          "theoreticalWeight": 0.565,
+          "actualWeight": 0.475
+        },
+        {
+          "size": "10X20X1.4 mm",
+          "name": {
+            "ar": "10X20X1.4 mm",
+            "en": "10X20X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.4,
+          "weight": 0.659,
+          "theoreticalWeight": 0.659,
+          "actualWeight": 0.536
+        },
+        {
+          "size": "10X20X1.45 mm",
+          "name": {
+            "ar": "10X20X1.45 mm",
+            "en": "10X20X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.45,
+          "weight": 0.683,
+          "theoreticalWeight": 0.683,
+          "actualWeight": 0.551
+        },
+        {
+          "size": "10X20X1.5 mm",
+          "name": {
+            "ar": "10X20X1.5 mm",
+            "en": "10X20X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 20,
+          "b": 10,
+          "t": 1.5,
+          "weight": 0.707,
+          "theoreticalWeight": 0.707,
+          "actualWeight": 0.565
+        },
+        {
+          "size": "15X30X0.7 mm",
+          "name": {
+            "ar": "15X30X0.7 mm",
+            "en": "15X30X0.7 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 0.7,
+          "weight": 0.495,
+          "theoreticalWeight": 0.495,
+          "actualWeight": 0.464
+        },
+        {
+          "size": "15X30X0.8 mm",
+          "name": {
+            "ar": "15X30X0.8 mm",
+            "en": "15X30X0.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 0.8,
+          "weight": 0.565,
+          "theoreticalWeight": 0.565,
+          "actualWeight": 0.525
+        },
+        {
+          "size": "15X30X0.9 mm",
+          "name": {
+            "ar": "15X30X0.9 mm",
+            "en": "15X30X0.9 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 0.9,
+          "weight": 0.636,
+          "theoreticalWeight": 0.636,
+          "actualWeight": 0.585
+        },
+        {
+          "size": "15X30X1.0 mm",
+          "name": {
+            "ar": "15X30X1.0 mm",
+            "en": "15X30X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.0,
+          "weight": 0.707,
+          "theoreticalWeight": 0.707,
+          "actualWeight": 0.644
+        },
+        {
+          "size": "15X30X1.1 mm",
+          "name": {
+            "ar": "15X30X1.1 mm",
+            "en": "15X30X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.1,
+          "weight": 0.777,
+          "theoreticalWeight": 0.777,
+          "actualWeight": 0.701
+        },
+        {
+          "size": "15X30X1.2 mm",
+          "name": {
+            "ar": "15X30X1.2 mm",
+            "en": "15X30X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.2,
+          "weight": 0.848,
+          "theoreticalWeight": 0.848,
+          "actualWeight": 0.757
+        },
+        {
+          "size": "15X30X1.4 mm",
+          "name": {
+            "ar": "15X30X1.4 mm",
+            "en": "15X30X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.4,
+          "weight": 0.989,
+          "theoreticalWeight": 0.989,
+          "actualWeight": 0.866
+        },
+        {
+          "size": "15X30X1.45 mm",
+          "name": {
+            "ar": "15X30X1.45 mm",
+            "en": "15X30X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.45,
+          "weight": 1.024,
+          "theoreticalWeight": 1.024,
+          "actualWeight": 0.892
+        },
+        {
+          "size": "15X30X1.5 mm",
+          "name": {
+            "ar": "15X30X1.5 mm",
+            "en": "15X30X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.5,
+          "weight": 1.06,
+          "theoreticalWeight": 1.06,
+          "actualWeight": 0.918
+        },
+        {
+          "size": "15X30X1.6 mm",
+          "name": {
+            "ar": "15X30X1.6 mm",
+            "en": "15X30X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.6,
+          "weight": 1.13,
+          "theoreticalWeight": 1.13,
+          "actualWeight": 0.97
+        },
+        {
+          "size": "15X30X1.8 mm",
+          "name": {
+            "ar": "15X30X1.8 mm",
+            "en": "15X30X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 1.8,
+          "weight": 1.272,
+          "theoreticalWeight": 1.272,
+          "actualWeight": 1.068
+        },
+        {
+          "size": "15X30X2.0 mm",
+          "name": {
+            "ar": "15X30X2.0 mm",
+            "en": "15X30X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 30,
+          "b": 15,
+          "t": 2.0,
+          "weight": 1.413,
+          "theoreticalWeight": 1.413,
+          "actualWeight": 1.162
+        },
+        {
+          "size": "20X40X0.9 mm",
+          "name": {
+            "ar": "20X40X0.9 mm",
+            "en": "20X40X0.9 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 0.9,
+          "weight": 0.848,
+          "theoreticalWeight": 0.848,
+          "actualWeight": 0.797
+        },
+        {
+          "size": "20X40X1.0 mm",
+          "name": {
+            "ar": "20X40X1.0 mm",
+            "en": "20X40X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.0,
+          "weight": 0.942,
+          "theoreticalWeight": 0.942,
+          "actualWeight": 0.879
+        },
+        {
+          "size": "20X40X1.1 mm",
+          "name": {
+            "ar": "20X40X1.1 mm",
+            "en": "20X40X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.1,
+          "weight": 1.036,
+          "theoreticalWeight": 1.036,
+          "actualWeight": 0.96
+        },
+        {
+          "size": "20X40X1.2 mm",
+          "name": {
+            "ar": "20X40X1.2 mm",
+            "en": "20X40X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.2,
+          "weight": 1.13,
+          "theoreticalWeight": 1.13,
+          "actualWeight": 1.04
+        },
+        {
+          "size": "20X40X1.4 mm",
+          "name": {
+            "ar": "20X40X1.4 mm",
+            "en": "20X40X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.4,
+          "weight": 1.319,
+          "theoreticalWeight": 1.319,
+          "actualWeight": 1.196
+        },
+        {
+          "size": "20X40X1.45 mm",
+          "name": {
+            "ar": "20X40X1.45 mm",
+            "en": "20X40X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.45,
+          "weight": 1.366,
+          "theoreticalWeight": 1.366,
+          "actualWeight": 1.234
+        },
+        {
+          "size": "20X40X1.5 mm",
+          "name": {
+            "ar": "20X40X1.5 mm",
+            "en": "20X40X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.5,
+          "weight": 1.413,
+          "theoreticalWeight": 1.413,
+          "actualWeight": 1.272
+        },
+        {
+          "size": "20X40X1.6 mm",
+          "name": {
+            "ar": "20X40X1.6 mm",
+            "en": "20X40X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.6,
+          "weight": 1.507,
+          "theoreticalWeight": 1.507,
+          "actualWeight": 1.346
+        },
+        {
+          "size": "20X40X1.8 mm",
+          "name": {
+            "ar": "20X40X1.8 mm",
+            "en": "20X40X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 1.8,
+          "weight": 1.696,
+          "theoreticalWeight": 1.696,
+          "actualWeight": 1.492
+        },
+        {
+          "size": "20X40X2.0 mm",
+          "name": {
+            "ar": "20X40X2.0 mm",
+            "en": "20X40X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 2.0,
+          "weight": 1.884,
+          "theoreticalWeight": 1.884,
+          "actualWeight": 1.633
+        },
+        {
+          "size": "20X40X2.5 mm",
+          "name": {
+            "ar": "20X40X2.5 mm",
+            "en": "20X40X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 2.5,
+          "weight": 2.355,
+          "theoreticalWeight": 2.355,
+          "actualWeight": 1.962
+        },
+        {
+          "size": "20X40X3.0 mm",
+          "name": {
+            "ar": "20X40X3.0 mm",
+            "en": "20X40X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 40,
+          "b": 20,
+          "t": 3.0,
+          "weight": 2.826,
+          "theoreticalWeight": 2.826,
+          "actualWeight": 2.261
+        },
+        {
+          "size": "25X50X0.7 mm",
+          "name": {
+            "ar": "25X50X0.7 mm",
+            "en": "25X50X0.7 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 0.7,
+          "weight": 0.824,
+          "theoreticalWeight": 0.824,
+          "actualWeight": 0.793
+        },
+        {
+          "size": "25X50X0.8 mm",
+          "name": {
+            "ar": "25X50X0.8 mm",
+            "en": "25X50X0.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 0.8,
+          "weight": 0.942,
+          "theoreticalWeight": 0.942,
+          "actualWeight": 0.902
+        },
+        {
+          "size": "25X50X0.9 mm",
+          "name": {
+            "ar": "25X50X0.9 mm",
+            "en": "25X50X0.9 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 0.9,
+          "weight": 1.06,
+          "theoreticalWeight": 1.06,
+          "actualWeight": 1.009
+        },
+        {
+          "size": "25X50X1.0 mm",
+          "name": {
+            "ar": "25X50X1.0 mm",
+            "en": "25X50X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.0,
+          "weight": 1.177,
+          "theoreticalWeight": 1.177,
+          "actualWeight": 1.115
+        },
+        {
+          "size": "25X50X1.1 mm",
+          "name": {
+            "ar": "25X50X1.1 mm",
+            "en": "25X50X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.1,
+          "weight": 1.295,
+          "theoreticalWeight": 1.295,
+          "actualWeight": 1.219
+        },
+        {
+          "size": "25X50X1.2 mm",
+          "name": {
+            "ar": "25X50X1.2 mm",
+            "en": "25X50X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.2,
+          "weight": 1.413,
+          "theoreticalWeight": 1.413,
+          "actualWeight": 1.323
+        },
+        {
+          "size": "25X50X1.4 mm",
+          "name": {
+            "ar": "25X50X1.4 mm",
+            "en": "25X50X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.4,
+          "weight": 1.649,
+          "theoreticalWeight": 1.649,
+          "actualWeight": 1.525
+        },
+        {
+          "size": "25X50X1.45 mm",
+          "name": {
+            "ar": "25X50X1.45 mm",
+            "en": "25X50X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.45,
+          "weight": 1.707,
+          "theoreticalWeight": 1.707,
+          "actualWeight": 1.575
+        },
+        {
+          "size": "25X50X1.5 mm",
+          "name": {
+            "ar": "25X50X1.5 mm",
+            "en": "25X50X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.5,
+          "weight": 1.766,
+          "theoreticalWeight": 1.766,
+          "actualWeight": 1.625
+        },
+        {
+          "size": "25X50X1.6 mm",
+          "name": {
+            "ar": "25X50X1.6 mm",
+            "en": "25X50X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.6,
+          "weight": 1.884,
+          "theoreticalWeight": 1.884,
+          "actualWeight": 1.723
+        },
+        {
+          "size": "25X50X1.8 mm",
+          "name": {
+            "ar": "25X50X1.8 mm",
+            "en": "25X50X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 1.8,
+          "weight": 2.119,
+          "theoreticalWeight": 2.119,
+          "actualWeight": 1.916
+        },
+        {
+          "size": "25X50X2.0 mm",
+          "name": {
+            "ar": "25X50X2.0 mm",
+            "en": "25X50X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 2.0,
+          "weight": 2.355,
+          "theoreticalWeight": 2.355,
+          "actualWeight": 2.104
+        },
+        {
+          "size": "25X50X2.5 mm",
+          "name": {
+            "ar": "25X50X2.5 mm",
+            "en": "25X50X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 2.5,
+          "weight": 2.944,
+          "theoreticalWeight": 2.944,
+          "actualWeight": 2.551
+        },
+        {
+          "size": "25X50X3.0 mm",
+          "name": {
+            "ar": "25X50X3.0 mm",
+            "en": "25X50X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 50,
+          "b": 25,
+          "t": 3.0,
+          "weight": 3.533,
+          "theoreticalWeight": 3.533,
+          "actualWeight": 2.967
+        },
+        {
+          "size": "30X60X1.0 mm",
+          "name": {
+            "ar": "30X60X1.0 mm",
+            "en": "30X60X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.0,
+          "weight": 1.413,
+          "theoreticalWeight": 1.413,
+          "actualWeight": 1.35
+        },
+        {
+          "size": "30X60X1.1 mm",
+          "name": {
+            "ar": "30X60X1.1 mm",
+            "en": "30X60X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.1,
+          "weight": 1.554,
+          "theoreticalWeight": 1.554,
+          "actualWeight": 1.478
+        },
+        {
+          "size": "30X60X1.2 mm",
+          "name": {
+            "ar": "30X60X1.2 mm",
+            "en": "30X60X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.2,
+          "weight": 1.696,
+          "theoreticalWeight": 1.696,
+          "actualWeight": 1.605
+        },
+        {
+          "size": "30X60X1.4 mm",
+          "name": {
+            "ar": "30X60X1.4 mm",
+            "en": "30X60X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.4,
+          "weight": 1.978,
+          "theoreticalWeight": 1.978,
+          "actualWeight": 1.855
+        },
+        {
+          "size": "30X60X1.45 mm",
+          "name": {
+            "ar": "30X60X1.45 mm",
+            "en": "30X60X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.45,
+          "weight": 2.049,
+          "theoreticalWeight": 2.049,
+          "actualWeight": 1.917
+        },
+        {
+          "size": "30X60X1.5 mm",
+          "name": {
+            "ar": "30X60X1.5 mm",
+            "en": "30X60X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.5,
+          "weight": 2.119,
+          "theoreticalWeight": 2.119,
+          "actualWeight": 1.978
+        },
+        {
+          "size": "30X60X1.6 mm",
+          "name": {
+            "ar": "30X60X1.6 mm",
+            "en": "30X60X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.6,
+          "weight": 2.261,
+          "theoreticalWeight": 2.261,
+          "actualWeight": 2.1
+        },
+        {
+          "size": "30X60X1.8 mm",
+          "name": {
+            "ar": "30X60X1.8 mm",
+            "en": "30X60X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 1.8,
+          "weight": 2.543,
+          "theoreticalWeight": 2.543,
+          "actualWeight": 2.34
+        },
+        {
+          "size": "30X60X2.0 mm",
+          "name": {
+            "ar": "30X60X2.0 mm",
+            "en": "30X60X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 2.0,
+          "weight": 2.826,
+          "theoreticalWeight": 2.826,
+          "actualWeight": 2.575
+        },
+        {
+          "size": "30X60X2.5 mm",
+          "name": {
+            "ar": "30X60X2.5 mm",
+            "en": "30X60X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 2.5,
+          "weight": 3.533,
+          "theoreticalWeight": 3.533,
+          "actualWeight": 3.14
+        },
+        {
+          "size": "30X60X3.0 mm",
+          "name": {
+            "ar": "30X60X3.0 mm",
+            "en": "30X60X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 3.0,
+          "weight": 4.239,
+          "theoreticalWeight": 4.239,
+          "actualWeight": 3.674
+        },
+        {
+          "size": "30X60X4.0 mm",
+          "name": {
+            "ar": "30X60X4.0 mm",
+            "en": "30X60X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 60,
+          "b": 30,
+          "t": 4.0,
+          "weight": 5.652,
+          "theoreticalWeight": 5.652,
+          "actualWeight": 4.647
+        },
+        {
+          "size": "40X80X1.0 mm",
+          "name": {
+            "ar": "40X80X1.0 mm",
+            "en": "40X80X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.0,
+          "weight": 1.884,
+          "theoreticalWeight": 1.884,
+          "actualWeight": 1.821
+        },
+        {
+          "size": "40X80X1.1 mm",
+          "name": {
+            "ar": "40X80X1.1 mm",
+            "en": "40X80X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.1,
+          "weight": 2.072,
+          "theoreticalWeight": 2.072,
+          "actualWeight": 1.996
+        },
+        {
+          "size": "40X80X1.2 mm",
+          "name": {
+            "ar": "40X80X1.2 mm",
+            "en": "40X80X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.2,
+          "weight": 2.261,
+          "theoreticalWeight": 2.261,
+          "actualWeight": 2.17
+        },
+        {
+          "size": "40X80X1.4 mm",
+          "name": {
+            "ar": "40X80X1.4 mm",
+            "en": "40X80X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.4,
+          "weight": 2.638,
+          "theoreticalWeight": 2.638,
+          "actualWeight": 2.515
+        },
+        {
+          "size": "40X80X1.45 mm",
+          "name": {
+            "ar": "40X80X1.45 mm",
+            "en": "40X80X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.45,
+          "weight": 2.732,
+          "theoreticalWeight": 2.732,
+          "actualWeight": 2.6
+        },
+        {
+          "size": "40X80X1.5 mm",
+          "name": {
+            "ar": "40X80X1.5 mm",
+            "en": "40X80X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.5,
+          "weight": 2.826,
+          "theoreticalWeight": 2.826,
+          "actualWeight": 2.685
+        },
+        {
+          "size": "40X80X1.6 mm",
+          "name": {
+            "ar": "40X80X1.6 mm",
+            "en": "40X80X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.6,
+          "weight": 3.014,
+          "theoreticalWeight": 3.014,
+          "actualWeight": 2.854
+        },
+        {
+          "size": "40X80X1.8 mm",
+          "name": {
+            "ar": "40X80X1.8 mm",
+            "en": "40X80X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 1.8,
+          "weight": 3.391,
+          "theoreticalWeight": 3.391,
+          "actualWeight": 3.188
+        },
+        {
+          "size": "40X80X2.0 mm",
+          "name": {
+            "ar": "40X80X2.0 mm",
+            "en": "40X80X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 2.0,
+          "weight": 3.768,
+          "theoreticalWeight": 3.768,
+          "actualWeight": 3.517
+        },
+        {
+          "size": "40X80X2.5 mm",
+          "name": {
+            "ar": "40X80X2.5 mm",
+            "en": "40X80X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 2.5,
+          "weight": 4.71,
+          "theoreticalWeight": 4.71,
+          "actualWeight": 4.317
+        },
+        {
+          "size": "40X80X3.0 mm",
+          "name": {
+            "ar": "40X80X3.0 mm",
+            "en": "40X80X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 3.0,
+          "weight": 5.652,
+          "theoreticalWeight": 5.652,
+          "actualWeight": 5.087
+        },
+        {
+          "size": "40X80X4.0 mm",
+          "name": {
+            "ar": "40X80X4.0 mm",
+            "en": "40X80X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 80,
+          "b": 40,
+          "t": 4.0,
+          "weight": 7.536,
+          "theoreticalWeight": 7.536,
+          "actualWeight": 6.531
+        },
+        {
+          "size": "50X100X1.0 mm",
+          "name": {
+            "ar": "50X100X1.0 mm",
+            "en": "50X100X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.0,
+          "weight": 2.355,
+          "theoreticalWeight": 2.355,
+          "actualWeight": 2.292
+        },
+        {
+          "size": "50X100X1.1 mm",
+          "name": {
+            "ar": "50X100X1.1 mm",
+            "en": "50X100X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.1,
+          "weight": 2.591,
+          "theoreticalWeight": 2.591,
+          "actualWeight": 2.515
+        },
+        {
+          "size": "50X100X1.2 mm",
+          "name": {
+            "ar": "50X100X1.2 mm",
+            "en": "50X100X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.2,
+          "weight": 2.826,
+          "theoreticalWeight": 2.826,
+          "actualWeight": 2.736
+        },
+        {
+          "size": "50X100X1.4 mm",
+          "name": {
+            "ar": "50X100X1.4 mm",
+            "en": "50X100X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.4,
+          "weight": 3.297,
+          "theoreticalWeight": 3.297,
+          "actualWeight": 3.174
+        },
+        {
+          "size": "50X100X1.45 mm",
+          "name": {
+            "ar": "50X100X1.45 mm",
+            "en": "50X100X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.45,
+          "weight": 3.415,
+          "theoreticalWeight": 3.415,
+          "actualWeight": 3.283
+        },
+        {
+          "size": "50X100X1.5 mm",
+          "name": {
+            "ar": "50X100X1.5 mm",
+            "en": "50X100X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.5,
+          "weight": 3.533,
+          "theoreticalWeight": 3.533,
+          "actualWeight": 3.391
+        },
+        {
+          "size": "50X100X1.6 mm",
+          "name": {
+            "ar": "50X100X1.6 mm",
+            "en": "50X100X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.6,
+          "weight": 3.768,
+          "theoreticalWeight": 3.768,
+          "actualWeight": 3.607
+        },
+        {
+          "size": "50X100X1.8 mm",
+          "name": {
+            "ar": "50X100X1.8 mm",
+            "en": "50X100X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 1.8,
+          "weight": 4.239,
+          "theoreticalWeight": 4.239,
+          "actualWeight": 4.036
+        },
+        {
+          "size": "50X100X2.0 mm",
+          "name": {
+            "ar": "50X100X2.0 mm",
+            "en": "50X100X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 2.0,
+          "weight": 4.71,
+          "theoreticalWeight": 4.71,
+          "actualWeight": 4.459
+        },
+        {
+          "size": "50X100X2.5 mm",
+          "name": {
+            "ar": "50X100X2.5 mm",
+            "en": "50X100X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 2.5,
+          "weight": 5.888,
+          "theoreticalWeight": 5.888,
+          "actualWeight": 5.495
+        },
+        {
+          "size": "50X100X3.0 mm",
+          "name": {
+            "ar": "50X100X3.0 mm",
+            "en": "50X100X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 3.0,
+          "weight": 7.065,
+          "theoreticalWeight": 7.065,
+          "actualWeight": 6.5
+        },
+        {
+          "size": "50X100X4.0 mm",
+          "name": {
+            "ar": "50X100X4.0 mm",
+            "en": "50X100X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 4.0,
+          "weight": 9.42,
+          "theoreticalWeight": 9.42,
+          "actualWeight": 8.415
+        },
+        {
+          "size": "50X100X5.0 mm",
+          "name": {
+            "ar": "50X100X5.0 mm",
+            "en": "50X100X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 100,
+          "b": 50,
+          "t": 5.0,
+          "weight": 11.775,
+          "theoreticalWeight": 11.775,
+          "actualWeight": 10.205
+        },
+        {
+          "size": "60X120X1.0 mm",
+          "name": {
+            "ar": "60X120X1.0 mm",
+            "en": "60X120X1.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.0,
+          "weight": 2.826,
+          "theoreticalWeight": 2.826,
+          "actualWeight": 2.763
+        },
+        {
+          "size": "60X120X1.1 mm",
+          "name": {
+            "ar": "60X120X1.1 mm",
+            "en": "60X120X1.1 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.1,
+          "weight": 3.109,
+          "theoreticalWeight": 3.109,
+          "actualWeight": 3.033
+        },
+        {
+          "size": "60X120X1.2 mm",
+          "name": {
+            "ar": "60X120X1.2 mm",
+            "en": "60X120X1.2 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.2,
+          "weight": 3.391,
+          "theoreticalWeight": 3.391,
+          "actualWeight": 3.301
+        },
+        {
+          "size": "60X120X1.4 mm",
+          "name": {
+            "ar": "60X120X1.4 mm",
+            "en": "60X120X1.4 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.4,
+          "weight": 3.956,
+          "theoreticalWeight": 3.956,
+          "actualWeight": 3.833
+        },
+        {
+          "size": "60X120X1.45 mm",
+          "name": {
+            "ar": "60X120X1.45 mm",
+            "en": "60X120X1.45 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.45,
+          "weight": 4.098,
+          "theoreticalWeight": 4.098,
+          "actualWeight": 3.966
+        },
+        {
+          "size": "60X120X1.5 mm",
+          "name": {
+            "ar": "60X120X1.5 mm",
+            "en": "60X120X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.5,
+          "weight": 4.239,
+          "theoreticalWeight": 4.239,
+          "actualWeight": 4.098
+        },
+        {
+          "size": "60X120X1.6 mm",
+          "name": {
+            "ar": "60X120X1.6 mm",
+            "en": "60X120X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.6,
+          "weight": 4.522,
+          "theoreticalWeight": 4.522,
+          "actualWeight": 4.361
+        },
+        {
+          "size": "60X120X1.8 mm",
+          "name": {
+            "ar": "60X120X1.8 mm",
+            "en": "60X120X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 1.8,
+          "weight": 5.087,
+          "theoreticalWeight": 5.087,
+          "actualWeight": 4.883
+        },
+        {
+          "size": "60X120X2.0 mm",
+          "name": {
+            "ar": "60X120X2.0 mm",
+            "en": "60X120X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 2.0,
+          "weight": 5.652,
+          "theoreticalWeight": 5.652,
+          "actualWeight": 5.401
+        },
+        {
+          "size": "60X120X2.5 mm",
+          "name": {
+            "ar": "60X120X2.5 mm",
+            "en": "60X120X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 2.5,
+          "weight": 7.065,
+          "theoreticalWeight": 7.065,
+          "actualWeight": 6.673
+        },
+        {
+          "size": "60X120X3.0 mm",
+          "name": {
+            "ar": "60X120X3.0 mm",
+            "en": "60X120X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 3.0,
+          "weight": 8.478,
+          "theoreticalWeight": 8.478,
+          "actualWeight": 7.913
+        },
+        {
+          "size": "60X120X4.0 mm",
+          "name": {
+            "ar": "60X120X4.0 mm",
+            "en": "60X120X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 4.0,
+          "weight": 11.304,
+          "theoreticalWeight": 11.304,
+          "actualWeight": 10.299
+        },
+        {
+          "size": "60X120X5.0 mm",
+          "name": {
+            "ar": "60X120X5.0 mm",
+            "en": "60X120X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 5.0,
+          "weight": 14.13,
+          "theoreticalWeight": 14.13,
+          "actualWeight": 12.56
+        },
+        {
+          "size": "60X120X8.0 mm",
+          "name": {
+            "ar": "60X120X8.0 mm",
+            "en": "60X120X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 8.0,
+          "weight": 22.608,
+          "theoreticalWeight": 22.608,
+          "actualWeight": 18.589
+        },
+        {
+          "size": "60X120X10.0 mm",
+          "name": {
+            "ar": "60X120X10.0 mm",
+            "en": "60X120X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 120,
+          "b": 60,
+          "t": 10.0,
+          "weight": 28.26,
+          "theoreticalWeight": 28.26,
+          "actualWeight": 21.98
+        },
+        {
+          "size": "70X140X1.5 mm",
+          "name": {
+            "ar": "70X140X1.5 mm",
+            "en": "70X140X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 1.5,
+          "weight": 4.946,
+          "theoreticalWeight": 4.946,
+          "actualWeight": 4.804
+        },
+        {
+          "size": "70X140X1.6 mm",
+          "name": {
+            "ar": "70X140X1.6 mm",
+            "en": "70X140X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 1.6,
+          "weight": 5.275,
+          "theoreticalWeight": 5.275,
+          "actualWeight": 5.114
+        },
+        {
+          "size": "70X140X1.8 mm",
+          "name": {
+            "ar": "70X140X1.8 mm",
+            "en": "70X140X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 1.8,
+          "weight": 5.935,
+          "theoreticalWeight": 5.935,
+          "actualWeight": 5.731
+        },
+        {
+          "size": "70X140X2.0 mm",
+          "name": {
+            "ar": "70X140X2.0 mm",
+            "en": "70X140X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 2.0,
+          "weight": 6.594,
+          "theoreticalWeight": 6.594,
+          "actualWeight": 6.343
+        },
+        {
+          "size": "70X140X2.5 mm",
+          "name": {
+            "ar": "70X140X2.5 mm",
+            "en": "70X140X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 2.5,
+          "weight": 8.242,
+          "theoreticalWeight": 8.242,
+          "actualWeight": 7.85
+        },
+        {
+          "size": "70X140X3.0 mm",
+          "name": {
+            "ar": "70X140X3.0 mm",
+            "en": "70X140X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 3.0,
+          "weight": 9.891,
+          "theoreticalWeight": 9.891,
+          "actualWeight": 9.326
+        },
+        {
+          "size": "70X140X4.0 mm",
+          "name": {
+            "ar": "70X140X4.0 mm",
+            "en": "70X140X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 4.0,
+          "weight": 13.188,
+          "theoreticalWeight": 13.188,
+          "actualWeight": 12.183
+        },
+        {
+          "size": "70X140X5.0 mm",
+          "name": {
+            "ar": "70X140X5.0 mm",
+            "en": "70X140X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 5.0,
+          "weight": 16.485,
+          "theoreticalWeight": 16.485,
+          "actualWeight": 14.915
+        },
+        {
+          "size": "70X140X8.0 mm",
+          "name": {
+            "ar": "70X140X8.0 mm",
+            "en": "70X140X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 8.0,
+          "weight": 26.376,
+          "theoreticalWeight": 26.376,
+          "actualWeight": 22.357
+        },
+        {
+          "size": "70X140X10.0 mm",
+          "name": {
+            "ar": "70X140X10.0 mm",
+            "en": "70X140X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 10.0,
+          "weight": 32.97,
+          "theoreticalWeight": 32.97,
+          "actualWeight": 26.69
+        },
+        {
+          "size": "70X140X12.0 mm",
+          "name": {
+            "ar": "70X140X12.0 mm",
+            "en": "70X140X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 140,
+          "b": 70,
+          "t": 12.0,
+          "weight": 39.564,
+          "theoreticalWeight": 39.564,
+          "actualWeight": 30.521
+        },
+        {
+          "size": "75X150X1.5 mm",
+          "name": {
+            "ar": "75X150X1.5 mm",
+            "en": "75X150X1.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 1.5,
+          "weight": 5.299,
+          "theoreticalWeight": 5.299,
+          "actualWeight": 5.157
+        },
+        {
+          "size": "75X150X1.6 mm",
+          "name": {
+            "ar": "75X150X1.6 mm",
+            "en": "75X150X1.6 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 1.6,
+          "weight": 5.652,
+          "theoreticalWeight": 5.652,
+          "actualWeight": 5.491
+        },
+        {
+          "size": "75X150X1.8 mm",
+          "name": {
+            "ar": "75X150X1.8 mm",
+            "en": "75X150X1.8 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 1.8,
+          "weight": 6.359,
+          "theoreticalWeight": 6.359,
+          "actualWeight": 6.155
+        },
+        {
+          "size": "75X150X2.0 mm",
+          "name": {
+            "ar": "75X150X2.0 mm",
+            "en": "75X150X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 2.0,
+          "weight": 7.065,
+          "theoreticalWeight": 7.065,
+          "actualWeight": 6.814
+        },
+        {
+          "size": "75X150X2.5 mm",
+          "name": {
+            "ar": "75X150X2.5 mm",
+            "en": "75X150X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 2.5,
+          "weight": 8.831,
+          "theoreticalWeight": 8.831,
+          "actualWeight": 8.439
+        },
+        {
+          "size": "75X150X3.0 mm",
+          "name": {
+            "ar": "75X150X3.0 mm",
+            "en": "75X150X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 3.0,
+          "weight": 10.598,
+          "theoreticalWeight": 10.598,
+          "actualWeight": 10.032
+        },
+        {
+          "size": "75X150X4.0 mm",
+          "name": {
+            "ar": "75X150X4.0 mm",
+            "en": "75X150X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 4.0,
+          "weight": 14.13,
+          "theoreticalWeight": 14.13,
+          "actualWeight": 13.125
+        },
+        {
+          "size": "75X150X5.0 mm",
+          "name": {
+            "ar": "75X150X5.0 mm",
+            "en": "75X150X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 5.0,
+          "weight": 17.663,
+          "theoreticalWeight": 17.663,
+          "actualWeight": 16.093
+        },
+        {
+          "size": "75X150X8.0 mm",
+          "name": {
+            "ar": "75X150X8.0 mm",
+            "en": "75X150X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 8.0,
+          "weight": 28.26,
+          "theoreticalWeight": 28.26,
+          "actualWeight": 24.241
+        },
+        {
+          "size": "75X150X10.0 mm",
+          "name": {
+            "ar": "75X150X10.0 mm",
+            "en": "75X150X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 10.0,
+          "weight": 35.325,
+          "theoreticalWeight": 35.325,
+          "actualWeight": 29.045
+        },
+        {
+          "size": "75X150X12.0 mm",
+          "name": {
+            "ar": "75X150X12.0 mm",
+            "en": "75X150X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 75,
+          "t": 12.0,
+          "weight": 42.39,
+          "theoreticalWeight": 42.39,
+          "actualWeight": 33.347
+        },
+        {
+          "size": "100X150X2.0 mm",
+          "name": {
+            "ar": "100X150X2.0 mm",
+            "en": "100X150X2.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 2.0,
+          "weight": 7.85,
+          "theoreticalWeight": 7.85,
+          "actualWeight": 7.599
+        },
+        {
+          "size": "100X150X2.5 mm",
+          "name": {
+            "ar": "100X150X2.5 mm",
+            "en": "100X150X2.5 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 2.5,
+          "weight": 9.812,
+          "theoreticalWeight": 9.812,
+          "actualWeight": 9.42
+        },
+        {
+          "size": "100X150X3.0 mm",
+          "name": {
+            "ar": "100X150X3.0 mm",
+            "en": "100X150X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 3.0,
+          "weight": 11.775,
+          "theoreticalWeight": 11.775,
+          "actualWeight": 11.21
+        },
+        {
+          "size": "100X150X4.0 mm",
+          "name": {
+            "ar": "100X150X4.0 mm",
+            "en": "100X150X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 4.0,
+          "weight": 15.7,
+          "theoreticalWeight": 15.7,
+          "actualWeight": 14.695
+        },
+        {
+          "size": "100X150X5.0 mm",
+          "name": {
+            "ar": "100X150X5.0 mm",
+            "en": "100X150X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 5.0,
+          "weight": 19.625,
+          "theoreticalWeight": 19.625,
+          "actualWeight": 18.055
+        },
+        {
+          "size": "100X150X8.0 mm",
+          "name": {
+            "ar": "100X150X8.0 mm",
+            "en": "100X150X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 8.0,
+          "weight": 31.4,
+          "theoreticalWeight": 31.4,
+          "actualWeight": 27.381
+        },
+        {
+          "size": "100X150X10.0 mm",
+          "name": {
+            "ar": "100X150X10.0 mm",
+            "en": "100X150X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 10.0,
+          "weight": 39.25,
+          "theoreticalWeight": 39.25,
+          "actualWeight": 32.97
+        },
+        {
+          "size": "100X150X12.0 mm",
+          "name": {
+            "ar": "100X150X12.0 mm",
+            "en": "100X150X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 12.0,
+          "weight": 47.1,
+          "theoreticalWeight": 47.1,
+          "actualWeight": 38.057
+        },
+        {
+          "size": "100X150X15.0 mm",
+          "name": {
+            "ar": "100X150X15.0 mm",
+            "en": "100X150X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 15.0,
+          "weight": 58.875,
+          "theoreticalWeight": 58.875,
+          "actualWeight": 44.745
+        },
+        {
+          "size": "100X150X16.0 mm",
+          "name": {
+            "ar": "100X150X16.0 mm",
+            "en": "100X150X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 16.0,
+          "weight": 62.8,
+          "theoreticalWeight": 62.8,
+          "actualWeight": 46.723
+        },
+        {
+          "size": "100X150X18.0 mm",
+          "name": {
+            "ar": "100X150X18.0 mm",
+            "en": "100X150X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 18.0,
+          "weight": 70.65,
+          "theoreticalWeight": 70.65,
+          "actualWeight": 50.303
+        },
+        {
+          "size": "100X150X20.0 mm",
+          "name": {
+            "ar": "100X150X20.0 mm",
+            "en": "100X150X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 150,
+          "b": 100,
+          "t": 20.0,
+          "weight": 78.5,
+          "theoreticalWeight": 78.5,
+          "actualWeight": 53.38
+        },
+        {
+          "size": "100X200X3.0 mm",
+          "name": {
+            "ar": "100X200X3.0 mm",
+            "en": "100X200X3.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 3.0,
+          "weight": 14.13,
+          "theoreticalWeight": 14.13,
+          "actualWeight": 13.565
+        },
+        {
+          "size": "100X200X4.0 mm",
+          "name": {
+            "ar": "100X200X4.0 mm",
+            "en": "100X200X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 4.0,
+          "weight": 18.84,
+          "theoreticalWeight": 18.84,
+          "actualWeight": 17.835
+        },
+        {
+          "size": "100X200X5.0 mm",
+          "name": {
+            "ar": "100X200X5.0 mm",
+            "en": "100X200X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 5.0,
+          "weight": 23.55,
+          "theoreticalWeight": 23.55,
+          "actualWeight": 21.98
+        },
+        {
+          "size": "100X200X8.0 mm",
+          "name": {
+            "ar": "100X200X8.0 mm",
+            "en": "100X200X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 8.0,
+          "weight": 37.68,
+          "theoreticalWeight": 37.68,
+          "actualWeight": 33.661
+        },
+        {
+          "size": "100X200X10.0 mm",
+          "name": {
+            "ar": "100X200X10.0 mm",
+            "en": "100X200X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 10.0,
+          "weight": 47.1,
+          "theoreticalWeight": 47.1,
+          "actualWeight": 40.82
+        },
+        {
+          "size": "100X200X12.0 mm",
+          "name": {
+            "ar": "100X200X12.0 mm",
+            "en": "100X200X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 12.0,
+          "weight": 56.52,
+          "theoreticalWeight": 56.52,
+          "actualWeight": 47.477
+        },
+        {
+          "size": "100X200X15.0 mm",
+          "name": {
+            "ar": "100X200X15.0 mm",
+            "en": "100X200X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 15.0,
+          "weight": 70.65,
+          "theoreticalWeight": 70.65,
+          "actualWeight": 56.52
+        },
+        {
+          "size": "100X200X16.0 mm",
+          "name": {
+            "ar": "100X200X16.0 mm",
+            "en": "100X200X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 16.0,
+          "weight": 75.36,
+          "theoreticalWeight": 75.36,
+          "actualWeight": 59.283
+        },
+        {
+          "size": "100X200X18.0 mm",
+          "name": {
+            "ar": "100X200X18.0 mm",
+            "en": "100X200X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 18.0,
+          "weight": 84.78,
+          "theoreticalWeight": 84.78,
+          "actualWeight": 64.433
+        },
+        {
+          "size": "100X200X20.0 mm",
+          "name": {
+            "ar": "100X200X20.0 mm",
+            "en": "100X200X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 200,
+          "b": 100,
+          "t": 20.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 69.08
+        },
+        {
+          "size": "100X250X4.0 mm",
+          "name": {
+            "ar": "100X250X4.0 mm",
+            "en": "100X250X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 4.0,
+          "weight": 21.98,
+          "theoreticalWeight": 21.98,
+          "actualWeight": 20.975
+        },
+        {
+          "size": "100X250X5.0 mm",
+          "name": {
+            "ar": "100X250X5.0 mm",
+            "en": "100X250X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 5.0,
+          "weight": 27.475,
+          "theoreticalWeight": 27.475,
+          "actualWeight": 25.905
+        },
+        {
+          "size": "100X250X8.0 mm",
+          "name": {
+            "ar": "100X250X8.0 mm",
+            "en": "100X250X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 8.0,
+          "weight": 43.96,
+          "theoreticalWeight": 43.96,
+          "actualWeight": 39.941
+        },
+        {
+          "size": "100X250X10.0 mm",
+          "name": {
+            "ar": "100X250X10.0 mm",
+            "en": "100X250X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 10.0,
+          "weight": 54.95,
+          "theoreticalWeight": 54.95,
+          "actualWeight": 48.67
+        },
+        {
+          "size": "100X250X12.0 mm",
+          "name": {
+            "ar": "100X250X12.0 mm",
+            "en": "100X250X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 12.0,
+          "weight": 65.94,
+          "theoreticalWeight": 65.94,
+          "actualWeight": 56.897
+        },
+        {
+          "size": "100X250X15.0 mm",
+          "name": {
+            "ar": "100X250X15.0 mm",
+            "en": "100X250X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 15.0,
+          "weight": 82.425,
+          "theoreticalWeight": 82.425,
+          "actualWeight": 68.295
+        },
+        {
+          "size": "100X250X16.0 mm",
+          "name": {
+            "ar": "100X250X16.0 mm",
+            "en": "100X250X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 16.0,
+          "weight": 87.92,
+          "theoreticalWeight": 87.92,
+          "actualWeight": 71.843
+        },
+        {
+          "size": "100X250X18.0 mm",
+          "name": {
+            "ar": "100X250X18.0 mm",
+            "en": "100X250X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 18.0,
+          "weight": 98.91,
+          "theoreticalWeight": 98.91,
+          "actualWeight": 78.563
+        },
+        {
+          "size": "100X250X20.0 mm",
+          "name": {
+            "ar": "100X250X20.0 mm",
+            "en": "100X250X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 100,
+          "t": 20.0,
+          "weight": 109.9,
+          "theoreticalWeight": 109.9,
+          "actualWeight": 84.78
+        },
+        {
+          "size": "150X250X4.0 mm",
+          "name": {
+            "ar": "150X250X4.0 mm",
+            "en": "150X250X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 4.0,
+          "weight": 25.12,
+          "theoreticalWeight": 25.12,
+          "actualWeight": 24.115
+        },
+        {
+          "size": "150X250X5.0 mm",
+          "name": {
+            "ar": "150X250X5.0 mm",
+            "en": "150X250X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 5.0,
+          "weight": 31.4,
+          "theoreticalWeight": 31.4,
+          "actualWeight": 29.83
+        },
+        {
+          "size": "150X250X8.0 mm",
+          "name": {
+            "ar": "150X250X8.0 mm",
+            "en": "150X250X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 8.0,
+          "weight": 50.24,
+          "theoreticalWeight": 50.24,
+          "actualWeight": 46.221
+        },
+        {
+          "size": "150X250X10.0 mm",
+          "name": {
+            "ar": "150X250X10.0 mm",
+            "en": "150X250X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 10.0,
+          "weight": 62.8,
+          "theoreticalWeight": 62.8,
+          "actualWeight": 56.52
+        },
+        {
+          "size": "150X250X12.0 mm",
+          "name": {
+            "ar": "150X250X12.0 mm",
+            "en": "150X250X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 12.0,
+          "weight": 75.36,
+          "theoreticalWeight": 75.36,
+          "actualWeight": 66.317
+        },
+        {
+          "size": "150X250X15.0 mm",
+          "name": {
+            "ar": "150X250X15.0 mm",
+            "en": "150X250X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 15.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 80.07
+        },
+        {
+          "size": "150X250X16.0 mm",
+          "name": {
+            "ar": "150X250X16.0 mm",
+            "en": "150X250X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 16.0,
+          "weight": 100.48,
+          "theoreticalWeight": 100.48,
+          "actualWeight": 84.403
+        },
+        {
+          "size": "150X250X18.0 mm",
+          "name": {
+            "ar": "150X250X18.0 mm",
+            "en": "150X250X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 18.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 92.693
+        },
+        {
+          "size": "150X250X20.0 mm",
+          "name": {
+            "ar": "150X250X20.0 mm",
+            "en": "150X250X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 150,
+          "t": 20.0,
+          "weight": 125.6,
+          "theoreticalWeight": 125.6,
+          "actualWeight": 100.48
+        },
+        {
+          "size": "200X250X4.0 mm",
+          "name": {
+            "ar": "200X250X4.0 mm",
+            "en": "200X250X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 4.0,
+          "weight": 28.26,
+          "theoreticalWeight": 28.26,
+          "actualWeight": 27.255
+        },
+        {
+          "size": "200X250X5.0 mm",
+          "name": {
+            "ar": "200X250X5.0 mm",
+            "en": "200X250X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 5.0,
+          "weight": 35.325,
+          "theoreticalWeight": 35.325,
+          "actualWeight": 33.755
+        },
+        {
+          "size": "200X250X8.0 mm",
+          "name": {
+            "ar": "200X250X8.0 mm",
+            "en": "200X250X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 8.0,
+          "weight": 56.52,
+          "theoreticalWeight": 56.52,
+          "actualWeight": 52.501
+        },
+        {
+          "size": "200X250X10.0 mm",
+          "name": {
+            "ar": "200X250X10.0 mm",
+            "en": "200X250X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 10.0,
+          "weight": 70.65,
+          "theoreticalWeight": 70.65,
+          "actualWeight": 64.37
+        },
+        {
+          "size": "200X250X12.0 mm",
+          "name": {
+            "ar": "200X250X12.0 mm",
+            "en": "200X250X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 12.0,
+          "weight": 84.78,
+          "theoreticalWeight": 84.78,
+          "actualWeight": 75.737
+        },
+        {
+          "size": "200X250X15.0 mm",
+          "name": {
+            "ar": "200X250X15.0 mm",
+            "en": "200X250X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 15.0,
+          "weight": 105.975,
+          "theoreticalWeight": 105.975,
+          "actualWeight": 91.845
+        },
+        {
+          "size": "200X250X16.0 mm",
+          "name": {
+            "ar": "200X250X16.0 mm",
+            "en": "200X250X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 16.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 96.963
+        },
+        {
+          "size": "200X250X18.0 mm",
+          "name": {
+            "ar": "200X250X18.0 mm",
+            "en": "200X250X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 18.0,
+          "weight": 127.17,
+          "theoreticalWeight": 127.17,
+          "actualWeight": 106.823
+        },
+        {
+          "size": "200X250X20.0 mm",
+          "name": {
+            "ar": "200X250X20.0 mm",
+            "en": "200X250X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 250,
+          "b": 200,
+          "t": 20.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 116.18
+        },
+        {
+          "size": "100X300X4.0 mm",
+          "name": {
+            "ar": "100X300X4.0 mm",
+            "en": "100X300X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 4.0,
+          "weight": 25.12,
+          "theoreticalWeight": 25.12,
+          "actualWeight": 24.115
+        },
+        {
+          "size": "100X300X5.0 mm",
+          "name": {
+            "ar": "100X300X5.0 mm",
+            "en": "100X300X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 5.0,
+          "weight": 31.4,
+          "theoreticalWeight": 31.4,
+          "actualWeight": 29.83
+        },
+        {
+          "size": "100X300X8.0 mm",
+          "name": {
+            "ar": "100X300X8.0 mm",
+            "en": "100X300X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 8.0,
+          "weight": 50.24,
+          "theoreticalWeight": 50.24,
+          "actualWeight": 46.221
+        },
+        {
+          "size": "100X300X10.0 mm",
+          "name": {
+            "ar": "100X300X10.0 mm",
+            "en": "100X300X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 10.0,
+          "weight": 62.8,
+          "theoreticalWeight": 62.8,
+          "actualWeight": 56.52
+        },
+        {
+          "size": "100X300X12.0 mm",
+          "name": {
+            "ar": "100X300X12.0 mm",
+            "en": "100X300X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 12.0,
+          "weight": 75.36,
+          "theoreticalWeight": 75.36,
+          "actualWeight": 66.317
+        },
+        {
+          "size": "100X300X15.0 mm",
+          "name": {
+            "ar": "100X300X15.0 mm",
+            "en": "100X300X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 15.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 80.07
+        },
+        {
+          "size": "100X300X16.0 mm",
+          "name": {
+            "ar": "100X300X16.0 mm",
+            "en": "100X300X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 16.0,
+          "weight": 100.48,
+          "theoreticalWeight": 100.48,
+          "actualWeight": 84.403
+        },
+        {
+          "size": "100X300X18.0 mm",
+          "name": {
+            "ar": "100X300X18.0 mm",
+            "en": "100X300X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 18.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 92.693
+        },
+        {
+          "size": "100X300X20.0 mm",
+          "name": {
+            "ar": "100X300X20.0 mm",
+            "en": "100X300X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 20.0,
+          "weight": 125.6,
+          "theoreticalWeight": 125.6,
+          "actualWeight": 100.48
+        },
+        {
+          "size": "100X300X25.0 mm",
+          "name": {
+            "ar": "100X300X25.0 mm",
+            "en": "100X300X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 25.0,
+          "weight": 157.0,
+          "theoreticalWeight": 157.0,
+          "actualWeight": 117.75
+        },
+        {
+          "size": "100X300X30.0 mm",
+          "name": {
+            "ar": "100X300X30.0 mm",
+            "en": "100X300X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 100,
+          "t": 30.0,
+          "weight": 188.4,
+          "theoreticalWeight": 188.4,
+          "actualWeight": 131.88
+        },
+        {
+          "size": "150X300X4.0 mm",
+          "name": {
+            "ar": "150X300X4.0 mm",
+            "en": "150X300X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 4.0,
+          "weight": 28.26,
+          "theoreticalWeight": 28.26,
+          "actualWeight": 27.255
+        },
+        {
+          "size": "150X300X5.0 mm",
+          "name": {
+            "ar": "150X300X5.0 mm",
+            "en": "150X300X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 5.0,
+          "weight": 35.325,
+          "theoreticalWeight": 35.325,
+          "actualWeight": 33.755
+        },
+        {
+          "size": "150X300X8.0 mm",
+          "name": {
+            "ar": "150X300X8.0 mm",
+            "en": "150X300X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 8.0,
+          "weight": 56.52,
+          "theoreticalWeight": 56.52,
+          "actualWeight": 52.501
+        },
+        {
+          "size": "150X300X10.0 mm",
+          "name": {
+            "ar": "150X300X10.0 mm",
+            "en": "150X300X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 10.0,
+          "weight": 70.65,
+          "theoreticalWeight": 70.65,
+          "actualWeight": 64.37
+        },
+        {
+          "size": "150X300X12.0 mm",
+          "name": {
+            "ar": "150X300X12.0 mm",
+            "en": "150X300X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 12.0,
+          "weight": 84.78,
+          "theoreticalWeight": 84.78,
+          "actualWeight": 75.737
+        },
+        {
+          "size": "150X300X15.0 mm",
+          "name": {
+            "ar": "150X300X15.0 mm",
+            "en": "150X300X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 15.0,
+          "weight": 105.975,
+          "theoreticalWeight": 105.975,
+          "actualWeight": 91.845
+        },
+        {
+          "size": "150X300X16.0 mm",
+          "name": {
+            "ar": "150X300X16.0 mm",
+            "en": "150X300X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 16.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 96.963
+        },
+        {
+          "size": "150X300X18.0 mm",
+          "name": {
+            "ar": "150X300X18.0 mm",
+            "en": "150X300X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 18.0,
+          "weight": 127.17,
+          "theoreticalWeight": 127.17,
+          "actualWeight": 106.823
+        },
+        {
+          "size": "150X300X20.0 mm",
+          "name": {
+            "ar": "150X300X20.0 mm",
+            "en": "150X300X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 20.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 116.18
+        },
+        {
+          "size": "150X300X25.0 mm",
+          "name": {
+            "ar": "150X300X25.0 mm",
+            "en": "150X300X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 25.0,
+          "weight": 176.625,
+          "theoreticalWeight": 176.625,
+          "actualWeight": 137.375
+        },
+        {
+          "size": "150X300X30.0 mm",
+          "name": {
+            "ar": "150X300X30.0 mm",
+            "en": "150X300X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 150,
+          "t": 30.0,
+          "weight": 211.95,
+          "theoreticalWeight": 211.95,
+          "actualWeight": 155.43
+        },
+        {
+          "size": "200X300X4.0 mm",
+          "name": {
+            "ar": "200X300X4.0 mm",
+            "en": "200X300X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 4.0,
+          "weight": 31.4,
+          "theoreticalWeight": 31.4,
+          "actualWeight": 30.395
+        },
+        {
+          "size": "200X300X5.0 mm",
+          "name": {
+            "ar": "200X300X5.0 mm",
+            "en": "200X300X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 5.0,
+          "weight": 39.25,
+          "theoreticalWeight": 39.25,
+          "actualWeight": 37.68
+        },
+        {
+          "size": "200X300X8.0 mm",
+          "name": {
+            "ar": "200X300X8.0 mm",
+            "en": "200X300X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 8.0,
+          "weight": 62.8,
+          "theoreticalWeight": 62.8,
+          "actualWeight": 58.781
+        },
+        {
+          "size": "200X300X10.0 mm",
+          "name": {
+            "ar": "200X300X10.0 mm",
+            "en": "200X300X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 10.0,
+          "weight": 78.5,
+          "theoreticalWeight": 78.5,
+          "actualWeight": 72.22
+        },
+        {
+          "size": "200X300X12.0 mm",
+          "name": {
+            "ar": "200X300X12.0 mm",
+            "en": "200X300X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 12.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 85.157
+        },
+        {
+          "size": "200X300X15.0 mm",
+          "name": {
+            "ar": "200X300X15.0 mm",
+            "en": "200X300X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 15.0,
+          "weight": 117.75,
+          "theoreticalWeight": 117.75,
+          "actualWeight": 103.62
+        },
+        {
+          "size": "200X300X16.0 mm",
+          "name": {
+            "ar": "200X300X16.0 mm",
+            "en": "200X300X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 16.0,
+          "weight": 125.6,
+          "theoreticalWeight": 125.6,
+          "actualWeight": 109.523
+        },
+        {
+          "size": "200X300X18.0 mm",
+          "name": {
+            "ar": "200X300X18.0 mm",
+            "en": "200X300X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 18.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 120.953
+        },
+        {
+          "size": "200X300X20.0 mm",
+          "name": {
+            "ar": "200X300X20.0 mm",
+            "en": "200X300X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 20.0,
+          "weight": 157.0,
+          "theoreticalWeight": 157.0,
+          "actualWeight": 131.88
+        },
+        {
+          "size": "200X300X25.0 mm",
+          "name": {
+            "ar": "200X300X25.0 mm",
+            "en": "200X300X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 25.0,
+          "weight": 196.25,
+          "theoreticalWeight": 196.25,
+          "actualWeight": 157.0
+        },
+        {
+          "size": "200X300X30.0 mm",
+          "name": {
+            "ar": "200X300X30.0 mm",
+            "en": "200X300X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 300,
+          "b": 200,
+          "t": 30.0,
+          "weight": 235.5,
+          "theoreticalWeight": 235.5,
+          "actualWeight": 178.98
+        },
+        {
+          "size": "200X400X4.0 mm",
+          "name": {
+            "ar": "200X400X4.0 mm",
+            "en": "200X400X4.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 4.0,
+          "weight": 37.68,
+          "theoreticalWeight": 37.68,
+          "actualWeight": 36.675
+        },
+        {
+          "size": "200X400X5.0 mm",
+          "name": {
+            "ar": "200X400X5.0 mm",
+            "en": "200X400X5.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 5.0,
+          "weight": 47.1,
+          "theoreticalWeight": 47.1,
+          "actualWeight": 45.53
+        },
+        {
+          "size": "200X400X8.0 mm",
+          "name": {
+            "ar": "200X400X8.0 mm",
+            "en": "200X400X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 8.0,
+          "weight": 75.36,
+          "theoreticalWeight": 75.36,
+          "actualWeight": 71.341
+        },
+        {
+          "size": "200X400X10.0 mm",
+          "name": {
+            "ar": "200X400X10.0 mm",
+            "en": "200X400X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 10.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 87.92
+        },
+        {
+          "size": "200X400X12.0 mm",
+          "name": {
+            "ar": "200X400X12.0 mm",
+            "en": "200X400X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 12.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 103.997
+        },
+        {
+          "size": "200X400X15.0 mm",
+          "name": {
+            "ar": "200X400X15.0 mm",
+            "en": "200X400X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 15.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 127.17
+        },
+        {
+          "size": "200X400X16.0 mm",
+          "name": {
+            "ar": "200X400X16.0 mm",
+            "en": "200X400X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 16.0,
+          "weight": 150.72,
+          "theoreticalWeight": 150.72,
+          "actualWeight": 134.643
+        },
+        {
+          "size": "200X400X18.0 mm",
+          "name": {
+            "ar": "200X400X18.0 mm",
+            "en": "200X400X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 18.0,
+          "weight": 169.56,
+          "theoreticalWeight": 169.56,
+          "actualWeight": 149.213
+        },
+        {
+          "size": "200X400X20.0 mm",
+          "name": {
+            "ar": "200X400X20.0 mm",
+            "en": "200X400X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 20.0,
+          "weight": 188.4,
+          "theoreticalWeight": 188.4,
+          "actualWeight": 163.28
+        },
+        {
+          "size": "200X400X25.0 mm",
+          "name": {
+            "ar": "200X400X25.0 mm",
+            "en": "200X400X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 25.0,
+          "weight": 235.5,
+          "theoreticalWeight": 235.5,
+          "actualWeight": 196.25
+        },
+        {
+          "size": "200X400X30.0 mm",
+          "name": {
+            "ar": "200X400X30.0 mm",
+            "en": "200X400X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 400,
+          "b": 200,
+          "t": 30.0,
+          "weight": 282.6,
+          "theoreticalWeight": 282.6,
+          "actualWeight": 226.08
+        },
+        {
+          "size": "250X500X8.0 mm",
+          "name": {
+            "ar": "250X500X8.0 mm",
+            "en": "250X500X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 8.0,
+          "weight": 94.2,
+          "theoreticalWeight": 94.2,
+          "actualWeight": 90.181
+        },
+        {
+          "size": "250X500X10.0 mm",
+          "name": {
+            "ar": "250X500X10.0 mm",
+            "en": "250X500X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 10.0,
+          "weight": 117.75,
+          "theoreticalWeight": 117.75,
+          "actualWeight": 111.47
+        },
+        {
+          "size": "250X500X12.0 mm",
+          "name": {
+            "ar": "250X500X12.0 mm",
+            "en": "250X500X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 12.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 132.257
+        },
+        {
+          "size": "250X500X15.0 mm",
+          "name": {
+            "ar": "250X500X15.0 mm",
+            "en": "250X500X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 15.0,
+          "weight": 176.625,
+          "theoreticalWeight": 176.625,
+          "actualWeight": 162.495
+        },
+        {
+          "size": "250X500X16.0 mm",
+          "name": {
+            "ar": "250X500X16.0 mm",
+            "en": "250X500X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 16.0,
+          "weight": 188.4,
+          "theoreticalWeight": 188.4,
+          "actualWeight": 172.323
+        },
+        {
+          "size": "250X500X18.0 mm",
+          "name": {
+            "ar": "250X500X18.0 mm",
+            "en": "250X500X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 18.0,
+          "weight": 211.95,
+          "theoreticalWeight": 211.95,
+          "actualWeight": 191.603
+        },
+        {
+          "size": "250X500X20.0 mm",
+          "name": {
+            "ar": "250X500X20.0 mm",
+            "en": "250X500X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 20.0,
+          "weight": 235.5,
+          "theoreticalWeight": 235.5,
+          "actualWeight": 210.38
+        },
+        {
+          "size": "250X500X25.0 mm",
+          "name": {
+            "ar": "250X500X25.0 mm",
+            "en": "250X500X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 25.0,
+          "weight": 294.375,
+          "theoreticalWeight": 294.375,
+          "actualWeight": 255.125
+        },
+        {
+          "size": "250X500X30.0 mm",
+          "name": {
+            "ar": "250X500X30.0 mm",
+            "en": "250X500X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 500,
+          "b": 250,
+          "t": 30.0,
+          "weight": 353.25,
+          "theoreticalWeight": 353.25,
+          "actualWeight": 296.73
+        },
+        {
+          "size": "300X600X8.0 mm",
+          "name": {
+            "ar": "300X600X8.0 mm",
+            "en": "300X600X8.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 8.0,
+          "weight": 113.04,
+          "theoreticalWeight": 113.04,
+          "actualWeight": 109.021
+        },
+        {
+          "size": "300X600X10.0 mm",
+          "name": {
+            "ar": "300X600X10.0 mm",
+            "en": "300X600X10.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 10.0,
+          "weight": 141.3,
+          "theoreticalWeight": 141.3,
+          "actualWeight": 135.02
+        },
+        {
+          "size": "300X600X12.0 mm",
+          "name": {
+            "ar": "300X600X12.0 mm",
+            "en": "300X600X12.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 12.0,
+          "weight": 169.56,
+          "theoreticalWeight": 169.56,
+          "actualWeight": 160.517
+        },
+        {
+          "size": "300X600X15.0 mm",
+          "name": {
+            "ar": "300X600X15.0 mm",
+            "en": "300X600X15.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 15.0,
+          "weight": 211.95,
+          "theoreticalWeight": 211.95,
+          "actualWeight": 197.82
+        },
+        {
+          "size": "300X600X16.0 mm",
+          "name": {
+            "ar": "300X600X16.0 mm",
+            "en": "300X600X16.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 16.0,
+          "weight": 226.08,
+          "theoreticalWeight": 226.08,
+          "actualWeight": 210.003
+        },
+        {
+          "size": "300X600X18.0 mm",
+          "name": {
+            "ar": "300X600X18.0 mm",
+            "en": "300X600X18.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 18.0,
+          "weight": 254.34,
+          "theoreticalWeight": 254.34,
+          "actualWeight": 233.993
+        },
+        {
+          "size": "300X600X20.0 mm",
+          "name": {
+            "ar": "300X600X20.0 mm",
+            "en": "300X600X20.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 20.0,
+          "weight": 282.6,
+          "theoreticalWeight": 282.6,
+          "actualWeight": 257.48
+        },
+        {
+          "size": "300X600X25.0 mm",
+          "name": {
+            "ar": "300X600X25.0 mm",
+            "en": "300X600X25.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 25.0,
+          "weight": 353.25,
+          "theoreticalWeight": 353.25,
+          "actualWeight": 314.0
+        },
+        {
+          "size": "300X600X30.0 mm",
+          "name": {
+            "ar": "300X600X30.0 mm",
+            "en": "300X600X30.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 30.0,
+          "weight": 423.9,
+          "theoreticalWeight": 423.9,
+          "actualWeight": 367.38
+        },
+        {
+          "size": "300X600X40.0 mm",
+          "name": {
+            "ar": "300X600X40.0 mm",
+            "en": "300X600X40.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 40.0,
+          "weight": 565.2,
+          "theoreticalWeight": 565.2,
+          "actualWeight": 464.72
+        },
+        {
+          "size": "300X600X50.0 mm",
+          "name": {
+            "ar": "300X600X50.0 mm",
+            "en": "300X600X50.0 mm"
+          },
+          "img": "/icons/s-rhe.svg",
+          "bigImg": "/icons/b-rhe.svg",
+          "info": "/icons/ss-info.png",
+          "country": "eu",
+          "h": 600,
+          "b": 300,
+          "t": 50.0,
+          "weight": 706.5,
+          "theoreticalWeight": 706.5,
+          "actualWeight": 549.5
+        }
+      ]
+    }
+  ]
+}

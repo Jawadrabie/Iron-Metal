@@ -1,0 +1,675 @@
+{
+  "id": 11,
+  "label": "Round",
+  "labelAr": "مستدير صلب",
+  "symbol": "/icons/11.svg",
+  "types": [
+    {
+      "name": "Round",
+      "symbol": "/icons/s-rb.svg",
+      "flag": "/icons/eu.png",
+      "variants": [
+        {
+          "size": "6",
+          "name": {
+            "ar": "6",
+            "en": "6"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 6.0,
+          "weight": "0.22"
+        },
+        {
+          "size": "8",
+          "name": {
+            "ar": "8",
+            "en": "8"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 8.0,
+          "weight": "0.39"
+        },
+        {
+          "size": "10",
+          "name": {
+            "ar": "10",
+            "en": "10"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 10.0,
+          "weight": "0.62"
+        },
+        {
+          "size": "12",
+          "name": {
+            "ar": "12",
+            "en": "12"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 12.0,
+          "weight": "0.89"
+        },
+        {
+          "size": "16",
+          "name": {
+            "ar": "16",
+            "en": "16"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 16.0,
+          "weight": "1.58"
+        },
+        {
+          "size": "19",
+          "name": {
+            "ar": "19",
+            "en": "19"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 19.0,
+          "weight": 2.23
+        },
+        {
+          "size": "20",
+          "name": {
+            "ar": "20",
+            "en": "20"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 20.0,
+          "weight": "2.47"
+        },
+        {
+          "size": "22",
+          "name": {
+            "ar": "22",
+            "en": "22"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 22.0,
+          "weight": "2.98"
+        },
+        {
+          "size": "25",
+          "name": {
+            "ar": "25",
+            "en": "25"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 25.0,
+          "weight": "3.85"
+        },
+        {
+          "size": "30",
+          "name": {
+            "ar": "30",
+            "en": "30"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 30.0,
+          "weight": "5.55"
+        },
+        {
+          "size": "32",
+          "name": {
+            "ar": "32",
+            "en": "32"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 32.0,
+          "weight": "6.31"
+        },
+        {
+          "size": "35",
+          "name": {
+            "ar": "35",
+            "en": "35"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 35.0,
+          "weight": "7.55"
+        },
+        {
+          "size": "38",
+          "name": {
+            "ar": "38",
+            "en": "38"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 38.0,
+          "weight": 8.9
+        },
+        {
+          "size": "40",
+          "name": {
+            "ar": "40",
+            "en": "40"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 40.0,
+          "weight": "9.86"
+        },
+        {
+          "size": "42",
+          "name": {
+            "ar": "42",
+            "en": "42"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 42.0,
+          "weight": "10.88"
+        },
+        {
+          "size": "45",
+          "name": {
+            "ar": "45",
+            "en": "45"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 45.0,
+          "weight": "12.48"
+        },
+        {
+          "size": "50",
+          "name": {
+            "ar": "50",
+            "en": "50"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 50.0,
+          "weight": "15.41"
+        },
+        {
+          "size": "55",
+          "name": {
+            "ar": "55",
+            "en": "55"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 55.0,
+          "weight": "18.65"
+        },
+        {
+          "size": "60",
+          "name": {
+            "ar": "60",
+            "en": "60"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 60.0,
+          "weight": "22.2"
+        },
+        {
+          "size": "65",
+          "name": {
+            "ar": "65",
+            "en": "65"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 65.0,
+          "weight": "26.05"
+        },
+        {
+          "size": "70",
+          "name": {
+            "ar": "70",
+            "en": "70"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 70.0,
+          "weight": "30.21"
+        },
+        {
+          "size": "75",
+          "name": {
+            "ar": "75",
+            "en": "75"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 75.0,
+          "weight": "34.68"
+        },
+        {
+          "size": "80",
+          "name": {
+            "ar": "80",
+            "en": "80"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 80.0,
+          "weight": "39.46"
+        },
+        {
+          "size": "85",
+          "name": {
+            "ar": "85",
+            "en": "85"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 85.0,
+          "weight": "44.54"
+        },
+        {
+          "size": "90",
+          "name": {
+            "ar": "90",
+            "en": "90"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 90.0,
+          "weight": "49.94"
+        },
+        {
+          "size": "95",
+          "name": {
+            "ar": "95",
+            "en": "95"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 95.0,
+          "weight": "55.64"
+        },
+        {
+          "size": "100",
+          "name": {
+            "ar": "100",
+            "en": "100"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 100.0,
+          "weight": "61.65"
+        },
+        {
+          "size": "105",
+          "name": {
+            "ar": "105",
+            "en": "105"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 105.0,
+          "weight": "67.97"
+        },
+        {
+          "size": "110",
+          "name": {
+            "ar": "110",
+            "en": "110"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 110.0,
+          "weight": "74.6"
+        },
+        {
+          "size": "115",
+          "name": {
+            "ar": "115",
+            "en": "115"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 115.0,
+          "weight": "81.54"
+        },
+        {
+          "size": "120",
+          "name": {
+            "ar": "120",
+            "en": "120"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 120.0,
+          "weight": "88.78"
+        },
+        {
+          "size": "125",
+          "name": {
+            "ar": "125",
+            "en": "125"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 125.0,
+          "weight": "96.33"
+        },
+        {
+          "size": "130",
+          "name": {
+            "ar": "130",
+            "en": "130"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 130.0,
+          "weight": "104.2"
+        },
+        {
+          "size": "135",
+          "name": {
+            "ar": "135",
+            "en": "135"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 135.0,
+          "weight": "112.36"
+        },
+        {
+          "size": "140",
+          "name": {
+            "ar": "140",
+            "en": "140"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 140.0,
+          "weight": "120.84"
+        },
+        {
+          "size": "145",
+          "name": {
+            "ar": "145",
+            "en": "145"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 145.0,
+          "weight": "129.63"
+        },
+        {
+          "size": "150",
+          "name": {
+            "ar": "150",
+            "en": "150"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 150.0,
+          "weight": "138.72"
+        },
+        {
+          "size": "155",
+          "name": {
+            "ar": "155",
+            "en": "155"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 155.0,
+          "weight": "148.12"
+        },
+        {
+          "size": "160",
+          "name": {
+            "ar": "160",
+            "en": "160"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 160.0,
+          "weight": "157.83"
+        },
+        {
+          "size": "165",
+          "name": {
+            "ar": "165",
+            "en": "165"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 165.0,
+          "weight": "167.85"
+        },
+        {
+          "size": "170",
+          "name": {
+            "ar": "170",
+            "en": "170"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 170.0,
+          "weight": "178.18"
+        },
+        {
+          "size": "180",
+          "name": {
+            "ar": "180",
+            "en": "180"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 180.0,
+          "weight": "199.76"
+        },
+        {
+          "size": "185",
+          "name": {
+            "ar": "185",
+            "en": "185"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 185.0,
+          "weight": "211.01"
+        },
+        {
+          "size": "190",
+          "name": {
+            "ar": "190",
+            "en": "190"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 190.0,
+          "weight": "222.57"
+        },
+        {
+          "size": "200",
+          "name": {
+            "ar": "200",
+            "en": "200"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 200.0,
+          "weight": "246.62"
+        },
+        {
+          "size": "210",
+          "name": {
+            "ar": "210",
+            "en": "210"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 210.0,
+          "weight": "271.89"
+        },
+        {
+          "size": "220",
+          "name": {
+            "ar": "220",
+            "en": "220"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 220.0,
+          "weight": "298.4"
+        },
+        {
+          "size": "230",
+          "name": {
+            "ar": "230",
+            "en": "230"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 230.0,
+          "weight": "326.15"
+        },
+        {
+          "size": "240",
+          "name": {
+            "ar": "240",
+            "en": "240"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 240.0,
+          "weight": "355.13"
+        },
+        {
+          "size": "250",
+          "name": {
+            "ar": "250",
+            "en": "250"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 250.0,
+          "weight": "385.34"
+        },
+        {
+          "size": "260",
+          "name": {
+            "ar": "260",
+            "en": "260"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 260.0,
+          "weight": "416.78"
+        },
+        {
+          "size": "270",
+          "name": {
+            "ar": "270",
+            "en": "270"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 270.0,
+          "weight": "449.46"
+        },
+        {
+          "size": "280",
+          "name": {
+            "ar": "280",
+            "en": "280"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 280.0,
+          "weight": "483.37"
+        },
+        {
+          "size": "300",
+          "name": {
+            "ar": "300",
+            "en": "300"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 300.0,
+          "weight": "554.89"
+        },
+        {
+          "size": "305",
+          "name": {
+            "ar": "305",
+            "en": "305"
+          },
+          "img": "/icons/s-rb.svg",
+          "bigImg": "/icons/b-rb.svg",
+          "country": "eu",
+          "w": 305.0,
+          "weight": "573.54"
+        }
+      ]
+    }
+  ]
+}

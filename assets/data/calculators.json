@@ -1,0 +1,209 @@
+[
+  {
+    "id": 20,
+    "label": "U Channel",
+    "labelAr": "مجرى U",
+    "symbol": "/icons/calculators/21.png",
+    "inputs": ["tf", "tw", "t", "r", "h"],
+    "formula": "u_channel",
+    "svgImg": "/icons/calculators/21.png"
+  },
+  {
+    "id": 21,
+    "label": "Equal Angle",
+    "labelAr": "زاوية متساوية",
+    "symbol": "/icons/calculators/20.png",
+    "inputs": ["tf", "t", "h"],
+    "formula": "equal_angle",
+    "svgImg": "/icons/calculators/20.png"
+  },
+  {
+    "id": 22,
+    "label": "Sheet / Plate",
+    "labelAr": "صاج / لوح معدني",
+    "symbol": "/icons/calculators/22.png",
+    "inputs": ["h", "tf", "tw"],
+    "formula": "plate",
+    "svgImg": "/icons/calculators/22.png"
+  },
+  {
+    "id": 23,
+    "label": "Round Tube / Pipe",
+    "labelAr": "أنبوب دائري / ماسورة",
+    "symbol": "/icons/calculators/23.png",
+    "inputs": ["tf", "tw", "h"],
+    "formula": "round_tube",
+    "svgImg": "/icons/calculators/23.png"
+  },
+  {
+    "id": 24,
+    "label": "Rebar",
+    "labelAr": "حديد تسليح",
+    "symbol": "/icons/calculators/24.png",
+    "inputs": ["tf", "h"],
+    "formula": "rebar",
+    "svgImg": "/icons/calculators/24.png"
+  },
+  {
+    "id": 25,
+    "label": "Expanded Metal",
+    "labelAr": "شبك ممدد",
+    "symbol": "/icons/calculators/25.png",
+    "inputs": ["tw", "h", "tf"],
+    "formula": "expanded_metal",
+    "svgImg": "/icons/calculators/25.png"
+  },
+  {
+    "id": 26,
+    "label": "Flat Bar",
+    "labelAr": "حديد مبسط / خوصة",
+    "symbol": "/icons/calculators/26.png",
+    "inputs": ["tf", "tw", "h"],
+    "formula": "flat_bar",
+    "svgImg": "/icons/calculators/26.png"
+  },
+  {
+    "id": 27,
+    "label": "I-Beam / H-Beam",
+    "labelAr": "قطاع I / H",
+    "symbol": "/icons/calculators/27.png",
+    "inputs": ["tw", "tf", "r", "t", "s", "h"],
+    "formula": "i_beam",
+    "svgImg": "/icons/calculators/27.png"
+  },
+  {
+    "id": 28,
+    "label": "Hex Bar",
+    "labelAr": "قضيب سداسي",
+    "symbol": "/icons/calculators/28.png",
+    "inputs": ["tf", "h"],
+    "formula": "hex_bar",
+    "svgImg": "/icons/calculators/28.png"
+  },
+  {
+    "id": 29,
+    "label": "Hex Tube",
+    "labelAr": "أنبوب سداسي",
+    "symbol": "/icons/calculators/29.png",
+    "inputs": ["tf", "tw", "h"],
+    "formula": "hex_tube",
+    "svgImg": "/icons/calculators/29.png"
+  },
+  {
+    "id": 32,
+    "label": "Square Bar",
+    "labelAr": "قضيب مربع",
+    "symbol": "/icons/calculators/32.png",
+    "inputs": ["tf", "h"],
+    "formula": "square_bar",
+    "svgImg": "/icons/calculators/32.png"
+  },
+  {
+    "id": 33,
+    "label": "Square Tube",
+    "labelAr": "أنبوب مربع",
+    "symbol": "/icons/calculators/33.png",
+    "inputs": ["tf", "tw", "h"],
+    "formula": "square_tube",
+    "svgImg": "/icons/calculators/33.png"
+  },
+  {
+    "id": 34,
+    "label": "Round Bar",
+    "labelAr": "قضيب دائري",
+    "symbol": "/icons/calculators/34.png",
+    "inputs": ["tf", "h"],
+    "formula": "round_bar",
+    "svgImg": "/icons/calculators/34.png"
+  },
+  {
+    "id": 35,
+    "label": "Solid Sphere",
+    "labelAr": "كرة مصمتة",
+    "symbol": "/icons/calculators/35.png",
+    "inputs": ["tf"],
+    "formula": "solid_sphere",
+    "svgImg": "/icons/calculators/35.png"
+  },
+  {
+    "id": 36,
+    "label": "Rectangular Tube",
+    "labelAr": "أنبوب مستطيل",
+    "symbol": "/icons/calculators/36.png",
+    "inputs": ["tf", "tw", "t", "h"],
+    "formula": "rect_tube",
+    "svgImg": "/icons/calculators/36.png"
+  },
+  {
+    "id": 37,
+    "label": "Cone Frustum",
+    "labelAr": "صاج مخروطي ناقص",
+    "symbol": "/icons/calculators/37.png",
+    "inputs": ["tf", "tw", "h", "t"],
+    "formula": "cone_frustum",
+    "svgImg": "/icons/calculators/37.png"
+  },
+  {
+    "id": 38,
+    "label": "T Section",
+    "labelAr": "قطاع T",
+    "symbol": "/icons/calculators/38.png",
+    "inputs": ["tf", "r", "tw", "t", "h"],
+    "formula": "t_section",
+    "svgImg": "/icons/calculators/38.png"
+  },
+  {
+    "id": 39,
+    "label": "Lipped C Channel",
+    "labelAr": "قناة C بحواف",
+    "symbol": "/icons/calculators/39.png",
+    "inputs": ["tw", "tf", "r", "t", "h"],
+    "formula": "lipped_c_channel",
+    "svgImg": "/icons/calculators/39.png"
+  },
+  {
+    "id": 40,
+    "label": "Flange (Ring + Bolt Holes)",
+    "labelAr": "فلنجة مع ثقوب",
+    "symbol": "/icons/calculators/40.png",
+    "inputs": ["tf", "tw", "t", "r", "s"],
+    "formula": "flange_ring",
+    "svgImg": "/icons/calculators/40.png"
+  },
+  {
+    "id": 41,
+    "label": "Steel Grating",
+    "labelAr": "جريتنغ حديد",
+    "symbol": "/icons/calculators/41.png",
+    "inputs": ["h", "tf", "tw", "t", "r", "s", "u"],
+    "formula": "steel_grating",
+    "svgImg": "/icons/calculators/41.png"
+  },
+  {
+    "id": 42,
+    "label": "Hat Channel",
+    "labelAr": "قطاع قبعة مع حواف",
+    "symbol": "/icons/calculators/42.png",
+    "inputs": ["tf", "tw", "r", "s", "t", "h"],
+    "formula": "hat_channel",
+    "svgImg": "/icons/calculators/42.png"
+  },
+  {
+    "id": 43,
+    "label": "Wire Mesh",
+    "labelAr": "شبك سلك",
+    "symbol": "/icons/calculators/43.png",
+    "inputs": ["h", "tf", "tw", "r", "s"],
+    "formula": "wire_mesh",
+    "svgImg": "/icons/calculators/43.png"
+  },
+  {
+    "id": 44,
+    "label": "Z Channel",
+    "labelAr": "قطاع Z مع حواف",
+    "symbol": "/icons/calculators/44.png",
+    "inputs": ["tw", "tf", "r", "s", "u", "t", "h"],
+    "formula": "z_channel",
+    "svgImg": "/icons/calculators/44.png"
+  }
+]

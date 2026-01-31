@@ -1,0 +1,1385 @@
+{
+      "name": "UB",
+      "label_ar": "قطاع I (يو بي)",
+      "label_en": "Universal Beam (UB)",
+      "symbol": "/icons/ip4.svg",
+      "flag": "/icons/uk.png",
+      "variants": [
+        {
+          "size": "UB 127×76×13",
+          "name": {
+            "ar": "يو بي 127×76×13",
+            "en": "UB 127x76x13"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 13.0,
+          "h": 127.0,
+          "b": 76.0,
+          "tw": 4.0,
+          "tf": 7.6,
+          "r": 7.6,
+          "d": 96.6,
+          "A": 16.5,
+          "Ix": 473.0,
+          "Iy": 55.7,
+          "rx": 5.35,
+          "ry": 1.84,
+          "Sx": 75.0,
+          "Sy": 15.0,
+          "Zx": 84.2,
+          "Zy": 22.6,
+          "J": 8.5,
+          "Cw": 89000.0
+        },
+        {
+          "size": "UB 152×89×16",
+          "name": {
+            "ar": "يو بي 152×89×16",
+            "en": "UB 152x89x16"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 16.0,
+          "h": 152.4,
+          "b": 88.7,
+          "tw": 4.5,
+          "tf": 7.7,
+          "r": 7.6,
+          "d": 121.8,
+          "A": 20.3,
+          "Ix": 834.0,
+          "Iy": 89.8,
+          "rx": 6.41,
+          "ry": 2.1,
+          "Sx": 109.0,
+          "Sy": 20.2,
+          "Zx": 123.0,
+          "Zy": 31.2,
+          "J": 10.5,
+          "Cw": 112000.0
+        },
+        {
+          "size": "UB 178×102×19",
+          "name": {
+            "ar": "يو بي 178×102×19",
+            "en": "UB 178x102x19"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 19.0,
+          "h": 177.8,
+          "b": 101.2,
+          "tw": 4.8,
+          "tf": 7.9,
+          "r": 7.6,
+          "d": 146.8,
+          "A": 24.3,
+          "Ix": 1356.0,
+          "Iy": 137.0,
+          "rx": 7.48,
+          "ry": 2.37,
+          "Sx": 153.0,
+          "Sy": 27.0,
+          "Zx": 171.0,
+          "Zy": 41.6,
+          "J": 12.1,
+          "Cw": 140000.0
+        },
+        {
+          "size": "UB 203×102×23",
+          "name": {
+            "ar": "يو بي 203×102×23",
+            "en": "UB 203x102x23"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 23.1,
+          "h": 203.2,
+          "b": 101.8,
+          "tw": 5.4,
+          "tf": 9.3,
+          "r" :7.6
+        },
+        {
+          "size": "UB 203×133×25",
+          "name": {
+            "ar": "يو بي 203×133×25",
+            "en": "UB 203x133x25"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 25.1,
+          "h": 203.2,
+          "b": 133.2,
+          "tw": 5.7,
+          "tf": 7.8,
+          "r": 7.6,
+          "d": 172.4,
+          "A": 32.0,
+          "Ix": 2340.0,
+          "Iy": 308.0,
+          "rx": 8.56,
+          "ry": 3.1,
+          "Sx": 230.0,
+          "Sy": 46.2,
+          "Zx": 258.0,
+          "Zy": 70.9,
+          "J": 14.0,
+          "Cw": 180000.0
+        },
+        {
+          "size": "UB 203×133×30",
+          "name": {
+            "ar": "يو بي 203×133×30",
+            "en": "UB 203x133x30"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 30.0,
+          "h": 206.8,
+          "b": 133.9,
+          "tw": 6.4,
+          "tf": 9.6
+        },
+        {
+          "size": "UB 254×102×22",
+          "name": {
+            "ar": "يو بي 254×102×22",
+            "en": "UB 254x102x22"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 22.0,
+          "h": 254.0,
+          "b": 101.6,
+          "tw": 5.7,
+          "tf": 6.8
+        },
+        {
+          "size": "UB 254×102×25",
+          "name": {
+            "ar": "يو بي 254×102×25",
+            "en": "UB 254x102x25"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 25.2,
+          "h": 257.2,
+          "b": 101.9,
+          "tw": 6.0,
+          "tf": 8.4
+        },
+        {
+          "size": "UB 254×102×28",
+          "name": {
+            "ar": "يو بي 254×102×28",
+            "en": "UB 254x102x28"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 28.3,
+          "h": 260.4,
+          "b": 102.2,
+          "tw": 6.3,
+          "tf": 10.0
+        },
+        {
+          "size": "UB 254×146×31",
+          "name": {
+            "ar": "يو بي 254×146×31",
+            "en": "UB 254x146x31"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 31.1,
+          "h": 251.4,
+          "b": 146.1,
+          "tw": 6.0,
+          "tf": 8.6,
+          "r": 8.9,
+          "d": 210.8,
+          "A": 39.5,
+          "Ix": 4130.0,
+          "Iy": 410.0,
+          "rx": 10.2,
+          "ry": 3.22,
+          "Sx": 325.0,
+          "Sy": 56.2,
+          "Zx": 364.0,
+          "Zy": 83.1,
+          "J": 17.8,
+          "Cw": 250000.0
+        },
+        {
+          "size": "UB 254×146×37",
+          "name": {
+            "ar": "يو بي 254×146×37",
+            "en": "UB 254x146x37"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 37.0,
+          "h": 256.0,
+          "b": 146.4,
+          "tw": 6.3,
+          "tf": 10.9
+        },
+        {
+          "size": "UB 254×146×43",
+          "name": {
+            "ar": "يو بي 254×146×43",
+            "en": "UB 254x146x43"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 43.0,
+          "h": 259.6,
+          "b": 147.3,
+          "tw": 7.2,
+          "tf": 12.7
+        },
+        {
+          "size": "UB 305×102×25",
+          "name": {
+            "ar": "يو بي 305×102×25",
+            "en": "UB 305x102x25"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 24.8,
+          "h": 305.1,
+          "b": 101.6,
+          "tw": 5.8,
+          "tf": 7.0
+        },
+        {
+          "size": "UB 305×102×28",
+          "name": {
+            "ar": "يو بي 305×102×28",
+            "en": "UB 305x102x28"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 28.2,
+          "h": 308.7,
+          "b": 101.8,
+          "tw": 6.0,
+          "tf": 8.8
+        },
+        {
+          "size": "UB 305×102×33",
+          "name": {
+            "ar": "يو بي 305×102×33",
+            "en": "UB 305x102x33"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 32.8,
+          "h": 312.7,
+          "b": 102.4,
+          "tw": 6.6,
+          "tf": 10.8
+        },
+        {
+          "size": "UB 305×127×37",
+          "name": {
+            "ar": "يو بي 305×127×37",
+            "en": "UB 305x127x37"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 37.0,
+          "h": 304.4,
+          "b": 123.4,
+          "tw": 7.1,
+          "tf": 10.7
+        },
+        {
+          "size": "UB 305×127×42",
+          "name": {
+            "ar": "يو بي 305×127×42",
+            "en": "UB 305x127x42"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 41.9,
+          "h": 307.2,
+          "b": 124.3,
+          "tw": 8.0,
+          "tf": 12.1
+        },
+        {
+          "size": "UB 305×127×48",
+          "name": {
+            "ar": "يو بي 305×127×48",
+            "en": "UB 305x127x48"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 48.1,
+          "h": 311.0,
+          "b": 125.3,
+          "tw": 9.0,
+          "tf": 14.0
+        },
+        {
+          "size": "UB 305×165×40",
+          "name": {
+            "ar": "يو بي 305×165×40",
+            "en": "UB 305x165x40"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 40.3,
+          "h": 303.4,
+          "b": 165.0,
+          "tw": 6.0,
+          "tf": 10.2,
+          "r": 8.9,
+          "d": 246.0,
+          "A": 51.3,
+          "Ix": 6710.0,
+          "Iy": 531.0,
+          "rx": 12.7,
+          "ry": 2.77,
+          "Sx": 671.0,
+          "Sy": 85.0,
+          "Zx": 781.0,
+          "Zy": 135.0,
+          "J": 14.7,
+          "Cw": 164000.006144
+        },
+        {
+          "size": "UB 305×165×46",
+          "name": {
+            "ar": "يو بي 305×165×46",
+            "en": "UB 305x165x46"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 46.1,
+          "h": 306.6,
+          "b": 165.7,
+          "tw": 6.7,
+          "tf": 11.8
+        },
+        {
+          "size": "UB 305×165×54",
+          "name": {
+            "ar": "يو بي 305×165×54",
+            "en": "UB 305x165x54"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 54.0,
+          "h": 310.4,
+          "b": 166.9,
+          "tw": 7.9,
+          "tf": 13.7
+        },
+        {
+          "size": "UB 356×127×33",
+          "name": {
+            "ar": "يو بي 356×127×33",
+            "en": "UB 356x127x33"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 33.1,
+          "h": 349.0,
+          "b": 125.4,
+          "tw": 6.0,
+          "tf": 8.5
+        },
+        {
+          "size": "UB 356×127×39",
+          "name": {
+            "ar": "يو بي 356×127×39",
+            "en": "UB 356x127x39"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 39.1,
+          "h": 353.4,
+          "b": 126.0,
+          "tw": 6.6,
+          "tf": 10.7
+        },
+        {
+          "size": "UB 356×171×45",
+          "name": {
+            "ar": "يو بي 356×171×45",
+            "en": "UB 356x171x45"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 45.0,
+          "h": 351.4,
+          "b": 171.1,
+          "tw": 7.0,
+          "tf": 9.7
+        },
+        {
+          "size": "UB 356×171×51",
+          "name": {
+            "ar": "يو بي 356×171×51",
+            "en": "UB 356x171x51"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 51.0,
+          "h": 355.0,
+          "b": 171.5,
+          "tw": 7.4,
+          "tf": 11.5,
+          "r": 8.9,
+          "d": 294.0,
+          "A": 65.1,
+          "Ix": 10700.0,
+          "Iy": 713.0,
+          "rx": 14.3,
+          "ry": 3.32,
+          "Sx": 875.0,
+          "Sy": 113.0,
+          "Zx": 1005.0,
+          "Zy": 171.0,
+          "J": 22.3,
+          "Cw": 370000.0
+        },
+        {
+          "size": "UB 356×171×57",
+          "name": {
+            "ar": "يو بي 356×171×57",
+            "en": "UB 356x171x57"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 57.0,
+          "h": 358.0,
+          "b": 172.2,
+          "tw": 8.1,
+          "tf": 13.0
+        },
+        {
+          "size": "UB 356×171×67",
+          "name": {
+            "ar": "يو بي 356×171×67",
+            "en": "UB 356x171x67"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 67.1,
+          "h": 363.4,
+          "b": 173.2,
+          "tw": 9.1,
+          "tf": 15.7
+        },
+        {
+          "size": "UB 406×140×39",
+          "name": {
+            "ar": "يو بي 406×140×39",
+            "en": "UB 406x140x39"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 39.0,
+          "h": 398.0,
+          "b": 141.8,
+          "tw": 6.4,
+          "tf": 8.6
+        },
+        {
+          "size": "UB 406×140×46",
+          "name": {
+            "ar": "يو بي 406×140×46",
+            "en": "UB 406x140x46"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 46.0,
+          "h": 403.2,
+          "b": 142.2,
+          "tw": 6.8,
+          "tf": 11.2
+        },
+        {
+          "size": "UB 406×178×54",
+          "name": {
+            "ar": "يو بي 406×178×54",
+            "en": "UB 406x178x54"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 54.1,
+          "h": 402.6,
+          "b": 177.7,
+          "tw": 7.7,
+          "tf": 10.9
+        },
+        {
+          "size": "UB 406×178×60",
+          "name": {
+            "ar": "يو بي 406×178×60",
+            "en": "UB 406x178x60"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 60.1,
+          "h": 406.4,
+          "b": 177.9,
+          "tw": 7.9,
+          "tf": 12.8,
+          "r": 8.9,
+          "d": 339.0,
+          "A": 76.5,
+          "Ix": 14800.0,
+          "Iy": 876.0,
+          "rx": 15.7,
+          "ry": 3.38,
+          "Sx": 1050.0,
+          "Sy": 130.0,
+          "Zx": 1210.0,
+          "Zy": 195.0,
+          "J": 26.7,
+          "Cw": 480000.0
+        },
+        {
+          "size": "UB 406×178×67",
+          "name": {
+            "ar": "يو بي 406×178×67",
+            "en": "UB 406x178x67"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 67.1,
+          "h": 409.4,
+          "b": 178.8,
+          "tw": 8.8,
+          "tf": 14.3
+        },
+        {
+          "size": "UB 406×178×74",
+          "name": {
+            "ar": "يو بي 406×178×74",
+            "en": "UB 406x178x74"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 74.2,
+          "h": 412.8,
+          "b": 179.5,
+          "tw": 9.5,
+          "tf": 16.0
+        },
+        {
+          "size": "UB 457×152×52",
+          "name": {
+            "ar": "يو بي 457×152×52",
+            "en": "UB 457x152x52"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 52.3,
+          "h": 449.8,
+          "b": 152.4,
+          "tw": 7.6,
+          "tf": 10.9
+        },
+        {
+          "size": "UB 457×152×60",
+          "name": {
+            "ar": "يو بي 457×152×60",
+            "en": "UB 457x152x60"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 59.8,
+          "h": 454.6,
+          "b": 152.9,
+          "tw": 8.1,
+          "tf": 13.3
+        },
+        {
+          "size": "UB 457×152×67",
+          "name": {
+            "ar": "يو بي 457×152×67",
+            "en": "UB 457x152x67"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 67.2,
+          "h": 458.0,
+          "b": 153.8,
+          "tw": 9.0,
+          "tf": 15.0
+        },
+        {
+          "size": "UB 457×152×74",
+          "name": {
+            "ar": "يو بي 457×152×74",
+            "en": "UB 457x152x74"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 74.2,
+          "h": 462.0,
+          "b": 154.4,
+          "tw": 9.6,
+          "tf": 17.0
+        },
+        {
+          "size": "UB 457×191×67",
+          "name": {
+            "ar": "يو بي 457×191×67",
+            "en": "UB 457x191x67"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 67.1,
+          "h": 453.4,
+          "b": 189.9,
+          "tw": 8.5,
+          "tf": 12.7
+        },
+        {
+          "size": "UB 457×191×74",
+          "name": {
+            "ar": "يو بي 457×191×74",
+            "en": "UB 457x191x74"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 74.3,
+          "h": 457.0,
+          "b": 190.4,
+          "tw": 9.0,
+          "tf": 14.5,
+          "r": 8.9,
+          "d": 385.0,
+          "A": 94.1,
+          "Ix": 21700.0,
+          "Iy": 1120.0,
+          "rx": 17.1,
+          "ry": 3.45,
+          "Sx": 1300.0,
+          "Sy": 147.0,
+          "Zx": 1510.0,
+          "Zy": 221.0,
+          "J": 33.4,
+          "Cw": 610000.0
+        },
+        {
+          "size": "UB 457×191×82",
+          "name": {
+            "ar": "يو بي 457×191×82",
+            "en": "UB 457x191x82"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 82.0,
+          "h": 460.0,
+          "b": 191.3,
+          "tw": 9.9,
+          "tf": 16.0
+        },
+        {
+          "size": "UB 457×191×89",
+          "name": {
+            "ar": "يو بي 457×191×89",
+            "en": "UB 457x191x89"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 89.3,
+          "h": 463.4,
+          "b": 191.9,
+          "tw": 10.5,
+          "tf": 17.7
+        },
+        {
+          "size": "UB 457×191×98",
+          "name": {
+            "ar": "يو بي 457×191×98",
+            "en": "UB 457x191x98"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 98.3,
+          "h": 467.2,
+          "b": 192.8,
+          "tw": 11.4,
+          "tf": 19.6
+        },
+        {
+          "size": "UB 533×210×82",
+          "name": {
+            "ar": "يو بي 533×210×82",
+            "en": "UB 533x210x82"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 82.2,
+          "h": 528.3,
+          "b": 208.8,
+          "tw": 9.6,
+          "tf": 13.2
+        },
+        {
+          "size": "UB 533×210×92",
+          "name": {
+            "ar": "يو بي 533×210×92",
+            "en": "UB 533x210x92"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 92.1,
+          "h": 533.1,
+          "b": 209.3,
+          "tw": 10.1,
+          "tf": 15.6,
+          "r": 9.0,
+          "d": 455.0,
+          "A": 117.0,
+          "Ix": 32800.0,
+          "Iy": 1450.0,
+          "rx": 18.4,
+          "ry": 3.52,
+          "Sx": 1540.0,
+          "Sy": 166.0,
+          "Zx": 1790.0,
+          "Zy": 254.0,
+          "J": 41.7,
+          "Cw": 820000.0
+        },
+        {
+          "size": "UB 533×210×101",
+          "name": {
+            "ar": "يو بي 533×210×101",
+            "en": "UB 533x210x101"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 101.0,
+          "h": 536.7,
+          "b": 210.0,
+          "tw": 10.8,
+          "tf": 17.4
+        },
+        {
+          "size": "UB 533×210×109",
+          "name": {
+            "ar": "يو بي 533×210×109",
+            "en": "UB 533x210x109"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 109.0,
+          "h": 539.5,
+          "b": 210.8,
+          "tw": 11.6,
+          "tf": 18.8
+        },
+        {
+          "size": "UB 533×210×122",
+          "name": {
+            "ar": "يو بي 533×210×122",
+            "en": "UB 533x210x122"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 122.0,
+          "h": 544.5,
+          "b": 211.9,
+          "tw": 12.7,
+          "tf": 21.3
+        },
+        {
+          "size": "UB 610×229×101",
+          "name": {
+            "ar": "يو بي 610×229×101",
+            "en": "UB 610x229x101"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 101.2,
+          "h": 602.6,
+          "b": 227.6,
+          "tw": 10.5,
+          "tf": 14.8,
+          "r": 9.0,
+          "d": 520.0,
+          "A": 128.7,
+          "Ix": 45500.0,
+          "Iy": 1830.0,
+          "rx": 18.8,
+          "ry": 3.77,
+          "Sx": 1900.0,
+          "Sy": 190.0,
+          "Zx": 2190.0,
+          "Zy": 296.0,
+          "J": 50.0,
+          "Cw": 960000.0
+        },
+        {
+          "size": "UB 610×229×113",
+          "name": {
+            "ar": "يو بي 610×229×113",
+            "en": "UB 610x229x113"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 113.0,
+          "h": 607.6,
+          "b": 228.2,
+          "tw": 11.1,
+          "tf": 17.3
+        },
+        {
+          "size": "UB 610×229×125",
+          "name": {
+            "ar": "يو بي 610×229×125",
+            "en": "UB 610x229x125"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 125.1,
+          "h": 612.2,
+          "b": 229.0,
+          "tw": 11.9,
+          "tf": 19.6
+        },
+        {
+          "size": "UB 610×229×140",
+          "name": {
+            "ar": "يو بي 610×229×140",
+            "en": "UB 610x229x140"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 139.9,
+          "h": 617.2,
+          "b": 230.2,
+          "tw": 13.1,
+          "tf": 22.1
+        },
+        {
+          "size": "UB 610×305×149",
+          "name": {
+            "ar": "يو بي 610×305×149",
+            "en": "UB 610x305x149"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 149.1,
+          "h": 612.4,
+          "b": 304.8,
+          "tw": 11.8,
+          "tf": 19.7
+        },
+        {
+          "size": "UB 610×305×179",
+          "name": {
+            "ar": "يو بي 610×305×179",
+            "en": "UB 610x305x179"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 179.0,
+          "h": 620.2,
+          "b": 307.1,
+          "tw": 14.1,
+          "tf": 23.6
+        },
+        {
+          "size": "UB 610×305×238",
+          "name": {
+            "ar": "يو بي 610×305×238",
+            "en": "UB 610x305x238"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 238.0,
+          "h": 635.8,
+          "b": 311.4,
+          "tw": 18.4,
+          "tf": 31.4
+        },
+        {
+          "size": "UB 686×254×125",
+          "name": {
+            "ar": "يو بي 686×254×125",
+            "en": "UB 686x254x125"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 125.0,
+          "h": 677.9,
+          "b": 253.0,
+          "tw": 11.7,
+          "tf": 16.2
+        },
+        {
+          "size": "UB 686×254×140",
+          "name": {
+            "ar": "يو بي 686×254×140",
+            "en": "UB 686x254x140"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 140.0,
+          "h": 683.5,
+          "b": 253.7,
+          "tw": 12.4,
+          "tf": 19.0
+        },
+        {
+          "size": "UB 686×254×152",
+          "name": {
+            "ar": "يو بي 686×254×152",
+            "en": "UB 686x254x152"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 152.0,
+          "h": 687.5,
+          "b": 254.5,
+          "tw": 13.2,
+          "tf": 21.0
+        },
+        {
+          "size": "UB 686×254×170",
+          "name": {
+            "ar": "يو بي 686×254×170",
+            "en": "UB 686x254x170"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 170.0,
+          "h": 692.9,
+          "b": 255.8,
+          "tw": 14.5,
+          "tf": 23.7
+        },
+        {
+          "size": "UB 762×267×134",
+          "name": {
+            "ar": "يو بي 762×267×134",
+            "en": "UB 762x267x134"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 134.0,
+          "h": 750.0,
+          "b": 264.4,
+          "tw": 12.0,
+          "tf": 15.5
+        },
+        {
+          "size": "UB 838×292×176",
+          "name": {
+            "ar": "يو بي 838×292×176",
+            "en": "UB 838x292x176"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 176.0,
+          "h": 834.9,
+          "b": 291.7,
+          "tw": 14.0,
+          "tf": 18.8
+        },
+        {
+          "size": "UB 838×292×194",
+          "name": {
+            "ar": "يو بي 838×292×194",
+            "en": "UB 838x292x194"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 194.0,
+          "h": 840.7,
+          "b": 292.4,
+          "tw": 14.7,
+          "tf": 21.7
+        },
+        {
+          "size": "UB 838×292×226",
+          "name": {
+            "ar": "يو بي 838×292×226",
+            "en": "UB 838x292x226"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 226.0,
+          "h": 850.9,
+          "b": 293.8,
+          "tw": 16.1,
+          "tf": 26.8
+        },
+        {
+          "size": "UB 914×305×201",
+          "name": {
+            "ar": "يو بي 914×305×201",
+            "en": "UB 914x305x201"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 201.0,
+          "h": 903.0,
+          "b": 303.3,
+          "tw": 15.1,
+          "tf": 20.2
+        },
+        {
+          "size": "UB 914×305×224",
+          "name": {
+            "ar": "يو بي 914×305×224",
+            "en": "UB 914x305x224"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 224.0,
+          "h": 910.4,
+          "b": 304.1,
+          "tw": 15.9,
+          "tf": 23.9
+        },
+        {
+          "size": "UB 914×305×253",
+          "name": {
+            "ar": "يو بي 914×305×253",
+            "en": "UB 914x305x253"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 253.0,
+          "h": 918.4,
+          "b": 305.5,
+          "tw": 17.3,
+          "tf": 27.9
+        },
+        {
+          "size": "UB 914×305×289",
+          "name": {
+            "ar": "يو بي 914×305×289",
+            "en": "UB 914x305x289"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 289.0,
+          "h": 926.6,
+          "b": 307.7,
+          "tw": 19.5,
+          "tf": 32.0
+        },
+        {
+          "size": "UB 914×419×343",
+          "name": {
+            "ar": "يو بي 914×419×343",
+            "en": "UB 914x419x343"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 343.0,
+          "h": 911.8,
+          "b": 418.5,
+          "tw": 19.4,
+          "tf": 32.0
+        },
+        {
+          "size": "UB 914×419×388",
+          "name": {
+            "ar": "يو بي 914×419×388",
+            "en": "UB 914x419x388"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 388.0,
+          "h": 921.0,
+          "b": 420.5,
+          "tw": 21.4,
+          "tf": 36.6
+        },
+        {
+          "size": "UB 1016×305×222",
+          "name": {
+            "ar": "يو بي 1016×305×222",
+            "en": "UB 1016x305x222"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 222.0,
+          "h": 970.0,
+          "b": 300.0,
+          "tw": 16.0,
+          "tf": 21.1
+        },
+        {
+          "size": "UB 1016×305×249",
+          "name": {
+            "ar": "يو بي 1016×305×249",
+            "en": "UB 1016x305x249"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 249.0,
+          "h": 980.0,
+          "b": 300.0,
+          "tw": 16.5,
+          "tf": 26.0
+        },
+        {
+          "size": "UB 1016×305×272",
+          "name": {
+            "ar": "يو بي 1016×305×272",
+            "en": "UB 1016x305x272"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 272.0,
+          "h": 990.0,
+          "b": 300.0,
+          "tw": 16.5,
+          "tf": 31.0
+        },
+        {
+          "size": "UB 1016×305×314",
+          "name": {
+            "ar": "يو بي 1016×305×314",
+            "en": "UB 1016x305x314"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 314.0,
+          "h": 1000.0,
+          "b": 300.0,
+          "tw": 19.1,
+          "tf": 35.9
+        },
+        {
+          "size": "UB 1016×305×350",
+          "name": {
+            "ar": "يو بي 1016×305×350",
+            "en": "UB 1016x305x350"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 350.0,
+          "h": 1008.0,
+          "b": 302.0,
+          "tw": 21.1,
+          "tf": 40.0
+        },
+        {
+          "size": "UB 1016×305×393",
+          "name": {
+            "ar": "يو بي 1016×305×393",
+            "en": "UB 1016x305x393"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 393.0,
+          "h": 1016.0,
+          "b": 303.0,
+          "tw": 24.4,
+          "tf": 43.9
+        },
+        {
+          "size": "UB 1016×305×438",
+          "name": {
+            "ar": "يو بي 1016×305×438",
+            "en": "UB 1016x305x438"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 438.0,
+          "h": 1026.0,
+          "b": 305.0,
+          "tw": 26.9,
+          "tf": 49.0
+        },
+        {
+          "size": "UB 1016×305×494",
+          "name": {
+            "ar": "يو بي 1016×305×494",
+            "en": "UB 1016x305x494"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 494.0,
+          "h": 1036.0,
+          "b": 309.0,
+          "tw": 31.0,
+          "tf": 54.0
+        },
+        {
+          "size": "UB 1016×305×584",
+          "name": {
+            "ar": "يو بي 1016×305×584",
+            "en": "UB 1016x305x584"
+          },
+          "img": "/icons/ip4.svg",
+          "bigImg": "/icons/ip4.svg",
+          "info": "/icons/I-info.png",
+          "country": "uk",
+          "weight": 584.0,
+          "h": 1056.0,
+          "b": 314.0,
+          "tw": 36.0,
+          "tf": 64.0
+        }
+      ]
+    }
