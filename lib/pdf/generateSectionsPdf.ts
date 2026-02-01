@@ -17,6 +17,8 @@ const BASE_SITE_URL =
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
   "https://iron-metal.net"
 
+const SECTIONS_PDF_IMAGE_DEBUG = false
+
 function buildQrModules(value: string): boolean[][] | null {
   try {
     const QRCode = require("qrcode-terminal/vendor/QRCode")
@@ -33,6 +35,32 @@ function buildQrModules(value: string): boolean[][] | null {
   } catch (error) {
     console.warn("[sections-pdf] failed to generate QR modules", error)
     return null
+  }
+}
+
+async function embedImageFromAsset(pdfDoc: PDFDocument, moduleId: number) {
+  const asset = Asset.fromModule(moduleId)
+
+  try {
+    await asset.downloadAsync()
+  } catch {
+    // ignore
+  }
+
+  const uri = asset.localUri ?? asset.uri
+  if (!uri) return null
+
+  const bytes = await loadImageBytesFromUri(uri)
+  if (!bytes) return null
+
+  try {
+    return await (pdfDoc as any).embedPng(bytes)
+  } catch {
+    try {
+      return await (pdfDoc as any).embedJpg(bytes)
+    } catch {
+      return null
+    }
   }
 }
 
@@ -81,6 +109,61 @@ function drawQrCode(
   }
 }
 
+function drawClickIndicator(page: any, x: number, y: number, size: number, color: any) {
+  const s = size
+  const stroke = Math.max(1, s * 0.12)
+
+  const boxX = x + s * 0.1
+  const boxY = y + s * 0.1
+  const boxS = s * 0.62
+
+  page.drawRectangle({
+    x: boxX,
+    y: boxY,
+    width: boxS,
+    height: boxS,
+    color: rgb(1, 1, 1),
+    borderColor: color,
+    borderWidth: stroke,
+  })
+
+  const arrowEndX = x + s * 0.92
+  const arrowEndY = y + s * 0.92
+  const arrowStartX = boxX + boxS * 0.42
+  const arrowStartY = boxY + boxS * 0.42
+
+  page.drawLine({
+    start: { x: arrowStartX, y: arrowStartY },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
+
+  page.drawLine({
+    start: { x: arrowEndX - s * 0.3, y: arrowEndY },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
+
+  page.drawLine({
+    start: { x: arrowEndX, y: arrowEndY - s * 0.3 },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
+}
+
+function extractCodeToken(value: unknown): string {
+  if (typeof value !== "string") return ""
+  return value.trim().toLowerCase().split(/\s+/)[0] || ""
+}
+
+function resolveFlagByCode(code: string, flags: Record<string, any>) {
+  if (!code) return null
+  return flags[code] ?? null
+}
+
 function normalizeToFileUri(value: string): string {
   if (value.startsWith("file:")) return value
   if (value.startsWith("/")) return `file://${value}`
@@ -107,19 +190,54 @@ function sanitizePdfText(text: string): string {
 
 async function loadImageBytesFromUri(uri: string): Promise<Uint8Array | null> {
   try {
-    // للملفات المحلية أو مسار asset:/ نستخدم expo-file-system مع base64
-    // نستثني فقط http/https حتى لا نطلب من الإنترنت
     if (uri.startsWith("http:") || uri.startsWith("https:")) {
-      return null
+      const dir = (FileSystem as any).cacheDirectory || (FileSystem as any).documentDirectory
+      const downloader = (FileSystem as any).downloadAsync
+      if (dir && downloader) {
+        const safeName = String(uri).replace(/[^a-zA-Z0-9._-]/g, "_")
+        const target = `${dir}pdf-img-${safeName}`
+
+        try {
+          await downloader(uri, target)
+          const base64Downloaded = await FileSystem.readAsStringAsync(target, {
+            encoding: (FileSystem as any).EncodingType?.Base64 ?? ("base64" as any),
+          })
+          return new Uint8Array(decode(base64Downloaded) as ArrayBuffer)
+        } catch {
+          // ignore
+        }
+      }
+
+      try {
+        const response = await fetch(uri)
+        if (!response.ok) return null
+        const buffer = await response.arrayBuffer()
+        return new Uint8Array(buffer)
+      } catch {
+        return null
+      }
     }
+
+    // للملفات المحلية أو مسار asset:/ نستخدم expo-file-system مع base64
     // المحاولة الأولى: القراءة مباشرة من الـ URI (file:/, asset:/، أو resource مثل assets_icons_hinfo)
-    try {
-      const base64 = await FileSystem.readAsStringAsync(uri, {
-        encoding: "base64" as any,
-      })
-      return new Uint8Array(decode(base64) as ArrayBuffer)
-    } catch (readError) {
-      console.warn("[sections-pdf] readAsStringAsync failed, trying copyAsync", uri, readError)
+    const uriCandidates = (() => {
+      const candidates: string[] = [uri]
+      if (uri.includes("%25")) {
+        const once = uri.replace(/%25([0-9a-fA-F]{2})/g, "%$1")
+        if (once !== uri) candidates.push(once)
+      }
+      return Array.from(new Set(candidates))
+    })()
+
+    for (const candidate of uriCandidates) {
+      try {
+        const base64 = await FileSystem.readAsStringAsync(candidate, {
+          encoding: "base64" as any,
+        })
+        return new Uint8Array(decode(base64) as ArrayBuffer)
+      } catch {
+        // ignore
+      }
     }
 
     // المحاولة الثانية: على أندرويد قد يكون uri اسم مورد داخلي مثل assets_icons_hinfo
@@ -129,21 +247,29 @@ async function loadImageBytesFromUri(uri: string): Promise<Uint8Array | null> {
       return null
     }
 
-    const safeName = String(uri).replace(/[^a-zA-Z0-9._-]/g, "_")
-    const target = `${dir}pdf-img-${safeName}`
+    for (const candidate of uriCandidates) {
+      const safeName = String(candidate).replace(/[^a-zA-Z0-9._-]/g, "_")
+      const target = `${dir}pdf-img-${safeName}`
 
-    try {
-      await (FileSystem as any).copyAsync({ from: uri, to: target })
-      const base64Copied = await FileSystem.readAsStringAsync(target, {
-        encoding: "base64" as any,
-      })
-      return new Uint8Array(decode(base64Copied) as ArrayBuffer)
-    } catch (copyError) {
-      console.warn("[sections-pdf] copyAsync/read fallback failed", uri, copyError)
-      return null
+      try {
+        await (FileSystem as any).copyAsync({ from: candidate, to: target })
+        const base64Copied = await FileSystem.readAsStringAsync(target, {
+          encoding: "base64" as any,
+        })
+        return new Uint8Array(decode(base64Copied) as ArrayBuffer)
+      } catch {
+        // ignore
+      }
     }
+
+    if (SECTIONS_PDF_IMAGE_DEBUG) {
+      console.warn("[sections-pdf] failed to read image uri", uri)
+    }
+    return null
   } catch (error) {
-    console.warn("[sections-pdf] failed to read image uri", uri, error)
+    if (SECTIONS_PDF_IMAGE_DEBUG) {
+      console.warn("[sections-pdf] failed to read image uri", uri, error)
+    }
     return null
   }
 }
@@ -205,8 +331,12 @@ async function embedInfoImage(
         try {
           await asset.downloadAsync()
         } catch (error) {
-          console.warn("[sections-pdf] failed to download asset", infoRef, error)
-          return await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "download-error")
+          if (SECTIONS_PDF_IMAGE_DEBUG) {
+            console.warn("[sections-pdf] failed to download asset", infoRef, error)
+          }
+          return SECTIONS_PDF_IMAGE_DEBUG
+            ? await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "download-error")
+            : yStart
         }
       }
 
@@ -214,12 +344,16 @@ async function embedInfoImage(
     }
 
     if (!uri) {
-      return await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "no-uri")
+      return SECTIONS_PDF_IMAGE_DEBUG
+        ? await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "no-uri")
+        : yStart
     }
 
     const bytes = await loadImageBytesFromUri(uri)
     if (!bytes) {
-      return await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, uri, "no-bytes")
+      return SECTIONS_PDF_IMAGE_DEBUG
+        ? await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, uri, "no-bytes")
+        : yStart
     }
 
     let image
@@ -231,9 +365,19 @@ async function embedInfoImage(
     }
 
     const { width } = page.getSize()
-    const imgWidth = 80
-    const scale = imgWidth / image.width
-    const imgHeight = image.height * scale
+    const maxWidth = Math.max(0, width - MARGIN * 2)
+    const targetWidth = Math.min(140, maxWidth)
+    const scaleByWidth = targetWidth / image.width
+    let imgWidth = targetWidth
+    let imgHeight = image.height * scaleByWidth
+
+    const maxHeight = 160
+    if (imgHeight > maxHeight) {
+      const scaleByHeight = maxHeight / image.height
+      imgHeight = maxHeight
+      imgWidth = image.width * scaleByHeight
+    }
+
     const x = (width - imgWidth) / 2
     const y = yStart - imgHeight
 
@@ -246,8 +390,11 @@ async function embedInfoImage(
 
     return y - 10
   } catch (error) {
-    console.warn("[sections-pdf] failed to embed info image", infoRef, error)
-    return await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "exception")
+    if (SECTIONS_PDF_IMAGE_DEBUG) {
+      console.warn("[sections-pdf] failed to embed info image", infoRef, error)
+      return await drawImageDebugPlaceholder(pdfDoc, page, yStart, infoRef, null, "exception")
+    }
+    return yStart
   }
 }
 
@@ -258,6 +405,34 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
 
   const pdfDoc = await PDFDocument.create()
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+
+  let headerLogo: any = null
+  try {
+    headerLogo = await embedImageFromAsset(pdfDoc, require("../../assets/icons/logo512x512.png"))
+  } catch {
+    headerLogo = null
+  }
+
+  const flagCache = new Map<string, any>()
+  const getFlagImageForCode = async (code: string): Promise<any | null> => {
+    const normalized = extractCodeToken(code)
+    if (!normalized) return null
+
+    if (flagCache.has(normalized)) {
+      return flagCache.get(normalized) ?? null
+    }
+
+    const moduleId = getLocalAssetModuleId(`/icons/${normalized}.png`)
+    if (!moduleId) {
+      flagCache.set(normalized, null)
+      return null
+    }
+
+    const embedded = await embedImageFromAsset(pdfDoc, moduleId)
+    flagCache.set(normalized, embedded)
+    return embedded
+  }
 
   for (let index = 0; index < items.length; index++) {
     const item = items[index]
@@ -265,22 +440,41 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     const page = pdfDoc.addPage([A4_WIDTH, A4_HEIGHT])
     const { width, height } = page.getSize()
 
-    let y = height - MARGIN
+    let y = height - MARGIN - 34
 
     // العنوان العلوي Iron & Metal في المنتصف
-    const headerSize = 14
+    const headerSize = 16
     const headerText = sanitizePdfText(PDF_HEADER_TITLE)
-    const headerWidth = font.widthOfTextAtSize(headerText, headerSize)
+    const headerTextWidth = fontBold.widthOfTextAtSize(headerText, headerSize)
+    const headerLogoHeight = 34
+    const headerLogoGap = 8
+    const headerLogoWidth =
+      headerLogo && typeof headerLogo.width === "number" && typeof headerLogo.height === "number" && headerLogo.height
+        ? (headerLogoHeight * headerLogo.width) / headerLogo.height
+        : 0
+
+    const headerTotalWidth = headerLogoWidth > 0 ? headerLogoWidth + headerLogoGap + headerTextWidth : headerTextWidth
+    const headerX = (width - headerTotalWidth) / 2
+
+    if (headerLogo && headerLogoWidth > 0) {
+      page.drawImage(headerLogo, {
+        x: headerX,
+        y: y - (headerLogoHeight - headerSize) / 2 + 2,
+        width: headerLogoWidth,
+        height: headerLogoHeight,
+      })
+    }
+
     page.drawText(headerText, {
-      x: (width - headerWidth) / 2,
+      x: headerLogoWidth > 0 ? headerX + headerLogoWidth + headerLogoGap : headerX,
       y,
       size: headerSize,
-      font,
+      font: fontBold,
       color: rgb(0.1, 0.1, 0.1),
     })
 
     // عنوان القطاع ومعلوماته على اليسار
-    y -= 24
+    y -= 48
     const title = sanitizePdfText(item.title || "Section")
     page.drawText(title, {
       x: MARGIN,
@@ -292,10 +486,33 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
 
     y -= 12
     if (item.subtitle) {
-      page.drawText(sanitizePdfText(String(item.subtitle)), {
-        x: MARGIN,
+      const subtitleText = sanitizePdfText(String(item.subtitle))
+      const subtitleSize = 11
+
+      const subtitleCode = extractCodeToken(item.subtitle)
+      const flagImage = await getFlagImageForCode(subtitleCode)
+
+      let subtitleX = MARGIN
+      if (flagImage && typeof flagImage.width === "number" && typeof flagImage.height === "number" && flagImage.height) {
+        const flagHeight = 10
+        const flagWidth = (flagHeight * flagImage.width) / flagImage.height
+        const flagGap = 4
+        const flagY = y + (subtitleSize - flagHeight) / 2 - 2
+        if (subtitleX + flagWidth + flagGap <= width - MARGIN) {
+          page.drawImage(flagImage, {
+            x: subtitleX,
+            y: flagY,
+            width: flagWidth,
+            height: flagHeight,
+          })
+          subtitleX += flagWidth + flagGap
+        }
+      }
+
+      page.drawText(subtitleText, {
+        x: subtitleX,
         y,
-        size: 11,
+        size: subtitleSize,
         font,
         color: rgb(0.3, 0.3, 0.3),
       })
@@ -303,10 +520,38 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     }
 
     if (item.country) {
-      page.drawText(sanitizePdfText(String(item.country)), {
-        x: MARGIN,
+      const countryText = sanitizePdfText(String(item.country))
+      const countrySize = 11
+
+      const countryCode = extractCodeToken(item.country)
+      const countryFlag = await getFlagImageForCode(countryCode)
+
+      let countryX = MARGIN
+      if (
+        countryFlag &&
+        typeof countryFlag.width === "number" &&
+        typeof countryFlag.height === "number" &&
+        countryFlag.height
+      ) {
+        const flagHeight = 10
+        const flagWidth = (flagHeight * countryFlag.width) / countryFlag.height
+        const flagGap = 4
+        const flagY = y + (countrySize - flagHeight) / 2 - 2
+        if (countryX + flagWidth + flagGap <= width - MARGIN) {
+          page.drawImage(countryFlag, {
+            x: countryX,
+            y: flagY,
+            width: flagWidth,
+            height: flagHeight,
+          })
+          countryX += flagWidth + flagGap
+        }
+      }
+
+      page.drawText(countryText, {
+        x: countryX,
         y,
-        size: 11,
+        size: countrySize,
         font,
         color: rgb(0.35, 0.35, 0.35),
       })
@@ -408,6 +653,10 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     const footerLinkText = sanitizePdfText(footerLinkRaw)
     const footerText = `${footerPrefix}${footerLinkText}`
 
+    const footerIconSize = 9
+    const footerIconGap = 4
+    const footerIconWidth = footerIconGap + footerIconSize
+
     // إعداد رابط عميق يفتح نفس القطاع ونفس قيمة السلايدر على الموقع إن توفرت البيانات
     const params: string[] = []
     if (item.sectionId != null) params.push(`sid=${encodeURIComponent(String(item.sectionId))}`)
@@ -420,9 +669,9 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     }
 
     const query = params.join("&")
-    const targetUrl = query ? `${BASE_SITE_URL}/?${query}` : BASE_SITE_URL
+    const targetUrl = query ? `${BASE_SITE_URL}/?${query}` : `${BASE_SITE_URL}/`
 
-    const qrTargetUrl = query ? `ironmetal://?${query}` : "ironmetal://"
+    const qrTargetUrl = targetUrl
 
     const qrModules = buildQrModules(qrTargetUrl)
     const qrSize = 64
@@ -431,7 +680,8 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
 
     const footerSize = 9
     const footerPrefixWidth = font.widthOfTextAtSize(footerPrefix, footerSize)
-    const footerWidth = font.widthOfTextAtSize(footerText, footerSize)
+    const footerLinkTextWidth = font.widthOfTextAtSize(footerLinkText, footerSize)
+    const footerWidth = font.widthOfTextAtSize(footerText, footerSize) + footerIconWidth
     const footerY = MARGIN
 
     const footerTextAreaWidth = qrModules
@@ -457,6 +707,14 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
       color: rgb(0.4, 0.4, 0.4),
     })
 
+    drawClickIndicator(
+      page,
+      footerX + footerPrefixWidth + footerLinkTextWidth + footerIconGap,
+      footerY - 1,
+      footerIconSize,
+      rgb(0.4, 0.4, 0.4),
+    )
+
     if (qrModules) {
       drawQrCode(page, qrModules, qrX, qrY, qrSize)
     }
@@ -465,7 +723,7 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     try {
       const pageRef = (page as any)?.ref ?? (page as any)?.node?.ref
 
-      const linkTextWidth = font.widthOfTextAtSize(footerLinkText, footerSize)
+      const linkTextWidth = footerLinkTextWidth
 
       const clickPaddingX = 6
       const clickPaddingY = 6
@@ -475,7 +733,7 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
       const clickX1 = Math.max(0, footerX + footerPrefixWidth - clickPaddingX)
       const clickX2 = Math.min(
         maxClickX2,
-        footerX + footerPrefixWidth + linkTextWidth + clickPaddingX,
+        footerX + footerPrefixWidth + linkTextWidth + footerIconWidth + clickPaddingX,
       )
       const clickY1 = Math.max(0, footerY - clickPaddingY)
       const clickY2 = Math.min(height, footerY + footerSize + clickPaddingY)

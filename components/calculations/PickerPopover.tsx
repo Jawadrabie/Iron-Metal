@@ -22,7 +22,8 @@ export function PickerPopover({ picker, theme, styles, screenWidth, screenHeight
     Math.max(8, screenWidth - menuWidth - 8),
   )
 
-  const verticalOffset = picker.compact ? -10 : -6
+  const verticalOffset =
+    typeof picker.verticalOffset === "number" ? picker.verticalOffset : picker.compact ? -12 : -6
   const belowTop = picker.anchor.y + verticalOffset
   const aboveTop = picker.anchor.y + verticalOffset - menuMaxHeight
   const topCandidate = belowTop + menuMaxHeight > screenHeight - 8 ? aboveTop : belowTop

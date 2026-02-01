@@ -14,6 +14,7 @@ import { Feather } from "@expo/vector-icons"
 import { getCurrentUser, logout } from "../lib/auth"
 import { supabase } from "../lib/supabase/client"
 import { useLanguage } from "../hooks/useLanguage"
+import { useTheme } from "../contexts/ThemeContext"
 
 const STRINGS = {
   en: {
@@ -48,6 +49,8 @@ const STRINGS = {
 export default function DeleteAccountScreen() {
   const { language } = useLanguage("en")
   const t = STRINGS[language]
+  const theme = useTheme()
+  const isDark = theme.isDark
   const navigation = useNavigation()
   const [loading, setLoading] = useState(false)
   const [bannerVisible, setBannerVisible] = useState(false)
@@ -114,11 +117,19 @@ export default function DeleteAccountScreen() {
   }
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { backgroundColor: theme.colors.background }]}>
       {bannerVisible && bannerMessage && (
-        <View style={styles.banner}>
-          <Feather name="check-circle" size={16} color="#16A34A" />
-          <Text style={styles.bannerText}>{bannerMessage}</Text>
+        <View
+          style={[
+            styles.banner,
+            {
+              backgroundColor: isDark ? "rgba(34,197,94,0.12)" : "rgba(34,197,94,0.10)",
+              borderColor: isDark ? "rgba(34,197,94,0.22)" : "rgba(34,197,94,0.18)",
+            },
+          ]}
+        >
+          <Feather name="check-circle" size={16} color={theme.colors.success} />
+          <Text style={[styles.bannerText, { color: theme.colors.success }]}>{bannerMessage}</Text>
         </View>
       )}
       <View style={styles.header}>
@@ -127,8 +138,8 @@ export default function DeleteAccountScreen() {
           activeOpacity={0.7}
           onPress={() => navigation.goBack()}
         >
-          <Feather name="arrow-left" size={22} color="#111827" />
-          <Text style={styles.backText}>{t.back}</Text>
+          <Feather name="arrow-left" size={22} color={theme.colors.text} />
+          <Text style={[styles.backText, { color: theme.colors.text }]}>{t.back}</Text>
         </TouchableOpacity>
       </View>
 
@@ -137,33 +148,35 @@ export default function DeleteAccountScreen() {
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.title}>{t.title}</Text>
+        <View style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}> 
+          <Text style={[styles.title, { color: theme.colors.text }]}>{t.title}</Text>
 
-        <View style={styles.bulletList}>
-          <View style={styles.bulletRow}>
-            <Text style={styles.bulletDot}>{"\u2022"}</Text>
-            <Text style={styles.bulletText}>
-              {t.bullet1}
-            </Text>
-          </View>
-          <View style={styles.bulletRow}>
-            <Text style={styles.bulletDot}>{"\u2022"}</Text>
-            <Text style={styles.bulletText}>
-              {t.bullet2}
-            </Text>
-          </View>
-          <View style={styles.bulletRow}>
-            <Text style={styles.bulletDot}>{"\u2022"}</Text>
-            <Text style={styles.bulletText}>
-              {t.bullet3}
-            </Text>
+          <View style={styles.bulletList}>
+            <View style={styles.bulletRow}>
+              <Text style={[styles.bulletDot, { color: theme.colors.text }]}>{"\u2022"}</Text>
+              <Text style={[styles.bulletText, { color: theme.colors.textSecondary }]}>
+                {t.bullet1}
+              </Text>
+            </View>
+            <View style={styles.bulletRow}>
+              <Text style={[styles.bulletDot, { color: theme.colors.text }]}>{"\u2022"}</Text>
+              <Text style={[styles.bulletText, { color: theme.colors.textSecondary }]}>
+                {t.bullet2}
+              </Text>
+            </View>
+            <View style={styles.bulletRow}>
+              <Text style={[styles.bulletDot, { color: theme.colors.text }]}>{"\u2022"}</Text>
+              <Text style={[styles.bulletText, { color: theme.colors.textSecondary }]}>
+                {t.bullet3}
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>
 
       <View style={styles.footer}>
         <TouchableOpacity
-          style={[styles.deleteButton, loading && styles.deleteButtonDisabled]}
+          style={[styles.deleteButton, { backgroundColor: theme.colors.error }, loading && styles.deleteButtonDisabled]}
           activeOpacity={0.85}
           onPress={handleConfirmDelete}
           disabled={loading}
@@ -189,6 +202,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
+  card: {
+    borderWidth: 1,
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+  },
   banner: {
     position: "absolute",
     top: 12,
@@ -201,6 +220,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
+    borderWidth: 1,
     backgroundColor: "rgba(22,163,74,0.08)",
   },
   bannerText: {

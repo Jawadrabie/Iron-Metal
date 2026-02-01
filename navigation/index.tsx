@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useTheme } from "../contexts/ThemeContext"
 
 import { HomeScreen } from "../screens/HomeScreen"
+import CalculationsScreen from "../screens/CalculationsScreen"
 import LoginScreen from "../screens/LoginScreen"
 import FeaturedSectorsScreen from "../screens/FeaturedSectorsScreen"
 import DeleteAccountScreen from "../screens/DeleteAccountScreen"
@@ -35,6 +36,7 @@ export type RootStackParamList = {
         deepLink?: HomeDeepLinkParams
       }
     | undefined
+  EngineeringCalculations: undefined
   Login: undefined
   Featured: undefined
   DeleteAccount: undefined
@@ -68,6 +70,11 @@ export function RootNavigator() {
     <NavigationContainer ref={navigationRef} theme={navTheme as any}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="EngineeringCalculations"
+          component={CalculationsScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Featured" component={FeaturedSectorsScreen} />
         <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />

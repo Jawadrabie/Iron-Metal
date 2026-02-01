@@ -626,6 +626,7 @@ export function CalculatorPanel({
         companyName: "Iron & Metal",
         companyExtra: "",
         currencyCode,
+        fileBaseName: sectorName || undefined,
         sectionId: selectedSectionId ?? undefined,
         sectionType: selectedType ?? undefined,
         variantIndex: selectedVariantIndex,

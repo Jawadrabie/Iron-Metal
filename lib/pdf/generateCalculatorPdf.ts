@@ -11,6 +11,7 @@ export type CalculatorPdfPayload = {
   orderDateLabel?: string
   orderDateValue?: string
   currencyCode?: string
+  fileBaseName?: string
   sectionId?: number
   sectionType?: string
   variantIndex?: number
@@ -96,6 +97,51 @@ function drawQrCode(page: any, modules: boolean[][], x: number, y: number, size:
       })
     }
   }
+}
+
+function drawClickIndicator(page: any, x: number, y: number, size: number, color: any) {
+  const s = size
+  const stroke = Math.max(1, s * 0.12)
+
+  const boxX = x + s * 0.1
+  const boxY = y + s * 0.1
+  const boxS = s * 0.62
+
+  page.drawRectangle({
+    x: boxX,
+    y: boxY,
+    width: boxS,
+    height: boxS,
+    color: rgb(1, 1, 1),
+    borderColor: color,
+    borderWidth: stroke,
+  })
+
+  const arrowEndX = x + s * 0.92
+  const arrowEndY = y + s * 0.92
+  const arrowStartX = boxX + boxS * 0.42
+  const arrowStartY = boxY + boxS * 0.42
+
+  page.drawLine({
+    start: { x: arrowStartX, y: arrowStartY },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
+
+  page.drawLine({
+    start: { x: arrowEndX - s * 0.3, y: arrowEndY },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
+
+  page.drawLine({
+    start: { x: arrowEndX, y: arrowEndY - s * 0.3 },
+    end: { x: arrowEndX, y: arrowEndY },
+    thickness: stroke,
+    color,
+  })
 }
 
 // نستخدم تنسيق تاريخ ثابت بأرقام إنجليزية فقط لتجنب مشاكل ترميز WinAnsi في pdf-lib
@@ -215,7 +261,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
   const { width, height } = page.getSize()
 
   const marginX = 50
-  let y = height - 60
+  let y = height - 32 - 34
 
   const purple = rgb(43 / 255, 31 / 255, 93 / 255)
   const orange = rgb(240 / 255, 140 / 255, 33 / 255)
@@ -227,18 +273,44 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
   const orderDateLabel = data.orderDateLabel || "The order Date"
   const orderDateValue = data.orderDateValue || formatDateEn(new Date())
 
+  let headerLogo: any = null
+  try {
+    headerLogo = await embedImageFromAsset(pdfDoc, require("../../assets/icons/logo512x512.png"))
+  } catch {
+    headerLogo = null
+  }
+
+  const headerLogoHeight = 34
+  const headerLogoGap = 8
+  const headerLogoWidth =
+    headerLogo && typeof headerLogo.width === "number" && typeof headerLogo.height === "number" && headerLogo.height
+      ? (headerLogoHeight * headerLogo.width) / headerLogo.height
+      : 0
+  const companyNameWidth = boldFont.widthOfTextAtSize(companyName, 16)
+  const headerGroupWidth = (headerLogoWidth > 0 ? headerLogoWidth + headerLogoGap : 0) + companyNameWidth
+  const headerGroupX = Math.max(marginX, (width - headerGroupWidth) / 2)
+  const companyNameX = headerLogoWidth > 0 ? headerGroupX + headerLogoWidth + headerLogoGap : headerGroupX
+
   // Header: company name + extra (left)
+  if (headerLogo && headerLogoWidth > 0) {
+    page.drawImage(headerLogo, {
+      x: headerGroupX,
+      y: y - (headerLogoHeight - 16) / 2 + 2,
+      width: headerLogoWidth,
+      height: headerLogoHeight,
+    })
+  }
   page.drawText(companyName, {
-    x: marginX,
+    x: companyNameX,
     y,
-    size: 18,
+    size: 16,
     font: boldFont,
     color: purple,
   })
   y -= 18
   if (companyExtra.trim().length > 0) {
     page.drawText(companyExtra, {
-      x: marginX,
+      x: companyNameX,
       y,
       size: 10,
       font,
@@ -253,7 +325,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
   const dateValueWidth = boldFont.widthOfTextAtSize(orderDateValue, dateValueSize)
   const rightX = width - marginX - Math.max(dateLabelWidth, dateValueWidth)
 
-  const dateTopY = height - 60
+  const dateTopY = height - 32 - 34
   page.drawText(orderDateLabel, {
     x: rightX,
     y: dateTopY,
@@ -552,6 +624,10 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     const footerLinkText = sanitizePdfText(footerLinkRaw)
     const footerText = `${footerPrefix}${footerLinkText}`
 
+    const footerIconSize = 9
+    const footerIconGap = 4
+    const footerIconWidth = footerIconGap + footerIconSize
+
     const params: string[] = []
     if (typeof data.sectionId === "number" && Number.isFinite(data.sectionId)) {
       params.push(`sid=${encodeURIComponent(String(data.sectionId))}`)
@@ -578,7 +654,8 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
 
     const footerSize = 9
     const footerPrefixWidth = font.widthOfTextAtSize(footerPrefix, footerSize)
-    const footerWidth = font.widthOfTextAtSize(footerText, footerSize)
+    const footerLinkTextWidth = font.widthOfTextAtSize(footerLinkText, footerSize)
+    const footerWidth = font.widthOfTextAtSize(footerText, footerSize) + footerIconWidth
     const footerY = footerMargin
 
     const footerTextAreaWidth = qrModules
@@ -603,6 +680,14 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
       color: rgb(0.4, 0.4, 0.4),
     })
 
+    drawClickIndicator(
+      page,
+      footerX + footerPrefixWidth + footerLinkTextWidth + footerIconGap,
+      footerY - 1,
+      footerIconSize,
+      rgb(0.4, 0.4, 0.4),
+    )
+
     if (qrModules) {
       drawQrCode(page, qrModules, qrX, qrY, qrSize)
     }
@@ -610,7 +695,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     try {
       const pageRef = (page as any)?.ref ?? (page as any)?.node?.ref
 
-      const linkTextWidth = font.widthOfTextAtSize(footerLinkText, footerSize)
+      const linkTextWidth = footerLinkTextWidth
 
       const clickPaddingX = 6
       const clickPaddingY = 6
@@ -618,7 +703,10 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
       const maxClickX2 = qrModules ? qrX - 2 : width
 
       const clickX1 = Math.max(0, footerX + footerPrefixWidth - clickPaddingX)
-      const clickX2 = Math.min(maxClickX2, footerX + footerPrefixWidth + linkTextWidth + clickPaddingX)
+      const clickX2 = Math.min(
+        maxClickX2,
+        footerX + footerPrefixWidth + linkTextWidth + footerIconWidth + clickPaddingX,
+      )
       const clickY1 = Math.max(0, footerY - clickPaddingY)
       const clickY2 = Math.min(height, footerY + footerSize + clickPaddingY)
 
@@ -683,8 +771,9 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     return `data:application/pdf;base64,${pdfBase64}`
   }
 
-  const fileName = `calculator-order-${Date.now()}.pdf`
-  const fileUri = dir + fileName
+  const baseName = data.fileBaseName || `calculator-order-${Date.now()}`
+  const safeName = String(baseName).replace(/[^a-zA-Z0-9._&-]/g, "_") + ".pdf"
+  const fileUri = dir + safeName
 
   await FileSystem.writeAsStringAsync(fileUri, pdfBase64, {
     encoding: "base64" as any,

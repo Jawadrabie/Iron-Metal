@@ -1,6 +1,7 @@
 export const calculatorTexts = {
   en: {
     title: 'Calculations',
+    engineeringTitle: 'Engineering Calculator',
     quantity: 'Quantity',
     pricePerKg: 'Price / Kg',
     calculate: 'Calculate',
@@ -12,6 +13,7 @@ export const calculatorTexts = {
   },
   ar: {
     title: 'الحسابات',
+    engineeringTitle: 'الحاسبة الهندسية',
     quantity: 'الكمية',
     pricePerKg: 'السعر / كغ',
     calculate: 'احسب',

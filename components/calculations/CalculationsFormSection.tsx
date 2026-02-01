@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native'
+import { Feather } from '@expo/vector-icons'
 import { Dropdown, type IDropdownRef } from 'react-native-element-dropdown'
 import { DENSITY_GROUPS, DENSITY_UNITS, DIM_UNITS, type DimUnit } from './constants'
 import { convertFromKgM3, formatDensity } from './utils'
@@ -7,7 +8,7 @@ import { normalizeNumericInput, toNumber } from './numeric'
 import { getFieldConfigForFormula } from './fieldConfig'
 import { calculateResultsEngine } from './calcEngine'
 import { useI18n } from '../../contexts/I18nContext'
-import { resolveLocalAssetUri } from '../../lib/localAssets'
+import { getLocalAssetModuleId, prefetchLocalAssets, resolveLocalAssetUri } from '../../lib/localAssets'
 
 function getLocalizedPlaceholder(title: string, language: string) {
   const raw = String(title || '').trim()
@@ -65,27 +66,105 @@ export function CalculationsFormSection({
   const [densityMaterial, setDensityMaterial] = useState<string>('Carbon Steel')
   const [densityUnit, setDensityUnit] = useState<string>('kg_m3')
 
-  const previewImageUri = useMemo(() => {
-    const path = selectedCalc?.svgImg ?? selectedCalc?.symbol
-    return path ? resolveLocalAssetUri(path) : null
-  }, [selectedCalc?.svgImg, selectedCalc?.symbol])
-
-  const autoCalcTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const densityGroupDropdownRef = useRef<IDropdownRef>(null)
-  const densityMaterialDropdownRef = useRef<IDropdownRef>(null)
-  const densityUnitDropdownRef = useRef<IDropdownRef>(null)
-  const unitAnchorRefs = useRef<Record<string, View | null>>({})
-
   const selectedGroup =
     DENSITY_GROUPS.find((g) => g.label === densityGroup) || DENSITY_GROUPS[0]
   const selectedMaterial =
     selectedGroup.items.find((m) => m.label === densityMaterial) || selectedGroup.items[0]
   const densityKgM3 = selectedMaterial?.value ?? 7850
 
+  const previewImagePath = useMemo(() => {
+    return selectedCalc?.svgImg ?? selectedCalc?.symbol ?? null
+  }, [selectedCalc?.svgImg, selectedCalc?.symbol])
+
+  const [previewAssetVersion, setPreviewAssetVersion] = useState(0)
+
+  useEffect(() => {
+    if (!previewImagePath) return
+    prefetchLocalAssets([previewImagePath])
+      .then(() => {
+        setPreviewAssetVersion((v) => v + 1)
+      })
+      .catch(() => undefined)
+  }, [previewImagePath])
+
+  const previewImageSource = useMemo(() => {
+    if (!previewImagePath) return null
+
+    const uri = resolveLocalAssetUri(previewImagePath)
+    if (uri) return { uri }
+
+    const moduleId = getLocalAssetModuleId(previewImagePath)
+    return moduleId ? moduleId : null
+  }, [previewImagePath, previewAssetVersion])
+
+  const previewColumnWidth = useMemo(() => {
+    const raw = Math.round(screenWidth * 0.32)
+    return Math.max(96, Math.min(140, raw))
+  }, [screenWidth])
+
+  const materialDensityInline = useMemo(() => {
+    const unitLabel = DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
+    const v = formatDensity(convertFromKgM3(densityKgM3, densityUnit), densityUnit)
+    return `${v} ${unitLabel}`.trim()
+  }, [densityKgM3, densityUnit])
+
+  const materialOptions = useMemo(() => {
+    return selectedGroup.items.map((item) => ({
+      label: item.label,
+      value: item.label,
+      rightLabel: `${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${
+        DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
+      }`,
+    }))
+  }, [densityUnit, selectedGroup.items])
+
+  const MATERIAL_ITEM_HEIGHT = 28
+
+  const baseMaterialFlatListProps = {
+    bounces: false,
+    overScrollMode: 'never' as const,
+    showsVerticalScrollIndicator: false,
+    contentContainerStyle: { paddingVertical: 0 },
+    removeClippedSubviews: true,
+    windowSize: 8,
+    initialNumToRender: 12,
+    maxToRenderPerBatch: 12,
+    updateCellsBatchingPeriod: 50,
+  }
+
+  const selectedMaterialIndex = materialOptions.findIndex((o) => o.value === densityMaterial)
+  const materialFlatListProps =
+    selectedMaterialIndex > -1
+      ? {
+          ...baseMaterialFlatListProps,
+          initialScrollIndex: selectedMaterialIndex,
+          getItemLayout: (_data: any, index: number) => ({
+            length: MATERIAL_ITEM_HEIGHT,
+            offset: MATERIAL_ITEM_HEIGHT * index,
+            index,
+          }),
+        }
+      : baseMaterialFlatListProps
+
+  const autoCalcTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const densityGroupDropdownRef = useRef<IDropdownRef>(null)
+  const densityMaterialDropdownRef = useRef<IDropdownRef>(null)
+  const densityUnitAnchorRef = useRef<View | null>(null)
+  const unitAnchorRefs = useRef<Record<string, View | null>>({})
+
   useEffect(() => {
     setDims((prev: any) => ({ ...prev, density: String(densityKgM3 / 1000) }))
   }, [densityKgM3, setDims])
+
+  useEffect(() => {
+    setDims((prev: any) => ({
+      ...prev,
+      densityGroup,
+      densityMaterial,
+      densityUnit,
+    }))
+  }, [densityGroup, densityMaterial, densityUnit, setDims])
 
   useEffect(() => {
     setQty(1)
@@ -162,6 +241,19 @@ export function CalculationsFormSection({
     setDims((prev: any) => ({ ...prev, [key]: normalizeNumericInput(value) }))
   }
 
+  const handleReset = () => {
+    setDims((prev: any) => {
+      const next = { ...prev }
+      ;['h', 'tf', 'tw', 't', 'r', 's', 'u'].forEach((k) => {
+        next[k] = ''
+      })
+      return next
+    })
+    setQty(1)
+    setQtyText('1')
+    setPrice(null)
+  }
+
   const fields = useMemo(
     () => (selectedCalc ? getFieldConfigForFormula(selectedCalc.formula, dims) : []),
     [dims, selectedCalc],
@@ -180,14 +272,15 @@ export function CalculationsFormSection({
       return
     }
 
-    const hasAnyInput =
-      fields.some((f) => {
+    const hasAllRequiredInputs = fields.length > 0 &&
+      fields.every((f) => {
         const raw = dims?.[f.key]
-        if (!raw) return false
-        return toNumber(raw) > 0
-      }) || (typeof price === 'number' && price > 0)
+        const normalized = normalizeNumericInput(raw)
+        if (!normalized) return false
+        return true
+      })
 
-    if (!hasAnyInput) {
+    if (!hasAllRequiredInputs) {
       setResults(null)
       return
     }
@@ -281,19 +374,13 @@ export function CalculationsFormSection({
         </View>
       )}
 
-      {!!previewImageUri && (
-        <View style={styles.calcPreviewContainer}>
-          <Image source={{ uri: previewImageUri }} style={styles.calcPreviewImage} resizeMode="contain" />
-        </View>
-      )}
-
-      <View style={styles.densityRow}>
-        <View collapsable={false} style={{ flex: 1, minWidth: 0 }}>
+      <View style={[styles.densityRow, { direction: 'ltr', flexDirection: 'row' }]}> 
+        <View collapsable={false} style={{ flex: 0.85, minWidth: 0 }}>
           <TouchableOpacity
             style={styles.densitySelect}
             onPress={() => densityGroupDropdownRef.current?.open?.()}
           >
-            <Text style={styles.densitySelectText} numberOfLines={1}>
+            <Text style={styles.densitySelectText} numberOfLines={1} ellipsizeMode="tail">
               {densityGroup}
             </Text>
           </TouchableOpacity>
@@ -357,26 +444,21 @@ export function CalculationsFormSection({
           </View>
         </View>
 
-        <View collapsable={false} style={{ flex: 1, minWidth: 0 }}>
+        <View collapsable={false} style={{ flex: 1.15, minWidth: 0 }}>
           <TouchableOpacity
             style={styles.densitySelect}
             onPress={() => densityMaterialDropdownRef.current?.open?.()}
           >
-            <Text style={styles.densitySelectText} numberOfLines={1}>
+            <Text style={styles.densitySelectText} numberOfLines={1} ellipsizeMode="tail">
               {densityMaterial}
+              {materialDensityInline ? ` ${materialDensityInline}` : ''}
             </Text>
           </TouchableOpacity>
 
           <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
             <Dropdown
               ref={densityMaterialDropdownRef}
-              data={selectedGroup.items.map((item) => ({
-                label: item.label,
-                value: item.label,
-                rightLabel: `${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${
-                  DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
-                }`,
-              }))}
+              data={materialOptions}
               labelField="label"
               valueField="value"
               value={densityMaterial}
@@ -398,12 +480,8 @@ export function CalculationsFormSection({
               showsVerticalScrollIndicator={false}
               activeColor="transparent"
               closeModalWhenSelectedItem
-              flatListProps={{
-                bounces: false,
-                overScrollMode: 'never',
-                showsVerticalScrollIndicator: false,
-                contentContainerStyle: { paddingVertical: 0 },
-              }}
+              autoScroll={false}
+              flatListProps={materialFlatListProps}
               onChange={(item: { label: string; value: string; rightLabel?: string }) => {
                 setDensityMaterial(item.value)
                 densityMaterialDropdownRef.current?.close?.()
@@ -413,7 +491,14 @@ export function CalculationsFormSection({
               renderItem={(item: { label: string; value: string; rightLabel?: string }) => {
                 const isSelected = item.value === densityMaterial
                 return (
-                  <View style={[styles.modalOption, styles.modalOptionCompact, isSelected ? styles.modalOptionActive : null]}>
+                  <View
+                    style={[
+                      styles.modalOption,
+                      styles.modalOptionCompact,
+                      { height: MATERIAL_ITEM_HEIGHT, marginBottom: 0, paddingVertical: 3 },
+                      isSelected ? styles.modalOptionActive : null,
+                    ]}
+                  >
                     <View style={[styles.modalOptionRow, styles.modalOptionRowCompact]}>
                       <Text
                         numberOfLines={1}
@@ -446,84 +531,67 @@ export function CalculationsFormSection({
           </View>
         </View>
 
-        <View collapsable={false}>
+        <View
+          ref={(node) => {
+            densityUnitAnchorRef.current = node
+          }}
+          collapsable={false}
+        >
           <TouchableOpacity
             style={styles.densitySelectUnit}
-            onPress={() => densityUnitDropdownRef.current?.open?.()}
+            onPress={() => {
+              const node = densityUnitAnchorRef.current ?? null
+              openPickerFromNode(node, {
+                showTitle: false,
+                title: undefined,
+                compact: true,
+                verticalOffset: -14,
+                options: DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value })),
+                value: densityUnit,
+                width: 120,
+                maxHeight: 220,
+                onSelect: (value: string) => {
+                  setDensityUnit(value)
+                  closePicker()
+                },
+              })
+            }}
           >
             <Text style={styles.densitySelectText} numberOfLines={1}>
               {DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || 'kg/m³'}
             </Text>
           </TouchableOpacity>
-
-          <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
-            <Dropdown
-              ref={densityUnitDropdownRef}
-              data={DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value }))}
-              labelField="label"
-              valueField="value"
-              value={densityUnit}
-              style={StyleSheet.absoluteFillObject}
-              dropdownPosition="bottom"
-              containerStyle={[
-                styles.dropdownContainer,
-                {
-                  width: 90,
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  borderWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-              placeholder=""
-              selectedTextStyle={styles.dropdownHiddenText}
-              itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
-              maxHeight={240}
-              showsVerticalScrollIndicator={false}
-              activeColor="transparent"
-              closeModalWhenSelectedItem
-              flatListProps={{
-                bounces: false,
-                overScrollMode: 'never',
-                showsVerticalScrollIndicator: false,
-                contentContainerStyle: { paddingVertical: 0 },
-              }}
-              onChange={(item: { label: string; value: string }) => {
-                setDensityUnit(item.value)
-                densityUnitDropdownRef.current?.close?.()
-              }}
-              renderLeftIcon={() => null}
-              renderRightIcon={() => null}
-              renderItem={(item: { label: string; value: string }) => {
-                const isSelected = item.value === densityUnit
-                return (
-                  <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
-                    <Text
-                      style={[
-                        styles.modalOptionText,
-                        { color: theme.colors.text },
-                        isSelected ? styles.modalOptionTextActive : null,
-                      ]}
-                    >
-                      {item.label}
-                    </Text>
-                  </View>
-                )
-              }}
-            />
-          </View>
         </View>
+
+        <TouchableOpacity
+          style={styles.densityResetButton}
+          onPress={handleReset}
+          activeOpacity={0.7}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        >
+          <Feather name="rotate-ccw" size={16} color={theme.colors.textSecondary} />
+        </TouchableOpacity>
       </View>
+
+      <View style={[styles.formTwoColRow, { direction: 'ltr' }]}> 
+        <View style={[styles.formLeftCol, language === 'ar' ? { direction: 'rtl' } : null]}>
 
       {fields.map((field) => (
         <View key={field.key} style={styles.inputRow}>
-          <Text style={[styles.inputLabel, { color: theme.colors.text }]}>{field.label}</Text>
           {shouldShowUnitForKey(field.key) ? (
             <View style={styles.inputWithUnit}>
+              <View style={styles.inputPrefix}>
+                <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+                  {field.label}
+                </Text>
+              </View>
               <TextInput
                 style={styles.inputFlex}
                 value={dims[field.key] || ''}
                 onChangeText={(text) => handleDimChange(field.key, text)}
                 keyboardType="numeric"
+                multiline={false}
+                numberOfLines={1}
                 placeholder={getLocalizedPlaceholder(field.title, language)}
                 placeholderTextColor={theme.colors.textSecondary}
                 selectionColor={theme.colors.secondary}
@@ -557,65 +625,86 @@ export function CalculationsFormSection({
               </View>
             </View>
           ) : (
-            <TextInput
-              style={styles.input}
-              value={dims[field.key] || ''}
-              onChangeText={(text) => handleDimChange(field.key, text)}
-              keyboardType="numeric"
-              placeholder={getLocalizedPlaceholder(field.title, language)}
-              placeholderTextColor={theme.colors.textSecondary}
-              selectionColor={theme.colors.secondary}
-            />
+            <View style={styles.inputWithPrefix}>
+              <View style={styles.inputPrefix}>
+                <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+                  {field.label}
+                </Text>
+              </View>
+              <TextInput
+                style={styles.inputFlexNoUnit}
+                value={dims[field.key] || ''}
+                onChangeText={(text) => handleDimChange(field.key, text)}
+                keyboardType="numeric"
+                multiline={false}
+                numberOfLines={1}
+                placeholder={getLocalizedPlaceholder(field.title, language)}
+                placeholderTextColor={theme.colors.textSecondary}
+                selectionColor={theme.colors.secondary}
+              />
+            </View>
           )}
         </View>
       ))}
 
       <View style={styles.inputRow}>
-        <Text style={[styles.inputLabel, { color: theme.colors.text }]}>{calcT.quantity}</Text>
-        <TextInput
-          style={styles.input}
-          value={qtyText}
-          onChangeText={(text) => {
-            const normalized = normalizeNumericInput(text)
-            const n = toNumber(normalized)
+        <View style={styles.inputWithPrefix}>
+          <View style={styles.inputPrefix}>
+            <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+              {calcT.quantity}
+            </Text>
+          </View>
+          <TextInput
+            style={styles.inputFlexNoUnit}
+            value={qtyText}
+            onChangeText={(text) => {
+              const normalized = normalizeNumericInput(text)
+              const n = toNumber(normalized)
 
-            setQtyText(normalized)
+              setQtyText(normalized)
 
-            if (!normalized) {
-              setQty(0)
-              return
-            }
+              if (!normalized) {
+                setQty(0)
+                return
+              }
 
-            if (!n || n <= 0) {
-              setQty(0)
-              return
-            }
+              if (!n || n <= 0) {
+                setQty(0)
+                return
+              }
 
-            setQty(Math.floor(n))
-          }}
-          onBlur={() => {
-            const n = toNumber(qtyText)
+              setQty(Math.floor(n))
+            }}
+            onBlur={() => {
+              const n = toNumber(qtyText)
 
-            if (!qtyText || !n || n <= 0) {
-              setQty(0)
-              setQtyText('')
-              return
-            }
+              if (!qtyText || !n || n <= 0) {
+                setQty(0)
+                setQtyText('')
+                return
+              }
 
-            const next = Math.floor(n)
-            setQty(next)
-            setQtyText(String(next))
-          }}
-          keyboardType="numeric"
-          placeholder="1"
-          placeholderTextColor={theme.colors.textSecondary}
-          selectionColor={theme.colors.secondary}
-        />
+              const next = Math.floor(n)
+              setQty(next)
+              setQtyText(String(next))
+            }}
+            keyboardType="numeric"
+            multiline={false}
+            numberOfLines={1}
+            placeholder="1"
+            placeholderTextColor={theme.colors.textSecondary}
+            selectionColor={theme.colors.secondary}
+          />
+        </View>
       </View>
 
       <View style={styles.inputRow}>
-        <Text style={[styles.inputLabel, { color: theme.colors.text }]}>{calcT.pricePerKg}</Text>
-        <View style={styles.priceInputWithCurrency}>
+        <View style={styles.priceInputWithPrefixCurrency}>
+          <View style={styles.inputPrefix}>
+            <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+              {calcT.pricePerKg}
+            </Text>
+          </View>
           <TextInput
             style={styles.priceInput}
             value={price ? String(price) : ''}
@@ -629,12 +718,31 @@ export function CalculationsFormSection({
               setPrice(n > 0 ? n : null)
             }}
             keyboardType="numeric"
+            multiline={false}
+            numberOfLines={1}
             placeholder={calcT.pricePerKg}
             placeholderTextColor={theme.colors.textSecondary}
             selectionColor={theme.colors.secondary}
           />
           <Text style={styles.priceInputCurrency}>{currencyCode}</Text>
         </View>
+      </View>
+
+        </View>
+
+        {!!previewImageSource && (
+          <View style={[styles.formRightCol, { width: previewColumnWidth }]}>
+            <View style={styles.calcPreviewContainer}>
+              <Image
+                source={previewImageSource as any}
+                style={styles.calcPreviewImage}
+                resizeMode="contain"
+                resizeMethod="resize"
+                fadeDuration={0}
+              />
+            </View>
+          </View>
+        )}
       </View>
 
     </View>

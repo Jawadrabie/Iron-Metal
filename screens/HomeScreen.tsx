@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Linking, Platform, StyleSheet, Text, View, useWindowDimensions } from "react-native"
+import { ActivityIndicator, KeyboardAvoidingView, Linking, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native"
 
@@ -18,7 +18,6 @@ import { CalculatorModal } from "../components/home/CalculatorModal"
 import { MoreMenuModal } from "../components/home/MoreMenuModal"
 import { NotificationsScreen } from "./NotificationsScreen"
 import ProfileScreen from "./ProfileScreen"
-import CalculationsScreen from "./CalculationsScreen"
 import type { HomeDeepLinkParams, RootStackParamList } from "../navigation"
 import type { FeaturedSectorRow } from "../lib/featured-sectors"
 import { registerForPushNotificationsAsync } from "../lib/notifications/registerPushToken"
@@ -29,11 +28,13 @@ const STRINGS = {
     catalogLoadFailed: "Failed to load catalog data. Please try again later.",
     underDevTitle: "Under development",
     underDevBody: "This feature is under development.",
+    ok: "OK",
   },
   ar: {
     catalogLoadFailed: "تعذر تحميل بيانات الكتالوج. جرّب لاحقاً.",
     underDevTitle: "قيد التطوير",
     underDevBody: "هذه الميزة قيد التطوير حالياً.",
+    ok: "موافق",
   },
 } as const
 
@@ -41,6 +42,7 @@ export function HomeScreen() {
   const theme = useTheme()
   const { language } = useLanguage("en")
   const t = STRINGS[language]
+  const isRTL = language === "ar"
   const navigation = useNavigation()
   const { data, loading, error } = useCatalogData()
   const route = useRoute<RouteProp<RootStackParamList, "Home">>()
@@ -88,6 +90,8 @@ export function HomeScreen() {
   const handleTabChangeRef = useRef(handleTabChange)
   const [calculatorVisible, setCalculatorVisible] = useState(false)
   const [tabBarHeight, setTabBarHeight] = useState(0)
+
+  const [infoDialog, setInfoDialog] = useState<{ title: string; message: string } | null>(null)
 
   const [pendingDeepLink, setPendingDeepLink] = useState<HomeDeepLinkParams | null>(null)
   const [appliedDeepLinkNonce, setAppliedDeepLinkNonce] = useState<string | null>(null)
@@ -294,20 +298,13 @@ export function HomeScreen() {
           </View>
 
           <View
-            style={[styles.tabPane, activeTab === "account" ? styles.tabPaneActive : styles.tabPaneHidden]}
+            style={[
+              styles.tabPane,
+              activeTab === "account" ? styles.tabPaneActive : styles.tabPaneHidden,
+            ]}
             pointerEvents={activeTab === "account" ? "auto" : "none"}
           >
             <ProfileScreen />
-          </View>
-
-          <View
-            style={[
-              styles.tabPane,
-              activeTab === "calculations" ? styles.tabPaneActive : styles.tabPaneHidden,
-            ]}
-            pointerEvents={activeTab === "calculations" ? "auto" : "none"}
-          >
-            <CalculationsScreen />
           </View>
         </View>
       </KeyboardAvoidingView>
@@ -327,10 +324,79 @@ export function HomeScreen() {
           } else if (key === "featured") {
             navigation.navigate("Featured" as never)
           } else {
-            Alert.alert(t.underDevTitle, t.underDevBody)
+            handleCloseMore()
+            setInfoDialog({ title: t.underDevTitle, message: t.underDevBody })
           }
         }}
       />
+
+      {infoDialog ? (
+        <View
+          pointerEvents="box-none"
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              zIndex: 1000,
+              elevation: 1000,
+              alignItems: "center",
+              justifyContent: "center",
+              paddingHorizontal: 24,
+            },
+          ]}
+        >
+          <TouchableWithoutFeedback onPress={() => setInfoDialog(null)}>
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                { backgroundColor: theme.isDark ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.25)" },
+              ]}
+            />
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback>
+            <View
+              style={[
+                styles.infoDialogCard,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.infoDialogTitle,
+                  {
+                    color: theme.colors.text,
+                    writingDirection: isRTL ? "rtl" : "ltr",
+                    textAlign: isRTL ? "right" : "left",
+                  },
+                ]}
+              >
+                {infoDialog.title}
+              </Text>
+              <Text
+                style={[
+                  styles.infoDialogMessage,
+                  {
+                    color: theme.colors.textSecondary,
+                    writingDirection: isRTL ? "rtl" : "ltr",
+                    textAlign: isRTL ? "right" : "left",
+                  },
+                ]}
+              >
+                {infoDialog.message}
+              </Text>
+
+              <View style={styles.infoDialogActions}>
+                <TouchableOpacity activeOpacity={0.85} onPress={() => setInfoDialog(null)}>
+                  <Text style={[styles.infoDialogActionText, { color: theme.colors.secondary }]}>{t.ok}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      ) : null}
 
       <CalculatorModal
         key={calculatorInstanceKey}
@@ -353,6 +419,7 @@ export function HomeScreen() {
       <BottomTabNavigator
         activeTab={displayTab}
         onTabChange={handleTabChange}
+        onOpenCalculations={() => navigation.navigate("EngineeringCalculations" as never)}
         notificationCount={unreadCount}
         visitorCount={stats.count}
         onTabBarLayout={setTabBarHeight}
@@ -415,5 +482,37 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     lineHeight: 24,
+  },
+  infoDialogCard: {
+    width: "100%",
+    maxWidth: 420,
+    borderRadius: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
+    borderWidth: 1,
+    shadowColor: "#000",
+    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 10 },
+    shadowRadius: 20,
+    elevation: 14,
+  },
+  infoDialogTitle: {
+    fontSize: 17,
+    fontWeight: "800",
+    marginBottom: 8,
+  },
+  infoDialogMessage: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  infoDialogActions: {
+    marginTop: 14,
+    alignItems: "flex-end",
+  },
+  infoDialogActionText: {
+    fontSize: 14,
+    fontWeight: "800",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
   },
 })

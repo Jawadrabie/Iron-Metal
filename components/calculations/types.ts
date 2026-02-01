@@ -14,6 +14,8 @@ export type PickerState =
       title?: string
       showTitle?: boolean
       compact?: boolean
+      align?: "center" | "left" | "right"
+      verticalOffset?: number
       options: PickerOption[]
       value: string
       onSelect: (value: string) => void

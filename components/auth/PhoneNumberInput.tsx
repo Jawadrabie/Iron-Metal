@@ -233,7 +233,7 @@ export const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({
           maxLength={MAX_COUNTRY_CODE_LENGTH}
           textAlignVertical="center"
           allowFontScaling={false}
-          multiline={Platform.OS === "android"}
+          multiline={false}
           numberOfLines={1}
           scrollEnabled={false}
         />
@@ -292,7 +292,8 @@ const styles = StyleSheet.create({
 
   leftWrapper: {
     position: "relative",
-    minWidth: 90,
+    flexShrink: 0,
+    minWidth: 95,
     paddingHorizontal: 10,
     height: 44,
     borderRadius: 8,

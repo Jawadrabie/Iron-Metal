@@ -18,6 +18,7 @@ type TabDefinition = {
 type BottomTabNavigatorProps = {
   activeTab: TabKey
   onTabChange: (tab: TabKey) => void
+  onOpenCalculations?: () => void
   notificationCount?: number
   visitorCount?: number
   notificationPulse?: number
@@ -39,13 +40,14 @@ const TAB_DEFINITIONS: TabDefinition[] = [
 const CALC_TAB: TabDefinition = {
   key: "calculations",
   label: "الحاسبات",
-  inactiveIcon: "calculator-outline",
-  activeIcon: "calculator",
+  inactiveIcon: "construct-outline",
+  activeIcon: "construct",
 }
 
 export const BottomTabNavigator = memo(function BottomTabNavigator({
   activeTab,
   onTabChange,
+  onOpenCalculations,
   notificationCount = 0,
   visitorCount = 0,
   onTabBarLayout,
@@ -93,15 +95,11 @@ export const BottomTabNavigator = memo(function BottomTabNavigator({
           activeOpacity={0.9}
           style={[
             styles.calcButton,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-            activeTab === "calculations" ? styles.calcButtonActive : null,
+            { backgroundColor: theme.colors.background },
           ]}
           accessibilityRole="button"
           accessibilityLabel={CALC_TAB.label}
-          onPress={() => onTabChange("calculations")}
+          onPress={() => (onOpenCalculations ? onOpenCalculations() : onTabChange("calculations"))}
         >
           <View style={styles.pill}>
             {(() => {
@@ -241,14 +239,10 @@ const styles = StyleSheet.create({
     width: 62,
     height: 56,
     borderRadius: 28,
-    borderWidth: 2,
+    borderWidth: 0,
     marginRight: 10,
     alignItems: "center",
     justifyContent: "center",
-  },
-  calcButtonActive: {
-    borderColor: "rgba(240,140,33,0.40)",
-    backgroundColor: "rgba(240,140,33,0.08)",
   },
   tabButton: {
     flex: 1,
