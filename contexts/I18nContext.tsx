@@ -13,6 +13,7 @@ import { profileTexts } from "../locales/profile"
 import { privacyPolicyTexts } from "../locales/privacyPolicy"
 import { featuredSectorsTexts } from "../locales/featuredSectors"
 import { calculatorTexts } from "../locales/calculator";
+import { supportTexts } from "../locales/support"
 import { commonTexts } from "../locales/common"
 import {
   getStoredLanguage,
@@ -26,6 +27,7 @@ export type AppTexts = {
   privacyPolicy: (typeof privacyPolicyTexts)["en"]
   featuredSectors: (typeof featuredSectorsTexts)["en"],
   calculator: (typeof calculatorTexts)["en"]
+  support: (typeof supportTexts)["en"]
   common: (typeof commonTexts)["en"]
 }
 
@@ -82,6 +84,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       privacyPolicy: privacyPolicyTexts[language],
       featuredSectors: featuredSectorsTexts[language],
       calculator: calculatorTexts[language],
+      support: supportTexts[language],
       common: commonTexts[language],
     }
   }, [language])

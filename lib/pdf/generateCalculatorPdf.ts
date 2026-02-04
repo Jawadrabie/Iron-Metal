@@ -38,7 +38,17 @@ const BASE_SITE_URL =
   "https://iron-metal.net"
 
 function sanitizePdfText(text: string): string {
-  return text.replace(/[\u0000-\u001F]/g, " ")
+  return String(text || "")
+    .replace(/²/g, "2")
+    .replace(/³/g, "3")
+    .replace(/⁴/g, "4")
+    .replace(/[\u0000-\u0008\u000B-\u001F]/g, " ")
+}
+
+function truncate(text: string, max: number): string {
+  const s = sanitizePdfText(text)
+  if (s.length <= max) return s
+  return s.slice(0, Math.max(0, max - 1)) + "…"
 }
 
 function buildQrModules(value: string): boolean[][] | null {
@@ -260,17 +270,16 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
   const page = pdfDoc.addPage([595.28, 841.89])
   const { width, height } = page.getSize()
 
-  const marginX = 50
-  let y = height - 32 - 34
+  const margin = 32
+  const marginX = margin
+  let y = height - margin - 34
 
   const purple = rgb(43 / 255, 31 / 255, 93 / 255)
-  const orange = rgb(240 / 255, 140 / 255, 33 / 255)
   const gray = rgb(0.25, 0.25, 0.25)
 
   const companyName = data.companyName ?? "Iron & Metal"
   const companyExtra = data.companyExtra ?? ""
-  const orderTitle = data.orderTitle || "THE ORDER"
-  const orderDateLabel = data.orderDateLabel || "The order Date"
+  const orderTitle = "Data Sheet | Cross-Section Properties"
   const orderDateValue = data.orderDateValue || formatDateEn(new Date())
 
   let headerLogo: any = null
@@ -307,62 +316,42 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     font: boldFont,
     color: purple,
   })
-  y -= 18
+
+  // Header: date (right)
+  const headerDateText = sanitizePdfText(orderDateValue)
+  const headerDateSize = 11
+  const headerDateWidth = boldFont.widthOfTextAtSize(headerDateText, headerDateSize)
+  page.drawText(headerDateText, {
+    x: width - marginX - headerDateWidth,
+    y: y + (16 - headerDateSize) / 2,
+    size: headerDateSize,
+    font: boldFont,
+    color: rgb(0.35, 0.35, 0.35),
+  })
+
+  const companyExtraY = y - 18
   if (companyExtra.trim().length > 0) {
     page.drawText(companyExtra, {
       x: companyNameX,
-      y,
+      y: companyExtraY,
       size: 10,
       font,
       color: gray,
     })
   }
 
-  // Header: order date (right)
-  const dateLabelSize = 9
-  const dateValueSize = 11
-  const dateLabelWidth = font.widthOfTextAtSize(orderDateLabel, dateLabelSize)
-  const dateValueWidth = boldFont.widthOfTextAtSize(orderDateValue, dateValueSize)
-  const rightX = width - marginX - Math.max(dateLabelWidth, dateValueWidth)
+  y = height - margin - 34 - 48
 
-  const dateTopY = height - 32 - 34
-  page.drawText(orderDateLabel, {
-    x: rightX,
-    y: dateTopY,
-    size: dateLabelSize,
+  const titleText = sanitizePdfText(orderTitle)
+  page.drawText(titleText, {
+    x: marginX,
+    y,
+    size: 12,
     font,
-    color: gray,
-  })
-  page.drawText(orderDateValue, {
-    x: rightX,
-    y: dateTopY - 14,
-    size: dateValueSize,
-    font: boldFont,
-    color: gray,
+    color: rgb(0.1, 0.1, 0.1),
   })
 
-  // THE ORDER badge
-  const badgeWidth = 140
-  const badgeHeight = 32
-  const badgeX = width - marginX - badgeWidth
-  const badgeY = dateTopY - 50
-
-  page.drawRectangle({
-    x: badgeX,
-    y: badgeY,
-    width: badgeWidth,
-    height: badgeHeight,
-    color: purple,
-  })
-
-  const titleWidth = boldFont.widthOfTextAtSize(orderTitle, 14)
-  page.drawText(orderTitle, {
-    x: badgeX + (badgeWidth - titleWidth) / 2,
-    y: badgeY + 9,
-    size: 14,
-    font: boldFont,
-    color: rgb(1, 1, 1),
-  })
+  y -= 16
 
   const embedSectorImageIfAvailable = async (startY: number): Promise<number> => {
     const path = data.sectorBigImg
@@ -394,19 +383,37 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
         }
       } else {
         // ثانياً: مسار أيقونة منطقي مثل /icons/b-hp1.svg -> نستخدم خريطة الأصول المحلية
-        const moduleId = getLocalAssetModuleId(path)
-        if (!moduleId) return startY
+        const normalized = String(path)
+        const candidates: string[] = []
+        if (normalized.includes("/icons/")) {
+          candidates.push(normalized.replace("/icons/", "/icons/pdf-"))
+        }
+        candidates.push(normalized)
 
-        image = await embedImageFromAsset(pdfDoc, moduleId)
+        for (const candidate of candidates) {
+          const moduleId = getLocalAssetModuleId(candidate)
+          if (!moduleId) continue
+          image = await embedImageFromAsset(pdfDoc, moduleId)
+          if (image) break
+        }
       }
 
       if (!image) return startY
 
-      const imgWidth = 140
-      const scale = imgWidth / image.width
-      const imgHeight = image.height * scale
+      const maxWidth = Math.max(0, width - marginX * 2)
+      const targetWidth = Math.min(140, maxWidth)
+      const scaleByWidth = targetWidth / image.width
+      let imgWidth = targetWidth
+      let imgHeight = image.height * scaleByWidth
 
-      const x = marginX
+      const maxHeight = 160
+      if (imgHeight > maxHeight) {
+        const scaleByHeight = maxHeight / image.height
+        imgHeight = maxHeight
+        imgWidth = image.width * scaleByHeight
+      }
+
+      const x = (width - imgWidth) / 2
       const yImg = startY - imgHeight
 
       page.drawImage(image, {
@@ -416,205 +423,156 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
         height: imgHeight,
       })
 
-      return yImg - 24
+      return yImg - 10
     } catch (error) {
       console.warn("[calculator-pdf] failed to embed sector image", error)
       return startY
     }
   }
 
-  y = await embedSectorImageIfAvailable(badgeY - 40)
+  y = await embedSectorImageIfAvailable(y)
 
-  // Summary card
-  const cardX = marginX
-  const cardWidth = width - marginX * 2
-  const summaryHeaderHeight = 24
-  const rowHeight = 18
-
-  const summaryHeaderY = y - summaryHeaderHeight
-
-  // Summary header background
-  page.drawRectangle({
-    x: cardX,
-    y: summaryHeaderY,
-    width: cardWidth,
-    height: summaryHeaderHeight,
-    color: orange,
-  })
-
-  page.drawText("Summary", {
-    x: cardX + 12,
-    y: summaryHeaderY + 7,
-    size: 12,
-    font: boldFont,
-    color: rgb(1, 1, 1),
-  })
+  type ContentRow =
+    | { type: "section"; label: string }
+    | { type: "row"; label: string; value: string }
 
   const shouldShowActualLinearWeight =
     typeof data.actualLinearWeightKgPerM === "number" &&
     Number.isFinite(data.actualLinearWeightKgPerM) &&
     Math.abs(data.actualLinearWeightKgPerM - data.linearWeightKgPerM) > 1e-9
 
-  const leftCol = [
-    { label: "Linear Weight", value: `${safeNum(data.linearWeightKgPerM)} kg/m` },
+  const description =
+    data.lengthMeters && data.linearWeightKgPerM
+      ? `Linear Item — ${safeNum(data.lengthMeters)} m, ${safeNum(data.linearWeightKgPerM)} kg/m`
+      : "Linear Item"
+
+  const currencySuffix = data.currencyCode ? ` ${sanitizePdfText(data.currencyCode)}` : ""
+
+  const rows: ContentRow[] = [
+    { type: "section", label: "Item" },
+    { type: "row", label: "Description", value: description },
+    { type: "row", label: "Length", value: `${safeNum(data.lengthMeters)} m` },
+    { type: "row", label: "Required", value: safeNum(data.required, 0) },
+    { type: "row", label: "Unit", value: "pcs" },
+    { type: "section", label: "Weights" },
+    { type: "row", label: "Linear Weight", value: `${safeNum(data.linearWeightKgPerM)} kg/m` },
     ...(shouldShowActualLinearWeight
-      ? [{ label: "Actual Linear Weight", value: `${safeNum(data.actualLinearWeightKgPerM)} kg/m` }]
+      ? [{ type: "row" as const, label: "Actual Linear Weight", value: `${safeNum(data.actualLinearWeightKgPerM)} kg/m` }]
       : []),
-    { label: "Unit Weight", value: `${safeNum(data.unitWeightKg)} kg` },
-    { label: "Total Weight", value: `${safeNum(data.totalWeightKg)} kg` },
+    { type: "row", label: "Unit Weight", value: `${safeNum(data.unitWeightKg)} kg` },
+    { type: "row", label: "Total Weight", value: `${safeNum(data.totalWeightKg)} kg` },
+    { type: "section", label: "Pricing" },
+    { type: "row", label: "Unit Price", value: `${safeNum(data.unitPricePerPiece)}${currencySuffix}` },
+    { type: "row", label: "Total Price", value: `${safeNum(data.totalPrice)}${currencySuffix}` },
   ]
 
-  const rightCol = [
-    { label: "Length", value: `${safeNum(data.lengthMeters)} m` },
-    { label: "Required", value: safeNum(data.required, 0) },
-    { label: "Total", value: safeNum(data.totalPrice) },
-  ]
+  const tableWidth = width - marginX * 2
+  const col1Width = tableWidth * 0.5
 
-  const rowsCount = Math.max(leftCol.length, rightCol.length)
-  const summaryBodyHeight = Math.max(76, (rowsCount - 1) * rowHeight + 40)
+  const headerHeight = 18
+  const sectionHeight = 16
+  const rowHeight = 14
 
-  const summaryBodyY = summaryHeaderY - summaryBodyHeight
-  page.drawRectangle({
-    x: cardX,
-    y: summaryBodyY,
-    width: cardWidth,
-    height: summaryBodyHeight,
-    color: rgb(1, 1, 1),
-  })
-  const colWidth = cardWidth / 2
+  const drawTableHeader = (yTop: number) => {
+    page.drawRectangle({
+      x: marginX,
+      y: yTop - headerHeight,
+      width: tableWidth,
+      height: headerHeight,
+      color: rgb(0.94, 0.94, 0.94),
+    })
 
-  for (let i = 0; i < rowsCount; i += 1) {
-    const rowY = summaryBodyY + summaryBodyHeight - 16 - i * rowHeight
-    const l = leftCol[i]
-    const r = rightCol[i]
+    const headerY = yTop - headerHeight / 2 - 4
 
-    if (l) {
-      page.drawText(l.label, {
-        x: cardX + 8,
-        y: rowY,
-        size: 9,
-        font,
-        color: rgb(0.45, 0.45, 0.45),
-      })
-      const leftValueWidth = boldFont.widthOfTextAtSize(l.value, 9)
-      page.drawText(l.value, {
-        x: cardX + colWidth - 8 - leftValueWidth,
-        y: rowY,
-        size: 9,
-        font: boldFont,
-        color: gray,
-      })
-    }
+    page.drawText("Property", {
+      x: marginX + 4,
+      y: headerY,
+      size: 10,
+      font,
+      color: rgb(0.2, 0.2, 0.2),
+    })
 
-    if (r) {
-      page.drawText(r.label, {
-        x: cardX + colWidth + 8,
-        y: rowY,
-        size: 9,
-        font,
-        color: rgb(0.45, 0.45, 0.45),
-      })
-      const rightValueWidth = boldFont.widthOfTextAtSize(r.value, 9)
-      page.drawText(r.value, {
-        x: cardX + cardWidth - 8 - rightValueWidth,
-        y: rowY,
-        size: 9,
-        font: boldFont,
-        color: gray,
-      })
-    }
+    page.drawText("Value", {
+      x: marginX + col1Width + 4,
+      y: headerY,
+      size: 10,
+      font,
+      color: rgb(0.2, 0.2, 0.2),
+    })
+
+    return yTop - headerHeight - 4
   }
 
-  // Move below summary card
-  y = summaryBodyY - 40
+  y = drawTableHeader(y)
 
-  // Items table header
-  const tableX = cardX
-  const tableWidth = cardWidth
-  const headerRowHeight = 22
+  let zebra = 0
+  let lastRowType: "section" | "row" | null = null
 
-  const headers = ["#", "Description", "Qty", "Unit", "Weight (kg)"]
-  const colWidths = [24, tableWidth - (24 + 40 + 40 + 70), 40, 40, 70]
+  for (const r of rows) {
+    const minY = margin + 90
+    const sectionGap = r.type === "section" && lastRowType === "row" ? 6 : 0
+    const requiredHeight = (r.type === "section" ? sectionHeight : rowHeight) + sectionGap
+    if (y - requiredHeight < minY) break
 
-  let colX = tableX
-  headers.forEach((header, index) => {
-    const bg = index === 1 ? orange : purple
-    page.drawRectangle({
-      x: colX,
-      y: y - headerRowHeight,
-      width: colWidths[index],
-      height: headerRowHeight,
-      color: bg,
-    })
-    const textWidth = boldFont.widthOfTextAtSize(header, 9)
-    page.drawText(header, {
-      x: colX + (colWidths[index] - textWidth) / 2,
-      y: y - headerRowHeight + 7,
-      size: 9,
-      font: boldFont,
-      color: rgb(1, 1, 1),
-    })
-    colX += colWidths[index]
-  })
+    if (r.type === "section") {
+      if (sectionGap) y -= sectionGap
+      const label = truncate(r.label, 60)
 
-  // Single row of data
-  const dataRowY = y - headerRowHeight - 18
+      page.drawRectangle({
+        x: marginX,
+        y: y - sectionHeight + 2,
+        width: tableWidth,
+        height: sectionHeight,
+        color: rgb(0.92, 0.92, 0.92),
+      })
 
-  colX = tableX
+      page.drawText(label, {
+        x: marginX + 4,
+        y: y - sectionHeight / 2 - 4,
+        size: 10,
+        font: boldFont,
+        color: rgb(0.2, 0.2, 0.2),
+      })
 
-  const description = data.lengthMeters && data.linearWeightKgPerM
-    ? `Linear Item — ${safeNum(data.lengthMeters)} m, ${safeNum(data.linearWeightKgPerM)} kg/m`
-    : "Linear Item"
+      y -= sectionHeight
+      zebra = 0
+      lastRowType = "section"
+      continue
+    }
 
-  const rowValues = [
-    "1",
-    description,
-    safeNum(data.required, 0),
-    "pcs",
-    safeNum(data.unitWeightKg),
-  ]
+    const label = truncate(r.label, 48)
+    const value = truncate(r.value, 48)
 
-  rowValues.forEach((value, index) => {
-    const widthForCol = colWidths[index]
-    page.drawText(value, {
-      x: colX + 6,
-      y: dataRowY,
+    if (zebra % 2 === 0) {
+      page.drawRectangle({
+        x: marginX,
+        y: y - rowHeight + 2,
+        width: tableWidth,
+        height: rowHeight,
+        color: rgb(0.98, 0.98, 0.98),
+      })
+    }
+
+    page.drawText(label, {
+      x: marginX + 4,
+      y: y - rowHeight / 2 - 4,
       size: 9,
       font,
-      color: gray,
+      color: rgb(0.35, 0.35, 0.35),
     })
-    page.drawRectangle({
-      x: colX,
-      y: dataRowY - 4,
-      width: widthForCol,
-      height: 0.5,
-      color: rgb(0.85, 0.85, 0.85),
+
+    page.drawText(value, {
+      x: marginX + col1Width + 4,
+      y: y - rowHeight / 2 - 4,
+      size: 9,
+      font,
+      color: rgb(0.1, 0.1, 0.1),
     })
-    colX += widthForCol
-  })
 
-  // Totals row
-  const totalLabel = "Total Weight (kg):"
-  const totalLabelSize = 10
-  const totalLabelY = dataRowY - 40
-
-  page.drawText(totalLabel, {
-    x: cardX,
-    y: totalLabelY,
-    size: totalLabelSize,
-    font,
-    color: gray,
-  })
-
-  const totalValueText = safeNum(data.totalWeightKg)
-  const totalValueWidth = boldFont.widthOfTextAtSize(totalValueText, totalLabelSize)
-  page.drawText(totalValueText, {
-    x: cardX + 150,
-    y: totalLabelY,
-    size: totalLabelSize,
-    font: boldFont,
-    color: gray,
-  })
+    y -= rowHeight
+    zebra += 1
+    lastRowType = "row"
+  }
 
   try {
     const footerPrefixRaw = "Free platform for all steel sections \u0013 weight, price, and specifications \u0013 "

@@ -417,6 +417,9 @@ export function CalculatorPanel({
   }, [currentVariant])
 
   const sectorImagePath = useMemo(() => {
+    const infoPath = currentVariant?.info ?? null
+    if (infoPath) return infoPath
+
     let path = currentVariant?.bigImg ?? null
 
     // استخدام نسخ PNG مخصصة للـ PDF فقط لهذه القطاعات كما في المنطق السابق
@@ -588,6 +591,19 @@ export function CalculatorPanel({
     try {
       let sectorImageForPdf: string | null = sectorImagePath
 
+      const moduleIdForPdf = getLocalAssetModuleId(sectorImagePath)
+      if (moduleIdForPdf) {
+        const asset = Asset.fromModule(moduleIdForPdf)
+        try {
+          if (!asset.localUri && asset.downloadAsync) {
+            await asset.downloadAsync()
+          }
+        } catch {
+          // ignore
+        }
+        sectorImageForPdf = asset.localUri ?? sectorImageForPdf
+      }
+
       if (Platform.OS === "ios") {
         const moduleId = getLocalAssetModuleId(sectorImagePath)
         if (moduleId) {
@@ -603,14 +619,16 @@ export function CalculatorPanel({
         }
       }
 
-      console.warn("[calculator] pdf sector image", {
-        platform: Platform.OS,
-        sectorImagePath,
-        sectorImagePreviewUri,
-        sectorImageForPdf,
-      })
+      if (__DEV__) {
+        console.log("[calculator] pdf sector image", {
+          platform: Platform.OS,
+          sectorImagePath,
+          sectorImagePreviewUri,
+          sectorImageForPdf,
+        })
+      }
 
-      if (Platform.OS === "android" && sectorImageCaptureRef.current && sectorImagePreviewUri) {
+      if (Platform.OS === "android" && !moduleIdForPdf && sectorImageCaptureRef.current && sectorImagePreviewUri) {
         try {
           const capturedUri = await captureRef(sectorImageCaptureRef.current, {
             format: "png",

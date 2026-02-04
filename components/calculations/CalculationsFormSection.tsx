@@ -8,7 +8,7 @@ import { normalizeNumericInput, toNumber } from './numeric'
 import { getFieldConfigForFormula } from './fieldConfig'
 import { calculateResultsEngine } from './calcEngine'
 import { useI18n } from '../../contexts/I18nContext'
-import { getLocalAssetModuleId, prefetchLocalAssets, resolveLocalAssetUri } from '../../lib/localAssets'
+import { getLocalAssetModuleId, resolveLocalAssetUri } from '../../lib/localAssets'
 
 function getLocalizedPlaceholder(title: string, language: string) {
   const raw = String(title || '').trim()
@@ -76,26 +76,72 @@ export function CalculationsFormSection({
     return selectedCalc?.svgImg ?? selectedCalc?.symbol ?? null
   }, [selectedCalc?.svgImg, selectedCalc?.symbol])
 
-  const [previewAssetVersion, setPreviewAssetVersion] = useState(0)
-
-  useEffect(() => {
-    if (!previewImagePath) return
-    prefetchLocalAssets([previewImagePath])
-      .then(() => {
-        setPreviewAssetVersion((v) => v + 1)
-      })
-      .catch(() => undefined)
-  }, [previewImagePath])
-
   const previewImageSource = useMemo(() => {
     if (!previewImagePath) return null
+
+    const moduleId = getLocalAssetModuleId(previewImagePath)
+    if (moduleId) return moduleId
 
     const uri = resolveLocalAssetUri(previewImagePath)
     if (uri) return { uri }
 
-    const moduleId = getLocalAssetModuleId(previewImagePath)
-    return moduleId ? moduleId : null
-  }, [previewImagePath, previewAssetVersion])
+    return null
+  }, [previewImagePath])
+
+  const getImageSourceKey = (source: any) => {
+    if (!source) return ''
+    if (typeof source === 'number') return `m:${source}`
+    if (typeof source === 'object' && typeof source?.uri === 'string') return `u:${source.uri}`
+    return ''
+  }
+
+  const initialPreviewKey = getImageSourceKey(previewImageSource)
+  const displayedPreviewKeyRef = useRef<string>(initialPreviewKey)
+  const [displayedPreviewSource, setDisplayedPreviewSource] = useState<any>(() => previewImageSource)
+  const [pendingPreviewSource, setPendingPreviewSource] = useState<any>(null)
+  const [pendingPreviewKey, setPendingPreviewKey] = useState<string>('')
+  const [pendingPreviewLoaded, setPendingPreviewLoaded] = useState(false)
+
+  useEffect(() => {
+    if (!previewImageSource) {
+      displayedPreviewKeyRef.current = ''
+      setDisplayedPreviewSource(null)
+      setPendingPreviewSource(null)
+      setPendingPreviewKey('')
+      setPendingPreviewLoaded(false)
+      return
+    }
+
+    const nextKey = getImageSourceKey(previewImageSource)
+    if (!nextKey) return
+
+    if (!displayedPreviewKeyRef.current) {
+      displayedPreviewKeyRef.current = nextKey
+      setDisplayedPreviewSource(previewImageSource)
+      return
+    }
+
+    if (nextKey === displayedPreviewKeyRef.current) return
+
+    setPendingPreviewLoaded(false)
+    setPendingPreviewKey(nextKey)
+    setPendingPreviewSource(previewImageSource)
+  }, [previewImageSource])
+
+  useEffect(() => {
+    if (!pendingPreviewSource || !pendingPreviewLoaded) return
+
+    displayedPreviewKeyRef.current = pendingPreviewKey
+    setDisplayedPreviewSource(pendingPreviewSource)
+
+    const t = setTimeout(() => {
+      setPendingPreviewSource(null)
+      setPendingPreviewKey('')
+      setPendingPreviewLoaded(false)
+    }, 0)
+
+    return () => clearTimeout(t)
+  }, [pendingPreviewLoaded, pendingPreviewKey, pendingPreviewSource])
 
   const previewColumnWidth = useMemo(() => {
     const raw = Math.round(screenWidth * 0.32)
@@ -730,16 +776,33 @@ export function CalculationsFormSection({
 
         </View>
 
-        {!!previewImageSource && (
+        {(!!displayedPreviewSource || !!pendingPreviewSource) && (
           <View style={[styles.formRightCol, { width: previewColumnWidth }]}>
             <View style={styles.calcPreviewContainer}>
-              <Image
-                source={previewImageSource as any}
-                style={styles.calcPreviewImage}
-                resizeMode="contain"
-                resizeMethod="resize"
-                fadeDuration={0}
-              />
+              {!!displayedPreviewSource && (
+                <Image
+                  source={displayedPreviewSource as any}
+                  style={[styles.calcPreviewImage, StyleSheet.absoluteFillObject]}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                  fadeDuration={0}
+                />
+              )}
+              {!!pendingPreviewSource && (
+                <Image
+                  source={pendingPreviewSource as any}
+                  style={[
+                    styles.calcPreviewImage,
+                    StyleSheet.absoluteFillObject,
+                    { opacity: pendingPreviewLoaded ? 1 : 0 },
+                  ]}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                  fadeDuration={0}
+                  onLoadEnd={() => setPendingPreviewLoaded(true)}
+                  onError={() => setPendingPreviewLoaded(true)}
+                />
+              )}
             </View>
           </View>
         )}

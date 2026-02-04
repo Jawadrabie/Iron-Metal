@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Alert } from "react-native"
+import { Alert, Platform } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import * as FileSystem from "expo-file-system/legacy"
 import { decode } from "base64-arraybuffer"
@@ -227,6 +227,7 @@ export function useProfileScreen() {
         allowsEditing: true,
         aspect: [1, 1],
         quality: 0.8,
+        ...(Platform.OS === "android" ? { legacy: true } : null),
       })
 
       if (result.canceled || !result.assets || result.assets.length === 0) return

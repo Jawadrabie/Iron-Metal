@@ -3,10 +3,10 @@ export type CommonLocale = {
     themeLight: string
     themeDark: string
     install: string
-    shortcuts: string
+    myAds: string
     settings: string
     account: string
-    archive: string
+    suggestions: string
     featured: string
     localLink: string
     support: string
@@ -19,13 +19,13 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
       themeLight: "Theme: Light",
       themeDark: "Theme: Dark",
       install: "Install",
-      shortcuts: "Shortcuts",
+      myAds: "My Ads",
       settings: "Settings",
       account: "Account",
-      archive: "Archive",
+      suggestions: "Suggestion",
       featured: "Featured",
-      localLink: "localLink",
-      support: "support",
+      localLink: "Website",
+      support: "Support",
     },
   },
   ar: {
@@ -33,12 +33,12 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
       themeLight: "المظهر: فاتح",
       themeDark: "المظهر: داكن",
       install: "تثبيت",
-      shortcuts: "الاختصارات",
+      myAds: "إعلاناتي",
       settings: "الإعدادات",
       account: "الحساب",
-      archive: "الأرشيف",
+      suggestions: "اقتراحاتك",
       featured: "المميز",
-      localLink: "رابط محلي",
+      localLink: "موقعنا",
       support: "الدعم",
     },
   },

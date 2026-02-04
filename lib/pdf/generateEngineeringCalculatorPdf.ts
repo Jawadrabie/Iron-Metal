@@ -42,6 +42,13 @@ function truncate(text: string, max: number): string {
   return s.slice(0, Math.max(0, max - 1)) + "…"
 }
 
+function formatDateEn(date: Date): string {
+  const d = date.getDate().toString().padStart(2, "0")
+  const m = (date.getMonth() + 1).toString().padStart(2, "0")
+  const y = date.getFullYear().toString()
+  return `${d}/${m}/${y}`
+}
+
 function normalizeToFileUri(value: string): string {
   if (value.startsWith("file:")) return value
   if (value.startsWith("/")) return `file://${value}`
@@ -301,6 +308,17 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
     size: headerSize,
     font: fontBold,
     color: rgb(0.1, 0.1, 0.1),
+  })
+
+  const headerDateText = formatDateEn(new Date())
+  const headerDateSize = 11
+  const headerDateWidth = fontBold.widthOfTextAtSize(headerDateText, headerDateSize)
+  page.drawText(headerDateText, {
+    x: width - MARGIN - headerDateWidth,
+    y: y + 10 + (headerSize - headerDateSize) / 2,
+    size: headerDateSize,
+    font: fontBold,
+    color: rgb(0.35, 0.35, 0.35),
   })
 
   y -= 34

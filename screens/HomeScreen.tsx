@@ -321,8 +321,17 @@ export function HomeScreen() {
             handleCloseMore()
           } else if (key === "account") {
             handleTabChange("account")
+          } else if (key === "suggestions") {
+            handleCloseMore()
+            navigation.navigate("Suggestions" as never)
           } else if (key === "featured") {
             navigation.navigate("Featured" as never)
+          } else if (key === "localLink") {
+            handleCloseMore()
+            Linking.openURL("https://iron-metal.net/").catch(() => null)
+          } else if (key === "support") {
+            handleCloseMore()
+            navigation.navigate("Support" as never)
           } else {
             handleCloseMore()
             setInfoDialog({ title: t.underDevTitle, message: t.underDevBody })

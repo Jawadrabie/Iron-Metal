@@ -188,6 +188,14 @@ function sanitizePdfText(text: string): string {
     .replace(/[\u0000-\u0008\u000B-\u001F]/g, " ")
 }
 
+// نستخدم تنسيق تاريخ ثابت بأرقام إنجليزية فقط لتجنب مشاكل ترميز WinAnsi في pdf-lib
+function formatDateEn(date: Date): string {
+  const d = date.getDate().toString().padStart(2, "0")
+  const m = (date.getMonth() + 1).toString().padStart(2, "0")
+  const y = date.getFullYear().toString()
+  return `${d}/${m}/${y}`
+}
+
 async function loadImageBytesFromUri(uri: string): Promise<Uint8Array | null> {
   try {
     if (uri.startsWith("http:") || uri.startsWith("https:")) {
@@ -471,6 +479,17 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
       size: headerSize,
       font: fontBold,
       color: rgb(0.1, 0.1, 0.1),
+    })
+
+    const headerDateText = formatDateEn(new Date())
+    const headerDateSize = 11
+    const headerDateWidth = fontBold.widthOfTextAtSize(headerDateText, headerDateSize)
+    page.drawText(headerDateText, {
+      x: width - MARGIN - headerDateWidth,
+      y: y + (headerSize - headerDateSize) / 2,
+      size: headerDateSize,
+      font: fontBold,
+      color: rgb(0.35, 0.35, 0.35),
     })
 
     // عنوان القطاع ومعلوماته على اليسار

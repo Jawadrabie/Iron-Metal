@@ -13,6 +13,8 @@ import { useTheme } from "../contexts/ThemeContext"
 import { HomeScreen } from "../screens/HomeScreen"
 import CalculationsScreen from "../screens/CalculationsScreen"
 import LoginScreen from "../screens/LoginScreen"
+import SupportScreen from "../screens/SupportScreen"
+import SuggestionsScreen from "../screens/SuggestionsScreen"
 import FeaturedSectorsScreen from "../screens/FeaturedSectorsScreen"
 import DeleteAccountScreen from "../screens/DeleteAccountScreen"
 import PrivacyPolicyScreen from "../screens/PrivacyPolicyScreen"
@@ -38,6 +40,8 @@ export type RootStackParamList = {
     | undefined
   EngineeringCalculations: undefined
   Login: undefined
+  Support: undefined
+  Suggestions: undefined
   Featured: undefined
   DeleteAccount: undefined
   PrivacyPolicy: undefined
@@ -76,6 +80,8 @@ export function RootNavigator() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Support" component={SupportScreen} />
+        <Stack.Screen name="Suggestions" component={SuggestionsScreen} />
         <Stack.Screen name="Featured" component={FeaturedSectorsScreen} />
         <Stack.Screen name="DeleteAccount" component={DeleteAccountScreen} />
         <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
