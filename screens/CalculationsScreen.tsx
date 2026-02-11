@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Linking, Share, View, ScrollView, useWindowDimensions, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { Alert, Linking, Share, View, ScrollView, useWindowDimensions, StyleSheet, TouchableOpacity, Text, InteractionManager } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import * as Sharing from 'expo-sharing';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from '../contexts/ThemeContext';
 import { useI18n } from '../contexts/I18nContext';
 import calculators from '../assets/data/calculators.json';
@@ -30,14 +31,20 @@ const BANNER_STRINGS = {
   },
 } as const;
 
+const PINNED_CALC_KEY = '@ironmetal:engineering_calc_pinned_id_v1';
+const SELECTED_CALC_KEY = '@ironmetal:engineering_calc_selected_id_v1';
+
 const CalculationsScreen = () => {
   const theme = useTheme();
-  const styles = createCalculationsStyles(theme);
+  const styles = useMemo(() => createCalculationsStyles(theme), [theme]);
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
   const { t, language } = useI18n();
   const calcT = t.calculator;
-  const [selectedCalcId, setSelectedCalcId] = useState<number | null>(null);
+  const [selectedCalcId, setSelectedCalcId] = useState<number | null>(() => (calculators.length ? calculators[0].id : null));
+  const [pinnedCalcId, setPinnedCalcId] = useState<number | null>(null);
+  const hydratedCalcSelectionRef = useRef(false);
   const [dims, setDims] = useState<any>({});
   const [qty, setQty] = useState<number>(1);
   const [price, setPrice] = useState<number | null>(null);
@@ -85,6 +92,112 @@ const CalculationsScreen = () => {
   })
 
   const selectedCalc = calculators.find((c) => c.id === selectedCalcId);
+
+  // Handle Deep Link
+  const deepLinkCalcId = route.params?.calcId;
+  const deepLinkCalcInputs = route.params?.calcInputs;
+  const deepLinkHandledRef = useRef(false);
+  const skipResetRef = useRef(false);
+
+  useEffect(() => {
+    if (deepLinkCalcId != null && !deepLinkHandledRef.current) {
+      deepLinkHandledRef.current = true;
+      hydratedCalcSelectionRef.current = true; // Prevent storage overwrite
+
+      const target = Number(deepLinkCalcId);
+      if (Number.isFinite(target) && calculators.some((c) => c.id === target)) {
+        skipResetRef.current = true;
+        setSelectedCalcId(target);
+        if (deepLinkCalcInputs) {
+          setDims(deepLinkCalcInputs);
+        }
+      }
+      // clear params so we don't re-trigger on remount if unnecessary
+      navigation.setParams({ calcId: undefined, calcInputs: undefined });
+    }
+  }, [deepLinkCalcId, deepLinkCalcInputs, navigation]);
+
+  useEffect(() => {
+    if (hydratedCalcSelectionRef.current) return;
+    hydratedCalcSelectionRef.current = true;
+
+    let isMounted = true;
+    const task = InteractionManager.runAfterInteractions(async () => {
+      try {
+        const entries = await AsyncStorage.multiGet([PINNED_CALC_KEY, SELECTED_CALC_KEY]);
+        if (!isMounted) return;
+
+        const pinnedRaw = entries.find(([key]) => key === PINNED_CALC_KEY)?.[1];
+        const selectedRaw = entries.find(([key]) => key === SELECTED_CALC_KEY)?.[1];
+
+        const exists = (id: number) => calculators.some((c) => c.id === id);
+
+        if (pinnedRaw != null) {
+          const parsed = Number(pinnedRaw);
+          if (!Number.isNaN(parsed) && exists(parsed)) {
+            setPinnedCalcId(parsed);
+            if (parsed !== selectedCalcId) {
+              setSelectedCalcId(parsed);
+            }
+            return;
+          }
+
+          setPinnedCalcId(null);
+          AsyncStorage.removeItem(PINNED_CALC_KEY).catch(() => undefined);
+        }
+
+        if (selectedRaw != null) {
+          const parsed = Number(selectedRaw);
+          if (!Number.isNaN(parsed) && exists(parsed) && parsed !== selectedCalcId) {
+            setSelectedCalcId(parsed);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      task?.cancel?.();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (selectedCalcId == null) return;
+
+    const task = InteractionManager.runAfterInteractions(() => {
+      AsyncStorage.setItem(SELECTED_CALC_KEY, String(selectedCalcId)).catch(() => undefined);
+    });
+
+    return () => {
+      task?.cancel?.();
+    };
+  }, [selectedCalcId]);
+
+  const togglePinnedCalc = useCallback(
+    (calcId: number) => {
+      setPinnedCalcId((current) => {
+        const nextPinned = current === calcId ? null : calcId;
+
+        InteractionManager.runAfterInteractions(() => {
+          const action =
+            nextPinned == null
+              ? AsyncStorage.removeItem(PINNED_CALC_KEY)
+              : AsyncStorage.setItem(PINNED_CALC_KEY, String(nextPinned));
+
+          action.catch(() => undefined);
+        });
+
+        if (nextPinned != null && calcId !== selectedCalcId) {
+          setSelectedCalcId(calcId);
+        }
+
+        return nextPinned;
+      });
+    },
+    [selectedCalcId],
+  );
 
   const selectedCalcLabelEn = useMemo(() => {
     if (!selectedCalc) return '';
@@ -287,6 +400,8 @@ const CalculationsScreen = () => {
         fileBaseName: selectedCalcLabelEn || 'Engineering_Calculator',
         sectorImg: selectedCalc.symbol ?? selectedCalc.svgImg ?? null,
         rows,
+        calcId: selectedCalc.id,
+        dims,
       });
 
       let canShare = false;
@@ -327,13 +442,11 @@ const CalculationsScreen = () => {
   ]);
 
   useEffect(() => {
-    if (calculators.length > 0) {
-      setSelectedCalcId(calculators[0].id);
-    }
-  }, []);
-
-  useEffect(() => {
     if (selectedCalcId == null) return
+    if (skipResetRef.current) {
+      skipResetRef.current = false
+      return
+    }
     setDims({})
     setQty(1)
     setPrice(null)
@@ -342,7 +455,7 @@ const CalculationsScreen = () => {
   }, [selectedCalcId])
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}> 
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {bannerMessage && (
         <View
           style={[
@@ -350,11 +463,11 @@ const CalculationsScreen = () => {
             bannerType === 'success' ? bannerStyles.bannerSuccess : bannerStyles.bannerError,
             theme.isDark
               ? {
-                  backgroundColor:
-                    bannerType === 'success' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
-                  borderColor: theme.colors.border,
-                  borderWidth: 1,
-                }
+                backgroundColor:
+                  bannerType === 'success' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)',
+                borderColor: theme.colors.border,
+                borderWidth: 1,
+              }
               : null,
           ]}
         >
@@ -382,7 +495,7 @@ const CalculationsScreen = () => {
           </Text>
         </View>
       )}
-      <View style={[headerStyles.header, { backgroundColor: theme.colors.background, borderColor: theme.colors.border }]}> 
+      <View style={[headerStyles.header, { backgroundColor: theme.colors.background, borderColor: theme.colors.border }]}>
         <TouchableOpacity
           style={headerStyles.backButton}
           activeOpacity={0.8}
@@ -401,7 +514,9 @@ const CalculationsScreen = () => {
       <CalculatorTypeStrip
         calculators={calculators}
         selectedCalcId={selectedCalcId}
+        pinnedCalcId={pinnedCalcId}
         onSelect={setSelectedCalcId}
+        onTogglePin={togglePinnedCalc}
         styles={styles}
         theme={theme}
       />
@@ -409,6 +524,8 @@ const CalculationsScreen = () => {
         style={styles.contentScroll}
         contentContainerStyle={styles.contentContainer}
         keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        nestedScrollEnabled
       >
         {selectedCalc && (
           <CalculationsFormSection

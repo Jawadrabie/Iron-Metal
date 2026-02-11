@@ -41,7 +41,7 @@ export const supportTexts: Record<"ar" | "en", SupportLocale> = {
   en: {
     ui: {
       title: "Support",
-      suggestionsTitle: "Your suggestion",
+      suggestionsTitle: "Your suggestions",
       back: "Back",
       intro: "Send us your support request or inquiry and we will get back to you as soon as possible.",
       suggestionsIntro: "Send us your suggestions to help us improve the app.",

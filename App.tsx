@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { StatusBar } from "expo-status-bar"
-import { Linking, StyleSheet } from "react-native"
+import { Alert, Linking, Platform, StyleSheet } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 import * as SplashScreen from "expo-splash-screen"
 import * as Notifications from "expo-notifications"
-import { Feather, MaterialIcons } from "@expo/vector-icons"
+import { Feather, MaterialIcons, FontAwesome } from "@expo/vector-icons"
+import { decode as decodeBase64 } from "base64-arraybuffer"
 
 import { RootNavigator, navigationRef, type HomeDeepLinkParams } from "./navigation"
 import { I18nProvider } from "./contexts/I18nContext"
@@ -26,6 +27,19 @@ Notifications.setNotificationHandler({
 let notificationNavTimeout: ReturnType<typeof setTimeout> | null = null
 let deepLinkNavTimeout: ReturnType<typeof setTimeout> | null = null
 
+function decodeBase64UrlToUtf8(value: string): string | null {
+  try {
+    const normalized = value.replace(/-/g, "+").replace(/_/g, "/")
+    const padLength = (4 - (normalized.length % 4)) % 4
+    const padded = normalized + "=".repeat(padLength)
+    const buffer = decodeBase64(padded)
+    if (typeof TextDecoder === "undefined") return null
+    return new TextDecoder().decode(new Uint8Array(buffer))
+  } catch {
+    return null
+  }
+}
+
 function parseHomeDeepLinkUrl(url: string): HomeDeepLinkParams | null {
   const trimmed = url.trim()
 
@@ -34,7 +48,11 @@ function parseHomeDeepLinkUrl(url: string): HomeDeepLinkParams | null {
   const hostMatch = trimmed.match(/^https?:\/\/([^\/?#]+)/i)
   if (hostMatch) {
     const host = hostMatch[1].toLowerCase()
-    if (host !== "iron-metal.net") return null
+    // If it's the root domain request without specific paths/params, we might want to ignore it 
+    // to allow browser handling, but since we use autoVerify=true, the app catches it.
+    // We return null here if we don't recognize specific params, so the app remains on current screen
+    // or goes to default home.
+    if (host !== "iron-metal.net" && host !== "www.iron-metal.net") return null
   } else if (!isAppScheme) {
     return null
   }
@@ -56,11 +74,45 @@ function parseHomeDeepLinkUrl(url: string): HomeDeepLinkParams | null {
     params[key] = value
   }
 
+  // Engineering Calculator Params
+  const cidRaw = params.cid
+  let calcId: number | undefined
+  let calcInputs: Record<string, string | number> | undefined
+
+  if (cidRaw != null) {
+    const cidNum = Number.parseInt(cidRaw, 10)
+    if (Number.isFinite(cidNum)) {
+      calcId = cidNum
+    }
+  }
+
+  if (params.i) {
+    try {
+      calcInputs = JSON.parse(params.i)
+    } catch {
+      const decoded = decodeBase64UrlToUtf8(params.i)
+      if (decoded) {
+        try {
+          calcInputs = JSON.parse(decoded)
+        } catch {
+          // ignore invalid json
+        }
+      }
+    }
+  }
+
   const sidRaw = params.sid
-  if (sidRaw == null) return null
-  const sidNum = Number.parseInt(sidRaw, 10)
-  const sid = Number.isFinite(sidNum) ? sidNum : undefined
-  if (sid == null) return null
+  let sid: number | undefined
+  if (sidRaw != null) {
+    const sidNum = Number.parseInt(sidRaw, 10)
+    sid = Number.isFinite(sidNum) ? sidNum : undefined
+  }
+
+  const cmRaw = params.cm
+  const cm = cmRaw === "1" || String(cmRaw || "").toLowerCase() === "true"
+
+  // Must have either section ID or calculator ID
+  if (sid == null && calcId == null) return null
 
   const type = params.type ? String(params.type) : undefined
 
@@ -77,6 +129,9 @@ function parseHomeDeepLinkUrl(url: string): HomeDeepLinkParams | null {
     type,
     vi,
     sv,
+    calcId,
+    calcInputs,
+    cm,
     url: trimmed,
     nonce: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
   }
@@ -91,7 +146,14 @@ function navigateToHomeDeepLink(deepLink: HomeDeepLinkParams) {
   let attempts = 0
   const attemptNavigate = () => {
     if (navigationRef.isReady()) {
-      navigationRef.navigate("Home", { initialTab: "home", deepLink })
+      if (deepLink.calcId != null) {
+        navigationRef.navigate("EngineeringCalculations", {
+          calcId: deepLink.calcId,
+          calcInputs: deepLink.calcInputs,
+        })
+      } else {
+        navigationRef.navigate("Home", { initialTab: "home", deepLink })
+      }
       return
     }
 
@@ -129,11 +191,25 @@ export default function App() {
 
   useEffect(() => {
     let mounted = true
+
+    // Check for missing env vars
+    if (!process.env.EXPO_PUBLIC_SUPABASE_URL || !process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY) {
+      if (Platform.OS !== 'web') {
+        setTimeout(() => {
+          Alert.alert(
+            "تنبيه",
+            "متغيرات البيئة للاتصال غير موجودة. لن يعمل تسجيل الدخول.\n(Supabase Env Vars Missing)",
+            [{ text: "OK" }]
+          )
+        }, 1000)
+      }
+    }
+
     const load = async () => {
       try {
-        await Promise.all([Feather.loadFont(), MaterialIcons.loadFont()])
+        await Promise.all([Feather.loadFont(), MaterialIcons.loadFont(), FontAwesome.loadFont()])
       } catch (error) {
-        console.warn("Failed to load Feather font", error)
+        console.warn("Failed to load icon fonts", error)
       } finally {
         if (mounted) {
           setFontsReady(true)
@@ -169,14 +245,14 @@ export default function App() {
     }
 
     Linking.getInitialURL()
-      .then((url) => {
+      .then((url: string | null) => {
         if (url) {
           handleIncomingUrl(url)
         }
       })
       .catch(() => undefined)
 
-    const subscription = Linking.addEventListener("url", ({ url }) => {
+    const subscription = Linking.addEventListener("url", ({ url }: { url: string }) => {
       handleIncomingUrl(url)
     })
 
@@ -193,7 +269,7 @@ export default function App() {
     })
 
     Notifications.getLastNotificationResponseAsync()
-      .then((response) => {
+      .then((response: Notifications.NotificationResponse | null) => {
         if (handledInitialNotificationResponseRef.current) return
 
         if (response) {
@@ -246,10 +322,11 @@ function ThemedAppRoot({
     <GestureHandlerRootView
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <SafeAreaProvider onLayout={onLayout}>
+      <SafeAreaProvider>
         <SafeAreaView
           style={[styles.container, { backgroundColor: theme.colors.background }]}
           edges={["top"]}
+          onLayout={onLayout}
         >
           {fontsReady ? (
             <I18nProvider>

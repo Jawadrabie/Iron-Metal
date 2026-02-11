@@ -6,6 +6,7 @@ import { decode } from "base64-arraybuffer"
 
 import { getCurrentUser, getUserProfile, logout } from "../lib/auth"
 import { supabase } from "../lib/supabase/client"
+import { useAuthState } from "./useAuthState"
 import { COUNTRIES } from "../components/home/AccountModal"
 import { useI18n } from "../contexts/I18nContext"
 import { profileTexts } from "../locales/profile"
@@ -15,20 +16,20 @@ export type BannerType = "success" | "error" | null
 
 type SaveBaseline = {
   fullName: string
-  email: string
   phone: string
   country: string
 }
 
 export function useProfileScreen() {
   const { language: preferredLanguage, setLanguage } = useI18n()
+  const { user, loading: authLoading } = useAuthState()
 
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any | null>(null)
   const [profile, setProfile] = useState<any | null>(null)
   const [saving, setSaving] = useState(false)
   const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
+
+
   const [phone, setPhone] = useState("")
   const [country, setCountry] = useState("SA")
   const [avatarUrl, setAvatarUrl] = useState("")
@@ -36,7 +37,7 @@ export function useProfileScreen() {
   const [hideStatus, setHideStatus] = useState(false)
   const [hideContacts, setHideContacts] = useState(false)
   const [marketing, setMarketing] = useState(false)
-  const [emailVerified, setEmailVerified] = useState(false)
+
   const [showCountryPicker, setShowCountryPicker] = useState(false)
   const [showLanguagePicker, setShowLanguagePicker] = useState(false)
   const [bannerMessage, setBannerMessage] = useState<string | null>(null)
@@ -66,6 +67,8 @@ export function useProfileScreen() {
     let cancelled = false
 
     const load = async () => {
+      if (authLoading) return
+
       setLoading(true)
       let lang: AppLanguage = preferredLanguage
       try {
@@ -75,9 +78,7 @@ export function useProfileScreen() {
           setLanguage(storedLanguage)
         }
 
-        const { user } = await getCurrentUser()
         if (!user || cancelled) {
-          setUser(null)
           setProfile(null)
           return
         }
@@ -86,14 +87,12 @@ export function useProfileScreen() {
         if (cancelled) return
 
         const p = profile || null
-        setUser(user)
         setProfile(p)
         const nextFullName = p?.full_name ?? ""
-        const nextEmail = user.email ?? ""
+
         const nextPhone = p?.phone ?? ""
 
         setFullName(nextFullName)
-        setEmail(nextEmail)
         setPhone(nextPhone)
 
         const profileLanguageRaw = p?.preferred_language
@@ -112,7 +111,6 @@ export function useProfileScreen() {
 
         saveBaselineRef.current = {
           fullName: nextFullName,
-          email: nextEmail,
           phone: nextPhone,
           country: nextCountry,
         }
@@ -124,9 +122,7 @@ export function useProfileScreen() {
         setHideStatus(!(p?.show_status ?? true))
         setHideContacts(p?.hide_contacts ?? false)
         setMarketing(p?.marketing_opt_in ?? false)
-        setEmailVerified(
-          !!user.user_metadata?.email_verified || !!p?.is_verified,
-        )
+
       } catch (e: any) {
         if (!cancelled) {
           const t = profileTexts[lang].messages
@@ -146,7 +142,7 @@ export function useProfileScreen() {
         clearTimeout(bannerTimeoutRef.current)
       }
     }
-  }, [])
+  }, [authLoading, user])
 
   const setPreferredLanguage = (value: string) => {
     const lang: AppLanguage = value === "en" ? "en" : "ar"
@@ -160,7 +156,6 @@ export function useProfileScreen() {
   const handleLogout = async () => {
     const t = profileTexts[preferredLanguage].messages
     await logout()
-    setUser(null)
     setProfile(null)
     showBanner("success", t.logoutSuccess)
   }
@@ -173,13 +168,7 @@ export function useProfileScreen() {
     try {
       setSaving(true)
 
-      let nextEmail = user.email ?? ""
 
-      if (email && email !== user.email) {
-        const { error } = await supabase.auth.updateUser({ email })
-        if (error) throw error
-        nextEmail = email
-      }
 
       const { error: upErr } = await supabase
         .from("profiles")
@@ -198,7 +187,6 @@ export function useProfileScreen() {
 
       saveBaselineRef.current = {
         fullName,
-        email: nextEmail,
         phone,
         country,
       }
@@ -280,7 +268,7 @@ export function useProfileScreen() {
     profile,
     saving,
     fullName,
-    email,
+
     phone,
     preferredLanguage,
     country,
@@ -289,7 +277,7 @@ export function useProfileScreen() {
     hideStatus,
     hideContacts,
     marketing,
-    emailVerified,
+
     showCountryPicker,
     showLanguagePicker,
     bannerMessage,
@@ -300,11 +288,9 @@ export function useProfileScreen() {
       !!user &&
       !!saveBaselineRef.current &&
       (fullName.trim() !== saveBaselineRef.current.fullName.trim() ||
-        email.trim().toLowerCase() !== saveBaselineRef.current.email.trim().toLowerCase() ||
         phone.trim() !== saveBaselineRef.current.phone.trim() ||
         country !== saveBaselineRef.current.country),
     setFullName,
-    setEmail,
     setPhone,
     setPreferredLanguage,
     setCountry,

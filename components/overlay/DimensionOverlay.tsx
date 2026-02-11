@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native"
 import Svg, { Line, Path } from "react-native-svg"
-
 import { useTheme } from "../../contexts/ThemeContext"
 import type { OverlayConfig, OverlayEntry } from "./config"
 

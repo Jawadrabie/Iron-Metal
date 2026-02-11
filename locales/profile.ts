@@ -43,7 +43,7 @@ export const profileTexts: Record<"ar" | "en", ProfileLocale> = {
     content: {
       accountVerified: "Account verified",
       fullNameLabel: "Full name",
-      fullNamePlaceholder: "Full name",
+      fullNamePlaceholder: "ex: Ahmad Ahmad",
       emailLabel: "Email",
       emailPlaceholder: "email@example.com",
       phoneLabel: "Phone",
@@ -82,7 +82,7 @@ export const profileTexts: Record<"ar" | "en", ProfileLocale> = {
     content: {
       accountVerified: "تم توثيق الحساب",
       fullNameLabel: "الاسم الكامل",
-      fullNamePlaceholder: "الاسم الكامل",
+      fullNamePlaceholder: "مثال: أحمد أحمد",
       emailLabel: "البريد الإلكتروني",
       emailPlaceholder: "email@example.com",
       phoneLabel: "رقم الهاتف",

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useRef, useState } from 'react'
 import { View, FlatList, TouchableOpacity, Image, Text } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { getLocalAssetModuleId, resolveLocalAssetUri } from '../../lib/localAssets'
@@ -7,37 +7,84 @@ import { useI18n } from '../../contexts/I18nContext'
 type Props = {
   calculators: any[]
   selectedCalcId: number | null
+  pinnedCalcId: number | null
   onSelect: (id: number) => void
+  onTogglePin: (id: number) => void
   styles: any
   theme: any
 }
 
-export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, styles, theme }: Props) {
+export const CalculatorTypeStrip = memo(function CalculatorTypeStrip({
+  calculators,
+  selectedCalcId,
+  pinnedCalcId,
+  onSelect,
+  onTogglePin,
+  styles,
+  theme,
+}: Props) {
   const { language } = useI18n()
 
   const listRef = useRef<FlatList<any> | null>(null)
-  const [containerWidth, setContainerWidth] = useState(0)
-  const [contentWidth, setContentWidth] = useState(0)
-  const [scrollX, setScrollX] = useState(0)
+  const containerWidthRef = useRef(0)
+  const contentWidthRef = useRef(0)
+  const scrollXRef = useRef(0)
+  const [showScrollHint, setShowScrollHint] = useState(false)
 
-  const showScrollHint = useMemo(() => {
-    if (!containerWidth || !contentWidth) return false
+  const recomputeScrollHint = useCallback(() => {
+    const containerWidth = containerWidthRef.current
+    const contentWidth = contentWidthRef.current
+    if (!containerWidth || !contentWidth) {
+      setShowScrollHint(false)
+      return
+    }
+
     const canScroll = contentWidth > containerWidth + 8
-    const atEnd = scrollX + containerWidth >= contentWidth - 8
-    return canScroll && !atEnd
-  }, [containerWidth, contentWidth, scrollX])
+    const atEnd = scrollXRef.current + containerWidth >= contentWidth - 8
+    const next = canScroll && !atEnd
 
-  const handleScrollHintPress = () => {
+    setShowScrollHint((current) => (current === next ? current : next))
+  }, [])
+
+  const handleScrollHintPress = useCallback(() => {
     if (!listRef.current) return
+    const containerWidth = containerWidthRef.current
+    const contentWidth = contentWidthRef.current
     if (!containerWidth || !contentWidth) return
 
     const step = Math.max(120, Math.round(containerWidth * 0.7))
     const maxOffset = Math.max(0, contentWidth - containerWidth)
-    const nextOffset = Math.min(maxOffset, scrollX + step)
+    const nextOffset = Math.min(maxOffset, scrollXRef.current + step)
+    scrollXRef.current = nextOffset
     listRef.current.scrollToOffset({ offset: nextOffset, animated: true })
-  }
+    recomputeScrollHint()
+  }, [recomputeScrollHint])
 
-  const renderCalculatorItem = ({ item }: { item: any }) => {
+  const handleContainerLayout = useCallback(
+    (e: any) => {
+      containerWidthRef.current = e?.nativeEvent?.layout?.width ?? 0
+      recomputeScrollHint()
+    },
+    [recomputeScrollHint],
+  )
+
+  const handleContentSizeChange = useCallback(
+    (w: number) => {
+      contentWidthRef.current = w
+      recomputeScrollHint()
+    },
+    [recomputeScrollHint],
+  )
+
+  const handleScrollEnd = useCallback(
+    (e: any) => {
+      scrollXRef.current = e?.nativeEvent?.contentOffset?.x ?? 0
+      recomputeScrollHint()
+    },
+    [recomputeScrollHint],
+  )
+
+  const renderCalculatorItem = useCallback(({ item }: { item: any }) => {
     const moduleId = item.symbol ? getLocalAssetModuleId(item.symbol) : null
     const imageSource = moduleId
       ? moduleId
@@ -48,6 +95,7 @@ export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, sty
           })()
         : null
     const isSelected = selectedCalcId === item.id
+    const isPinned = pinnedCalcId === item.id
 
     const label = language === 'ar' ? (item.labelAr || item.label) : (item.label || item.labelAr)
     const isFlangeRingEn = language !== 'ar' && item?.formula === 'flange_ring'
@@ -60,6 +108,32 @@ export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, sty
       <TouchableOpacity style={styles.itemButton} onPress={() => onSelect(item.id)}>
         <View style={[styles.itemImageWrapper, isSelected && styles.itemImageWrapperActive]}>
           {!!imageSource && <Image source={imageSource as any} style={styles.itemImage} />}
+
+          {isSelected && (
+            <TouchableOpacity
+              style={[
+                styles.itemPinButton,
+                theme.isDark ? { backgroundColor: theme.colors.surface } : null,
+                isPinned ? (theme.isDark ? { backgroundColor: theme.colors.surface2 } : null) : null,
+              ]}
+              onPress={(e) => {
+                ;(e as any)?.stopPropagation?.()
+                onTogglePin(item.id)
+              }}
+              activeOpacity={0.9}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Text
+                style={[
+                  styles.itemPinText,
+                  theme.isDark ? { color: theme.colors.textSecondary } : null,
+                  isPinned ? [styles.itemPinTextActive, theme.isDark ? { color: theme.colors.secondary } : null] : null,
+                ]}
+              >
+                {isPinned ? '★' : '☆'}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
         {flangeMatch ? (
           <Text
@@ -102,12 +176,26 @@ export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, sty
         )}
       </TouchableOpacity>
     )
-  }
+  }, [language, onSelect, onTogglePin, pinnedCalcId, selectedCalcId, styles, theme])
+
+  const keyExtractor = useCallback((item: any) => item.id.toString(), [])
+  const renderSeparator = useCallback(() => <View style={styles.sliderItemSeparator} />, [styles])
+
+  const ITEM_WIDTH = 88
+  const ITEM_SEPARATOR = 3
+  const getItemLayout = useCallback(
+    (_data: any, index: number) => ({
+      length: ITEM_WIDTH + ITEM_SEPARATOR,
+      offset: (ITEM_WIDTH + ITEM_SEPARATOR) * index,
+      index,
+    }),
+    [],
+  )
 
   return (
     <View
       style={styles.sliderContainer}
-      onLayout={(e: any) => setContainerWidth(e.nativeEvent.layout.width)}
+      onLayout={handleContainerLayout}
     >
       <FlatList
         ref={(node) => {
@@ -115,17 +203,18 @@ export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, sty
         }}
         data={calculators}
         renderItem={renderCalculatorItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={keyExtractor}
         contentContainerStyle={styles.sliderListContent}
-        ItemSeparatorComponent={() => <View style={styles.sliderItemSeparator} />}
+        ItemSeparatorComponent={renderSeparator}
         removeClippedSubviews
         windowSize={7}
         initialNumToRender={8}
         maxToRenderPerBatch={8}
         updateCellsBatchingPeriod={50}
-        onContentSizeChange={(w: number) => setContentWidth(w)}
-        onScroll={(e: any) => setScrollX(e.nativeEvent.contentOffset.x)}
-        scrollEventThrottle={16}
+        onContentSizeChange={handleContentSizeChange}
+        onScrollEndDrag={handleScrollEnd}
+        onMomentumScrollEnd={handleScrollEnd}
+        getItemLayout={getItemLayout}
         horizontal
         showsHorizontalScrollIndicator={false}
       />
@@ -146,4 +235,4 @@ export function CalculatorTypeStrip({ calculators, selectedCalcId, onSelect, sty
       )}
     </View>
   )
-}
+})

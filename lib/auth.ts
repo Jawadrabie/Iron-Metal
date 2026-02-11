@@ -34,8 +34,8 @@ function formatNetworkError(error: any, lang: string = "en") {
     raw.includes("timeout")
   ) {
     return isArabic
-      ? "انتهت مهلة الاتصال. تأكد من الإنترنت ثم حاول مرة أخرى"
-      : "Connection timed out. Check your internet and try again."
+      ? "انتهت مهلة الاتصال. حاول مرة أخرى."
+      : "Network timeout. Please try again."
   }
 
   return message || (isArabic ? "خطأ في الاتصال" : "Network error")

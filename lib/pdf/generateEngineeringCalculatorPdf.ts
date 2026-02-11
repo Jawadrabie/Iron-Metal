@@ -16,6 +16,8 @@ export type EngineeringCalculatorPdfPayload = {
   currencyCode?: string
   fileBaseName?: string
   sectorImg?: string | null
+  calcId?: number
+  dims?: Record<string, any>
 }
 
 const PDF_HEADER_TITLE = "Iron & Metal"
@@ -27,6 +29,9 @@ const BASE_SITE_URL =
   process.env.EXPO_PUBLIC_SITE_URL ||
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
   "https://iron-metal.net"
+
+const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME || "ironmetal"
+const BASE_APP_URL = `${APP_SCHEME}://`
 
 function sanitizePdfText(text: string): string {
   return String(text || "")
@@ -64,6 +69,23 @@ function isAbsoluteLocalFilePath(value: string): boolean {
 async function loadImageBytesFromUri(uri: string): Promise<Uint8Array | null> {
   try {
     if (uri.startsWith("http:") || uri.startsWith("https:")) {
+      const dir = (FileSystem as any).cacheDirectory || (FileSystem as any).documentDirectory
+      const downloader = (FileSystem as any).downloadAsync
+      if (dir && downloader) {
+        const safeName = String(uri).replace(/[^a-zA-Z0-9._-]/g, "_")
+        const target = `${dir}pdf-img-${safeName}`
+
+        try {
+          await downloader(uri, target)
+          const base64Downloaded = await FileSystem.readAsStringAsync(target, {
+            encoding: (FileSystem as any).EncodingType?.Base64 ?? ("base64" as any),
+          })
+          return new Uint8Array(decode(base64Downloaded) as ArrayBuffer)
+        } catch {
+          // ignore
+        }
+      }
+
       try {
         const response = await fetch(uri)
         if (!response.ok) return null
@@ -79,6 +101,24 @@ async function loadImageBytesFromUri(uri: string): Promise<Uint8Array | null> {
         encoding: (FileSystem as any).EncodingType?.Base64 ?? ("base64" as any),
       })
       return new Uint8Array(decode(base64) as ArrayBuffer)
+    } catch {
+      // ignore
+    }
+
+    const dir = (FileSystem as any).cacheDirectory || (FileSystem as any).documentDirectory
+    if (!dir || !(FileSystem as any).copyAsync) {
+      return null
+    }
+
+    const safeName = String(uri).replace(/[^a-zA-Z0-9._-]/g, "_")
+    const target = `${dir}pdf-img-${safeName}`
+
+    try {
+      await (FileSystem as any).copyAsync({ from: uri, to: target })
+      const base64Copied = await FileSystem.readAsStringAsync(target, {
+        encoding: (FileSystem as any).EncodingType?.Base64 ?? ("base64" as any),
+      })
+      return new Uint8Array(decode(base64Copied) as ArrayBuffer)
     } catch {
       return null
     }
@@ -113,12 +153,17 @@ async function embedImageFromAsset(pdfDoc: PDFDocument, moduleId: number) {
   }
 }
 
-function buildQrModules(value: string): boolean[][] | null {
+function buildQrModules(value: string, levelInput: "L" | "M" | "Q" | "H" = "M"): boolean[][] | null {
   try {
     const QRCode = require("qrcode-terminal/vendor/QRCode")
     const QRErrorCorrectLevel = require("qrcode-terminal/vendor/QRCode/QRErrorCorrectLevel")
 
-    const qr = new QRCode(-1, QRErrorCorrectLevel.M)
+    let level = QRErrorCorrectLevel.M
+    if (levelInput === "L") level = QRErrorCorrectLevel.L
+    else if (levelInput === "Q") level = QRErrorCorrectLevel.Q
+    else if (levelInput === "H") level = QRErrorCorrectLevel.H
+
+    const qr = new QRCode(-1, level)
     qr.addData(value)
     qr.make()
 
@@ -240,9 +285,16 @@ async function embedSectorImage(pdfDoc: PDFDocument, page: any, path: string, yS
     const { width } = page.getSize()
     const maxWidth = Math.max(0, width - MARGIN * 2)
     const targetWidth = Math.min(140, maxWidth)
-    const scale = targetWidth / image.width
-    const imgWidth = targetWidth
-    const imgHeight = image.height * scale
+    const scaleByWidth = targetWidth / image.width
+    let imgWidth = targetWidth
+    let imgHeight = image.height * scaleByWidth
+
+    const maxHeight = 160
+    if (imgHeight > maxHeight) {
+      const scaleByHeight = maxHeight / image.height
+      imgHeight = maxHeight
+      imgWidth = image.width * scaleByHeight
+    }
 
     const x = (width - imgWidth) / 2
     const y = yStart - imgHeight
@@ -474,8 +526,16 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
     const footerLinkText = sanitizePdfText(footerLinkRaw)
     const footerText = `${footerPrefix}${footerLinkText}`
 
-    const qrTargetUrl = `${BASE_SITE_URL}/`
-    const qrModules = buildQrModules(qrTargetUrl)
+    const params: string[] = []
+    if (data.calcId != null) params.push(`cid=${data.calcId}`)
+    if (data.dims) params.push(`i=${encodeURIComponent(JSON.stringify(data.dims))}`)
+
+    const query = params.join("&")
+    const qrTargetUrl = query ? `${BASE_APP_URL}?${query}` : BASE_APP_URL
+    const clickUrl = query ? `${BASE_SITE_URL}/open?${query}` : `${BASE_SITE_URL}/open`
+
+    // Use 'L' (Low) error correction for less density and easier scanning
+    const qrModules = buildQrModules(qrTargetUrl, "L")
     const qrSize = 64
     const qrGap = 10
     const qrX = width - MARGIN - qrSize
@@ -501,7 +561,7 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
     footerX = Math.min(footerMaxX, footerX)
     if (!Number.isFinite(footerX)) footerX = footerTextAreaX
 
-    const qrY = qrModules ? Math.max(8, footerY - (qrSize - footerSize) / 2) : 0
+    const qrY = qrModules ? Math.max(20, footerY - (qrSize - footerSize) / 2) : 0
 
     page.drawText(footerText, {
       x: footerX,
@@ -535,7 +595,7 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
         Subtype: PDFName.of("Link"),
         Rect: [Math.round(clickX1), Math.round(clickY1), Math.round(clickX2), Math.round(clickY2)],
         Border: [0, 0, 0],
-        A: { S: PDFName.of("URI"), URI: PDFString.of(qrTargetUrl) },
+        A: { S: PDFName.of("URI"), URI: PDFString.of(clickUrl) },
       }
 
       if (pageRef) {

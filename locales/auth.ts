@@ -73,7 +73,7 @@ export const authTexts: Record<"ar" | "en", AuthLocale> = {
       missingCode: "يرجى إدخال رمز التحقق",
       sendOtpFailed: "فشل إرسال كود واتساب",
       invalidCode: "رمز تحقق غير صحيح",
-      networkTimeout: "انتهت مهلة الاتصال. تأكد من الإنترنت ثم حاول مرة أخرى",
+      networkTimeout: "انتهت مهلة الاتصال. حاول مرة أخرى.",
     },
     loginPhoneForm: {
       label: "رقم الجوال",
@@ -88,7 +88,7 @@ export const authTexts: Record<"ar" | "en", AuthLocale> = {
     loginMessages: {
       missingPhone: "يرجى إدخال رقم الجوال",
       sendOtpFailed: "فشل إرسال كود واتساب",
-      networkTimeout: "انتهت مهلة الاتصال. تأكد من الإنترنت ثم حاول مرة أخرى",
+      networkTimeout: "انتهت مهلة الاتصال. حاول مرة أخرى.",
       missingCode: "يرجى إدخال رمز التحقق",
       invalidCode: "رمز تحقق غير صحيح",
       success: "تم تسجيل الدخول بنجاح",
@@ -120,7 +120,7 @@ export const authTexts: Record<"ar" | "en", AuthLocale> = {
       missingCode: "Please enter the verification code",
       sendOtpFailed: "Failed to send WhatsApp code",
       invalidCode: "Invalid verification code",
-      networkTimeout: "Connection timed out. Check your internet and try again.",
+      networkTimeout: "Network timeout. Please try again.",
     },
     loginPhoneForm: {
       label: "Phone number",
@@ -135,7 +135,7 @@ export const authTexts: Record<"ar" | "en", AuthLocale> = {
     loginMessages: {
       missingPhone: "Please enter your phone number",
       sendOtpFailed: "Failed to send WhatsApp code",
-      networkTimeout: "Connection timed out. Check your internet and try again.",
+      networkTimeout: "Network timeout. Please try again.",
       missingCode: "Please enter the verification code",
       invalidCode: "Invalid verification code",
       success: "Signed in successfully",

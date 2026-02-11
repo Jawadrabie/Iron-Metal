@@ -22,6 +22,7 @@ import type { HomeDeepLinkParams, RootStackParamList } from "../navigation"
 import type { FeaturedSectorRow } from "../lib/featured-sectors"
 import { registerForPushNotificationsAsync } from "../lib/notifications/registerPushToken"
 import { useLanguage } from "../hooks/useLanguage"
+import { openWebsite } from "../lib/utils"
 
 const STRINGS = {
   en: {
@@ -90,6 +91,14 @@ export function HomeScreen() {
   const handleTabChangeRef = useRef(handleTabChange)
   const [calculatorVisible, setCalculatorVisible] = useState(false)
   const [tabBarHeight, setTabBarHeight] = useState(0)
+
+  const [calcPrefillKey, setCalcPrefillKey] = useState<string | null>(null)
+  const [calcPrefillInputs, setCalcPrefillInputs] = useState<{
+    pricePerKgInput?: string
+    requiredInput?: string
+    lengthInput?: string
+    lengthUnit?: "m" | "mm"
+  } | null>(null)
 
   const [infoDialog, setInfoDialog] = useState<{ title: string; message: string } | null>(null)
 
@@ -166,6 +175,36 @@ export function HomeScreen() {
     if (nextIndex != null && selectedVariantIndex !== nextIndex) {
       handleVariantSelect(nextIndex, targetType)
       return
+    }
+
+    if (pendingDeepLink.cm) {
+      const inputs = pendingDeepLink.calcInputs ?? {}
+      const nextPrefill: {
+        pricePerKgInput?: string
+        requiredInput?: string
+        lengthInput?: string
+        lengthUnit?: "m" | "mm"
+      } = {}
+
+      if (typeof inputs.pricePerKg === "number" && Number.isFinite(inputs.pricePerKg)) {
+        nextPrefill.pricePerKgInput = String(inputs.pricePerKg)
+      }
+      if (typeof inputs.required === "number" && Number.isFinite(inputs.required)) {
+        nextPrefill.requiredInput = String(inputs.required)
+      }
+      if (typeof inputs.lengthMeters === "number" && Number.isFinite(inputs.lengthMeters)) {
+        const unit = inputs.lengthUnit === "mm" ? "mm" : "m"
+        nextPrefill.lengthUnit = unit
+        if (unit === "mm") {
+          nextPrefill.lengthInput = String(Math.round(inputs.lengthMeters * 1000))
+        } else {
+          nextPrefill.lengthInput = String(inputs.lengthMeters)
+        }
+      }
+
+      setCalcPrefillInputs(nextPrefill)
+      setCalcPrefillKey(pendingDeepLink.nonce)
+      setCalculatorVisible(true)
     }
 
     setAppliedDeepLinkNonce(pendingDeepLink.nonce)
@@ -328,7 +367,7 @@ export function HomeScreen() {
             navigation.navigate("Featured" as never)
           } else if (key === "localLink") {
             handleCloseMore()
-            Linking.openURL("https://iron-metal.net/").catch(() => null)
+            openWebsite()
           } else if (key === "support") {
             handleCloseMore()
             navigation.navigate("Support" as never)
@@ -410,7 +449,11 @@ export function HomeScreen() {
       <CalculatorModal
         key={calculatorInstanceKey}
         visible={calculatorVisible}
-        onClose={() => setCalculatorVisible(false)}
+        onClose={() => {
+          setCalculatorVisible(false)
+          setCalcPrefillKey(null)
+          setCalcPrefillInputs(null)
+        }}
         selectedSectionId={selectedSectionId}
         selectedType={selectedType}
         selectedVariantIndex={selectedVariantIndex}
@@ -423,6 +466,11 @@ export function HomeScreen() {
         initialRequiredInput={featuredConfig?.requiredInput}
         initialLengthInput={featuredConfig?.lengthInput}
         initialLengthUnit={featuredConfig?.lengthUnit}
+        prefillKey={calcPrefillKey}
+        prefillPricePerKgInput={calcPrefillInputs?.pricePerKgInput}
+        prefillRequiredInput={calcPrefillInputs?.requiredInput}
+        prefillLengthInput={calcPrefillInputs?.lengthInput}
+        prefillLengthUnit={calcPrefillInputs?.lengthUnit}
       />
 
       <BottomTabNavigator

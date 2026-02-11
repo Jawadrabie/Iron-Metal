@@ -25,20 +25,17 @@ export default function ProfileScreen() {
     user,
     saving,
     fullName,
-    email,
     phone,
     preferredLanguage,
     country,
     avatarUrl,
     uploadingAvatar,
-    emailVerified,
     showCountryPicker,
     showLanguagePicker,
     bannerMessage,
     bannerType,
     showLogoutConfirm,
     setFullName,
-    setEmail,
     setPhone,
     setCountry,
     setShowCountryPicker,
@@ -133,8 +130,6 @@ export default function ProfileScreen() {
           loading={loading}
           user={user}
           fullName={fullName}
-          email={email}
-          emailVerified={emailVerified}
           avatarUrl={avatarUrl}
           uploadingAvatar={uploadingAvatar}
           phone={phone}
@@ -143,7 +138,6 @@ export default function ProfileScreen() {
           canSave={canSave}
           onPickAvatar={handlePickAvatar}
           onChangeFullName={setFullName}
-          onChangeEmail={setEmail}
           onChangePhone={setPhone}
           onSelectCountry={(code) => setCountry(code)}
           onSave={handleSave}

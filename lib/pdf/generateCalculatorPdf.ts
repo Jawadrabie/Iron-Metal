@@ -37,6 +37,23 @@ const BASE_SITE_URL =
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
   "https://iron-metal.net"
 
+const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME || "ironmetal"
+const BASE_APP_URL = `${APP_SCHEME}://`
+
+function base64UrlEncodeUtf8(value: string): string {
+  try {
+    // Prefer TextEncoder when available
+    const encoder = new TextEncoder()
+    const bytes = encoder.encode(value)
+    const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)
+    const b64 = encode(buffer)
+    return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+  } catch {
+    // Fallback: keep it simple (will be larger due to encodeURIComponent)
+    return encodeURIComponent(value)
+  }
+}
+
 function sanitizePdfText(text: string): string {
   return String(text || "")
     .replace(/²/g, "2")
@@ -51,12 +68,17 @@ function truncate(text: string, max: number): string {
   return s.slice(0, Math.max(0, max - 1)) + "…"
 }
 
-function buildQrModules(value: string): boolean[][] | null {
+function buildQrModules(value: string, levelInput: "L" | "M" | "Q" | "H" = "M"): boolean[][] | null {
   try {
     const QRCode = require("qrcode-terminal/vendor/QRCode")
     const QRErrorCorrectLevel = require("qrcode-terminal/vendor/QRCode/QRErrorCorrectLevel")
 
-    const qr = new QRCode(-1, QRErrorCorrectLevel.M)
+    let level = QRErrorCorrectLevel.M
+    if (levelInput === "L") level = QRErrorCorrectLevel.L
+    else if (levelInput === "Q") level = QRErrorCorrectLevel.Q
+    else if (levelInput === "H") level = QRErrorCorrectLevel.H
+
+    const qr = new QRCode(-1, level)
     qr.addData(value)
     qr.make()
 
@@ -440,6 +462,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     typeof data.actualLinearWeightKgPerM === "number" &&
     Number.isFinite(data.actualLinearWeightKgPerM) &&
     Math.abs(data.actualLinearWeightKgPerM - data.linearWeightKgPerM) > 1e-9
+    && data.actualLinearWeightKgPerM !== 0
 
   const description =
     data.lengthMeters && data.linearWeightKgPerM
@@ -586,6 +609,8 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     const footerIconGap = 4
     const footerIconWidth = footerIconGap + footerIconSize
 
+
+    // Build deep link for app: open selected section + open calculator modal with prefilled values
     const params: string[] = []
     if (typeof data.sectionId === "number" && Number.isFinite(data.sectionId)) {
       params.push(`sid=${encodeURIComponent(String(data.sectionId))}`)
@@ -600,13 +625,63 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
       params.push(`sv=${encodeURIComponent(String(data.sliderValue))}`)
     }
 
-    const query = params.join("&")
-    const targetUrl = query ? `${BASE_SITE_URL}/?${query}` : `${BASE_SITE_URL}/`
-    const qrTargetUrl = targetUrl
+    // Tell the app to open the calculator modal automatically
+    params.push("cm=1")
 
-    const qrModules = buildQrModules(qrTargetUrl)
-    const qrSize = 64
+    // Include all calculator modal fields in calcInputs for deep link
+    const calcInputs: Record<string, string | number> = {}
+    if (typeof data.linearWeightKgPerM === "number" && Number.isFinite(data.linearWeightKgPerM)) {
+      calcInputs.linearWeightKgPerM = data.linearWeightKgPerM
+    }
+    if (shouldShowActualLinearWeight && typeof data.actualLinearWeightKgPerM === "number" && Number.isFinite(data.actualLinearWeightKgPerM)) {
+      calcInputs.actualLinearWeightKgPerM = data.actualLinearWeightKgPerM
+    }
+    if (typeof data.lengthMeters === "number" && Number.isFinite(data.lengthMeters)) {
+      calcInputs.lengthMeters = data.lengthMeters
+      calcInputs.lengthUnit = "m"
+    }
+    if (typeof data.unitWeightKg === "number" && Number.isFinite(data.unitWeightKg)) {
+      calcInputs.unitWeightKg = data.unitWeightKg
+    }
+    if (typeof data.required === "number" && Number.isFinite(data.required)) {
+      calcInputs.required = data.required
+    }
+    if (typeof data.unitPricePerPiece === "number" && Number.isFinite(data.unitPricePerPiece)) {
+      calcInputs.unitPricePerPiece = data.unitPricePerPiece
+    }
+    if (typeof data.totalWeightKg === "number" && Number.isFinite(data.totalWeightKg)) {
+      calcInputs.totalWeightKg = data.totalWeightKg
+    }
+    if (typeof data.totalPrice === "number" && Number.isFinite(data.totalPrice)) {
+      calcInputs.totalPrice = data.totalPrice
+    }
+    // Also include pricePerKg for convenience
+    if (
+      typeof data.unitWeightKg === "number" && Number.isFinite(data.unitWeightKg) &&
+      typeof data.unitPricePerPiece === "number" && Number.isFinite(data.unitPricePerPiece) &&
+      data.unitWeightKg > 0
+    ) {
+      const pricePerKg = data.unitPricePerPiece / data.unitWeightKg
+      if (Number.isFinite(pricePerKg) && pricePerKg >= 0) {
+        calcInputs.pricePerKg = pricePerKg
+      }
+    }
+    if (Object.keys(calcInputs).length > 0) {
+      const encoded = base64UrlEncodeUtf8(JSON.stringify(calcInputs))
+      params.push(`i=${encoded}`)
+    }
+
+    const query = params.join("&")
+    const targetUrl = query ? `${BASE_APP_URL}?${query}` : BASE_APP_URL
+    const clickUrl = query ? `${BASE_SITE_URL}/open?${query}` : `${BASE_SITE_URL}/open`
+
+
+    // Lower error correction => fewer modules => less dense QR (easier to scan)
+    const qrModules = buildQrModules(targetUrl, "L")
     const qrGap = 10
+
+    // Keep QR physical size consistent with sections PDF (fixed 64 points)
+    const qrSize = 64
     const footerMargin = 32
     const qrX = width - footerMargin - qrSize
 
@@ -628,7 +703,8 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     footerX = Math.min(footerMaxX, footerX)
     if (!Number.isFinite(footerX)) footerX = footerTextAreaX
 
-    const qrY = qrModules ? Math.max(8, footerY - (qrSize - footerSize) / 2) : 0
+    // رفع الـ QR code قليلاً عن الحافة السفلية (20 بدلاً من 8) لتجنب القص في بعض الطابعات
+    const qrY = qrModules ? Math.max(20, footerY - (qrSize - footerSize) / 2) : 0
 
     page.drawText(footerText, {
       x: footerX,
@@ -675,7 +751,8 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
         Border: [0, 0, 0],
         A: {
           S: PDFName.of("URI"),
-          URI: PDFString.of(targetUrl),
+          // Use https:// link for maximum PDF viewer compatibility
+          URI: PDFString.of(clickUrl),
         },
       }
 

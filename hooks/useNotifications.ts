@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AppState, AppStateStatus } from "react-native"
 
 import { supabase } from "../lib/supabase/client"
+import { useAuthState } from "./useAuthState"
 import { useLanguage } from "./useLanguage"
 
 export type NotificationRow = {
@@ -30,6 +31,7 @@ const PAGE_SIZE = 20
 
 export function useNotifications(): UseNotificationsResult {
   const { language } = useLanguage("en")
+  const { user, loading: authLoading } = useAuthState()
   const [items, setItems] = useState<NotificationRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -38,16 +40,12 @@ export function useNotifications(): UseNotificationsResult {
   const appStateRef = useRef<AppStateStatus>(AppState.currentState as AppStateStatus)
 
   const load = useCallback(async () => {
+    if (authLoading) return
+
     try {
       setError(null)
       setLoading(true)
 
-      const { data, error: userError } = await supabase.auth.getUser()
-      if (userError && userError.name !== "AuthSessionMissingError") {
-        console.warn("useNotifications getUser", userError)
-      }
-
-      const user = data?.user
       if (!user) {
         setUserId(null)
         setItems([])
@@ -83,7 +81,7 @@ export function useNotifications(): UseNotificationsResult {
     } finally {
       setLoading(false)
     }
-  }, [language])
+  }, [language, user, authLoading])
 
   useEffect(() => {
     load()

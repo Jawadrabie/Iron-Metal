@@ -22,6 +22,7 @@ import { useTheme } from "../contexts/ThemeContext"
 import { getCurrentUser } from "../lib/auth"
 import { supabase } from "../lib/supabase/client"
 import { sendSupportRequest } from "../lib/api/support"
+import { openWebsite } from "../lib/utils"
 
 const WHATSAPP_NUMBER = "+966 11 269 0999"
 const WHATSAPP_NUMBER_DIGITS = "966112690999"
@@ -444,7 +445,7 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
   }
 
   const handleWebsite = () => {
-    Linking.openURL(WEBSITE_URL).catch(() => null)
+    openWebsite()
   }
 
   const contactRowDirection = styles.rowLTR

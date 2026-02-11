@@ -17,14 +17,22 @@ const BASE_SITE_URL =
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
   "https://iron-metal.net"
 
+const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME || "ironmetal"
+const BASE_APP_URL = `${APP_SCHEME}://`
+
 const SECTIONS_PDF_IMAGE_DEBUG = false
 
-function buildQrModules(value: string): boolean[][] | null {
+function buildQrModules(value: string, levelInput: "L" | "M" | "Q" | "H" = "M"): boolean[][] | null {
   try {
     const QRCode = require("qrcode-terminal/vendor/QRCode")
     const QRErrorCorrectLevel = require("qrcode-terminal/vendor/QRCode/QRErrorCorrectLevel")
 
-    const qr = new QRCode(-1, QRErrorCorrectLevel.M)
+    let level = QRErrorCorrectLevel.M
+    if (levelInput === "L") level = QRErrorCorrectLevel.L
+    else if (levelInput === "Q") level = QRErrorCorrectLevel.Q
+    else if (levelInput === "H") level = QRErrorCorrectLevel.H
+
+    const qr = new QRCode(-1, level)
     qr.addData(value)
     qr.make()
 
@@ -688,11 +696,11 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
     }
 
     const query = params.join("&")
-    const targetUrl = query ? `${BASE_SITE_URL}/?${query}` : `${BASE_SITE_URL}/`
+    const qrTargetUrl = query ? `${BASE_APP_URL}?${query}` : BASE_APP_URL
+    const clickUrl = query ? `${BASE_SITE_URL}/open?${query}` : `${BASE_SITE_URL}/open`
 
-    const qrTargetUrl = targetUrl
-
-    const qrModules = buildQrModules(qrTargetUrl)
+    // Use 'L' (Low) error correction for less density and easier scanning
+    const qrModules = buildQrModules(qrTargetUrl, "L")
     const qrSize = 64
     const qrGap = 10
     const qrX = width - MARGIN - qrSize
@@ -769,7 +777,7 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
         Border: [0, 0, 0],
         A: {
           S: PDFName.of("URI"),
-          URI: PDFString.of(targetUrl),
+          URI: PDFString.of(clickUrl),
         },
       }
 
@@ -793,7 +801,7 @@ export async function generateSectionsPdf(items: SectionCartItem[]): Promise<str
           Border: [0, 0, 0],
           A: {
             S: PDFName.of("URI"),
-            URI: PDFString.of(targetUrl),
+            URI: PDFString.of(qrTargetUrl),
           },
         }
 
