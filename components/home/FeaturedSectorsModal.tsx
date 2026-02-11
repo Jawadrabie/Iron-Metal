@@ -18,6 +18,7 @@ import {
   type FeaturedSectorRow,
 } from "../../lib/featured-sectors"
 import { useLanguage } from "../../hooks/useLanguage"
+import { openWebsite } from "../../lib/utils"
 import { colors } from "../../constants/colors"
 import { useTheme } from "../../contexts/ThemeContext"
 
@@ -146,7 +147,7 @@ export const FeaturedSectorsModal = memo(function FeaturedSectorsModal({
   const handleOpenOnWeb = async (sector: FeaturedSectorRow) => {
     const url = buildSectorUrl(sector)
     try {
-      await Linking.openURL(url)
+      await openWebsite(url)
     } catch {
       // نتجاهل الخطأ هنا، يمكن تحسين الرسائل لاحقًا
     }

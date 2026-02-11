@@ -110,7 +110,9 @@ export const SplashOverlay = memo(function SplashOverlay({ visible, onDone }: Sp
         // ignore
       }
 
-      const entries = await Promise.all(LOGO_ASSETS.map(async (path) => [path, await getLocalSvgXml(path)] as const))
+      const entries = await Promise.all(
+        LOGO_ASSETS.map(async (path) => [path, await getLocalSvgXml(path)] as const),
+      )
       if (!mounted.current) return
       const next: Record<string, string | null> = {}
       entries.forEach(([path, xml]) => {

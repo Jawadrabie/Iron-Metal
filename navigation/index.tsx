@@ -26,19 +26,27 @@ export type HomeDeepLinkParams = {
   type?: string
   vi?: number
   sv?: number
+  calcId?: number
+  calcInputs?: Record<string, string | number>
+  cm?: boolean
   url: string
   nonce: string
 }
 
 export type RootStackParamList = {
   Home:
-    | {
-        initialTab?: TabKey
-        featured?: FeaturedSectorRow
-        deepLink?: HomeDeepLinkParams
-      }
-    | undefined
-  EngineeringCalculations: undefined
+  | {
+    initialTab?: TabKey
+    featured?: FeaturedSectorRow
+    deepLink?: HomeDeepLinkParams
+  }
+  | undefined
+  EngineeringCalculations:
+  | {
+    calcId?: number
+    calcInputs?: Record<string, string | number>
+  }
+  | undefined
   Login: undefined
   Support: undefined
   Suggestions: undefined

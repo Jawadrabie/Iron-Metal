@@ -31,6 +31,12 @@ type CalculatorModalProps = {
   initialRequiredInput?: string
   initialLengthInput?: string
   initialLengthUnit?: "m" | "mm"
+  prefillKey?: string | null
+  prefillPricePerKgInput?: string
+  prefillRequiredInput?: string
+  prefillLengthInput?: string
+  prefillLengthUnit?: "m" | "mm"
+  prefillDims?: Dims
 }
 
 export const CalculatorModal = memo(function CalculatorModal({
@@ -48,6 +54,12 @@ export const CalculatorModal = memo(function CalculatorModal({
   initialRequiredInput,
   initialLengthInput,
   initialLengthUnit,
+  prefillKey,
+  prefillPricePerKgInput,
+  prefillRequiredInput,
+  prefillLengthInput,
+  prefillLengthUnit,
+  prefillDims,
 }: CalculatorModalProps) {
   const theme = useTheme()
   const isDark = theme.isDark
@@ -153,6 +165,12 @@ export const CalculatorModal = memo(function CalculatorModal({
                     initialRequiredInput={initialRequiredInput}
                     initialLengthInput={initialLengthInput}
                     initialLengthUnit={initialLengthUnit}
+                    prefillKey={prefillKey}
+                    prefillPricePerKgInput={prefillPricePerKgInput}
+                    prefillRequiredInput={prefillRequiredInput}
+                    prefillLengthInput={prefillLengthInput}
+                    prefillLengthUnit={prefillLengthUnit}
+                    prefillDims={prefillDims}
                     onShowBanner={handleShowBanner}
                   />
                 </ScrollView>

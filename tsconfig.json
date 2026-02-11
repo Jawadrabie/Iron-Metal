@@ -1,12 +1,16 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": "./node_modules/expo/tsconfig.base.json",
   "compilerOptions": {
     "strict": true,
     "jsx": "react-jsx",
+    "moduleResolution": "bundler",
     "module": "ESNext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["assets/data/example.tsx"]
+  "exclude": [
+    "node_modules",
+    "assets/data/example.tsx"
+  ]
 }

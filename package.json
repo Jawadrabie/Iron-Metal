@@ -25,6 +25,7 @@
     "expo-file-system": "~19.0.20",
     "expo-font": "~14.0.10",
     "expo-image-picker": "~17.0.10",
+    "expo-intent-launcher": "~13.0.1",
     "expo-notifications": "~0.32.16",
     "expo-sharing": "^14.0.8",
     "expo-splash-screen": "~31.0.13",
@@ -32,6 +33,7 @@
     "expo-web-browser": "~15.0.10",
     "libphonenumber-js": "^1.12.31",
     "pdf-lib": "^1.17.1",
+    "qrcode-terminal": "^0.12.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
@@ -49,9 +51,12 @@
     "react-native-web": "^0.21.0"
   },
   "devDependencies": {
-    "@types/react": "~19.1.0",
+    "@types/node": "^25.2.2",
+    "@types/react": "~19.1.10",
+    "@types/react-dom": "~19.1.7",
     "babel-preset-expo": "^54.0.7",
     "baseline-browser-mapping": "^2.9.17",
+    "expo-module-scripts": "^5.0.8",
     "typescript": "~5.9.2"
   },
   "private": true

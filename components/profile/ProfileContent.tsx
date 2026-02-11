@@ -18,8 +18,7 @@ export type ProfileContentProps = {
   loading: boolean
   user: any | null
   fullName: string
-  email: string
-  emailVerified: boolean
+
   avatarUrl: string
   uploadingAvatar: boolean
   phone: string
@@ -28,7 +27,7 @@ export type ProfileContentProps = {
   canSave: boolean
   onPickAvatar: () => void
   onChangeFullName: (value: string) => void
-  onChangeEmail: (value: string) => void
+
   onChangePhone: (value: string) => void
   onSelectCountry: (code: string) => void
   onSave: () => void
@@ -44,8 +43,7 @@ export function ProfileContent({
   loading,
   user,
   fullName,
-  email,
-  emailVerified,
+
   avatarUrl,
   uploadingAvatar,
   phone,
@@ -54,7 +52,7 @@ export function ProfileContent({
   canSave,
   onPickAvatar,
   onChangeFullName,
-  onChangeEmail,
+
   onChangePhone,
   onSelectCountry,
   onSave,
@@ -101,14 +99,14 @@ export function ProfileContent({
   const countryFlatListProps =
     selectedCountryIndex > -1
       ? {
-          ...baseCountryFlatListProps,
-          initialScrollIndex: selectedCountryIndex,
-          getItemLayout: (_data: any, index: number) => ({
-            length: COUNTRY_ITEM_HEIGHT,
-            offset: COUNTRY_ITEM_HEIGHT * index,
-            index,
-          }),
-        }
+        ...baseCountryFlatListProps,
+        initialScrollIndex: selectedCountryIndex,
+        getItemLayout: (_data: any, index: number) => ({
+          length: COUNTRY_ITEM_HEIGHT,
+          offset: COUNTRY_ITEM_HEIGHT * index,
+          index,
+        }),
+      }
       : baseCountryFlatListProps
 
   if (loading) {
@@ -152,25 +150,7 @@ export function ProfileContent({
           </View>
         </TouchableOpacity>
         {!!fullName && <Text style={[styles.profileName, isDark ? { color: theme.colors.text } : null]}>{fullName}</Text>}
-        {!!email && <Text style={[styles.profileEmail, isDark ? { color: theme.colors.textSecondary } : null]}>{email}</Text>}
-        {emailVerified && (
-          <View
-            style={[
-              styles.verifiedRow,
-              isRTL ? { flexDirection: "row-reverse" } : null,
-            ]}
-          >
-            <Feather name="check-circle" size={16} color="#22C55E" />
-            <Text
-              style={[
-                styles.verifiedText,
-                isRTL ? { marginLeft: 0, marginRight: 4 } : null,
-              ]}
-            >
-              {tt.accountVerified}
-            </Text>
-          </View>
-        )}
+
       </View>
 
       <View style={styles.formSection}>
@@ -182,41 +162,21 @@ export function ProfileContent({
               rtlText,
               isDark
                 ? {
-                    backgroundColor: theme.colors.surface2,
-                    borderColor: theme.colors.border,
-                    color: theme.colors.text,
-                  }
+                  backgroundColor: theme.colors.surface2,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.text,
+                }
                 : null,
             ]}
             value={fullName}
             onChangeText={onChangeFullName}
             placeholder={tt.fullNamePlaceholder}
             placeholderTextColor={isDark ? theme.colors.textSecondary : "#9CA3AF"}
+            scrollEnabled={false}
           />
         </View>
 
-        <View style={styles.fieldGroup}>
-          <Text style={[styles.fieldLabel, rtlText, isDark ? { color: theme.colors.textSecondary } : null]}>{tt.emailLabel}</Text>
-          <TextInput
-            style={[
-              styles.input,
-              ltrText,
-              isDark
-                ? {
-                    backgroundColor: theme.colors.surface2,
-                    borderColor: theme.colors.border,
-                    color: theme.colors.text,
-                  }
-                : null,
-            ]}
-            value={email}
-            onChangeText={onChangeEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholder={tt.emailPlaceholder}
-            placeholderTextColor={isDark ? theme.colors.textSecondary : "#9CA3AF"}
-          />
-        </View>
+
 
         <View style={styles.fieldGroup}>
           <Text style={[styles.fieldLabel, rtlText, isDark ? { color: theme.colors.textSecondary } : null]}>{tt.phoneLabel}</Text>
@@ -226,10 +186,10 @@ export function ProfileContent({
               ltrText,
               isDark
                 ? {
-                    backgroundColor: theme.colors.surface2,
-                    borderColor: theme.colors.border,
-                    color: theme.colors.text,
-                  }
+                  backgroundColor: theme.colors.surface2,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.text,
+                }
                 : null,
             ]}
             value={phone}
@@ -237,6 +197,7 @@ export function ProfileContent({
             keyboardType="phone-pad"
             placeholder={tt.phonePlaceholder}
             placeholderTextColor={isDark ? theme.colors.textSecondary : "#9CA3AF"}
+            scrollEnabled={false}
           />
         </View>
 
@@ -251,9 +212,9 @@ export function ProfileContent({
                 isRTL ? { flexDirection: "row-reverse" } : null,
                 isDark
                   ? {
-                      backgroundColor: theme.colors.surface2,
-                      borderColor: theme.colors.border,
-                    }
+                    backgroundColor: theme.colors.surface2,
+                    borderColor: theme.colors.border,
+                  }
                   : null,
               ]}
               data={languageOptions}
@@ -269,9 +230,9 @@ export function ProfileContent({
                 styles.languageDropdownContainer,
                 isDark
                   ? {
-                      backgroundColor: theme.colors.surface2,
-                      borderColor: theme.colors.border,
-                    }
+                    backgroundColor: theme.colors.surface2,
+                    borderColor: theme.colors.border,
+                  }
                   : null,
               ]}
               onChange={(item: { label: string; value: string }) => {
@@ -324,9 +285,9 @@ export function ProfileContent({
                 isRTL ? { flexDirection: "row-reverse" } : null,
                 isDark
                   ? {
-                      backgroundColor: theme.colors.surface2,
-                      borderColor: theme.colors.border,
-                    }
+                    backgroundColor: theme.colors.surface2,
+                    borderColor: theme.colors.border,
+                  }
                   : null,
               ]}
               data={countryOptions}
@@ -342,9 +303,9 @@ export function ProfileContent({
                 styles.countryDropdownContainer,
                 isDark
                   ? {
-                      backgroundColor: theme.colors.surface2,
-                      borderColor: theme.colors.border,
-                    }
+                    backgroundColor: theme.colors.surface2,
+                    borderColor: theme.colors.border,
+                  }
                   : null,
               ]}
               autoScroll={false}

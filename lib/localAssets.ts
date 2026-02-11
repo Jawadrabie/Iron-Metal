@@ -185,6 +185,25 @@ const LOCAL_ASSET_MAP: Record<string, number> = {
   "/icons/calculators/42.png": require("../assets/icons/calculators/42.png"),
   "/icons/calculators/43.png": require("../assets/icons/calculators/43.png"),
   "/icons/calculators/44.png": require("../assets/icons/calculators/44.png"),
+  
+  // High-res calculator previews (.1 variants)
+  "/icons/calculators/20.1.png": require("../assets/icons/calculators/20.1.png"),
+  "/icons/calculators/21.1.png": require("../assets/icons/calculators/21.1.png"),
+  "/icons/calculators/22.1.png": require("../assets/icons/calculators/22.1.png"),
+  "/icons/calculators/23.1.png": require("../assets/icons/calculators/23.1.png"),
+  "/icons/calculators/26.1.png": require("../assets/icons/calculators/26.1.png"),
+  "/icons/calculators/28.1.png": require("../assets/icons/calculators/28.1.png"),
+  "/icons/calculators/31.1.png": require("../assets/icons/calculators/31.1.png"),
+  "/icons/calculators/32.1.png": require("../assets/icons/calculators/32.1.png"),
+  "/icons/calculators/33.1.png": require("../assets/icons/calculators/33.1.png"),
+  "/icons/calculators/34.1.png": require("../assets/icons/calculators/34.1.png"),
+  "/icons/calculators/35.1.png": require("../assets/icons/calculators/35.1.png"),
+  "/icons/calculators/37.1.png": require("../assets/icons/calculators/37.1.png"),
+  "/icons/calculators/39.1.png": require("../assets/icons/calculators/39.1.png"),
+  "/icons/calculators/42.1.png": require("../assets/icons/calculators/42.1.png"),
+  "/icons/calculators/44.1.png": require("../assets/icons/calculators/44.1.png"),
+  "/icons/calculators/27.1.png": require("../assets/icons/calculators/27.1.png"),
+
 }
 
 export const ALL_LOCAL_ASSET_PATHS = Object.keys(LOCAL_ASSET_MAP)

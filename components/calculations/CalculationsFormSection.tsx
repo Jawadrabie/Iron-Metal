@@ -79,6 +79,13 @@ export function CalculationsFormSection({
   const previewImageSource = useMemo(() => {
     if (!previewImagePath) return null
 
+    // Attempt to find a high-res (.1) version first
+    if (typeof previewImagePath === 'string') {
+      const dotOnePath = previewImagePath.replace(/(\.png|\.svg)$/, '.1$1')
+      const dotOneModuleId = getLocalAssetModuleId(dotOnePath)
+      if (dotOneModuleId) return dotOneModuleId
+    }
+
     const moduleId = getLocalAssetModuleId(previewImagePath)
     if (moduleId) return moduleId
 
@@ -158,9 +165,8 @@ export function CalculationsFormSection({
     return selectedGroup.items.map((item) => ({
       label: item.label,
       value: item.label,
-      rightLabel: `${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${
-        DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
-      }`,
+      rightLabel: `${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
+        }`,
     }))
   }, [densityUnit, selectedGroup.items])
 
@@ -182,21 +188,21 @@ export function CalculationsFormSection({
   const materialFlatListProps =
     selectedMaterialIndex > -1
       ? {
-          ...baseMaterialFlatListProps,
-          initialScrollIndex: selectedMaterialIndex,
-          getItemLayout: (_data: any, index: number) => ({
-            length: MATERIAL_ITEM_HEIGHT,
-            offset: MATERIAL_ITEM_HEIGHT * index,
-            index,
-          }),
-        }
+        ...baseMaterialFlatListProps,
+        initialScrollIndex: selectedMaterialIndex,
+        getItemLayout: (_data: any, index: number) => ({
+          length: MATERIAL_ITEM_HEIGHT,
+          offset: MATERIAL_ITEM_HEIGHT * index,
+          index,
+        }),
+      }
       : baseMaterialFlatListProps
 
   const autoCalcTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const densityGroupDropdownRef = useRef<IDropdownRef>(null)
   const densityMaterialDropdownRef = useRef<IDropdownRef>(null)
-  const densityUnitAnchorRef = useRef<View | null>(null)
+  const densityUnitDropdownRef = useRef<IDropdownRef>(null)
   const unitAnchorRefs = useRef<Record<string, View | null>>({})
 
   useEffect(() => {
@@ -290,9 +296,9 @@ export function CalculationsFormSection({
   const handleReset = () => {
     setDims((prev: any) => {
       const next = { ...prev }
-      ;['h', 'tf', 'tw', 't', 'r', 's', 'u'].forEach((k) => {
-        next[k] = ''
-      })
+        ;['h', 'tf', 'tw', 't', 'r', 's', 'u'].forEach((k) => {
+          next[k] = ''
+        })
       return next
     })
     setQty(1)
@@ -420,7 +426,7 @@ export function CalculationsFormSection({
         </View>
       )}
 
-      <View style={[styles.densityRow, { direction: 'ltr', flexDirection: 'row' }]}> 
+      <View style={[styles.densityRow, { direction: 'ltr', flexDirection: 'row' }]}>
         <View collapsable={false} style={{ flex: 0.85, minWidth: 0 }}>
           <TouchableOpacity
             style={styles.densitySelect}
@@ -577,36 +583,71 @@ export function CalculationsFormSection({
           </View>
         </View>
 
-        <View
-          ref={(node) => {
-            densityUnitAnchorRef.current = node
-          }}
-          collapsable={false}
-        >
+        <View collapsable={false}>
           <TouchableOpacity
             style={styles.densitySelectUnit}
-            onPress={() => {
-              const node = densityUnitAnchorRef.current ?? null
-              openPickerFromNode(node, {
-                showTitle: false,
-                title: undefined,
-                compact: true,
-                verticalOffset: -14,
-                options: DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value })),
-                value: densityUnit,
-                width: 120,
-                maxHeight: 220,
-                onSelect: (value: string) => {
-                  setDensityUnit(value)
-                  closePicker()
-                },
-              })
-            }}
+            onPress={() => densityUnitDropdownRef.current?.open?.()}
           >
             <Text style={styles.densitySelectText} numberOfLines={1}>
               {DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || 'kg/m³'}
             </Text>
           </TouchableOpacity>
+
+          <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
+            <Dropdown
+              ref={densityUnitDropdownRef}
+              data={DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value }))}
+              labelField="label"
+              valueField="value"
+              value={densityUnit}
+              style={StyleSheet.absoluteFillObject}
+              dropdownPosition="bottom"
+              containerStyle={[
+                styles.dropdownContainer,
+                {
+                  width: 100,
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                  borderWidth: StyleSheet.hairlineWidth,
+                },
+              ]}
+              placeholder=""
+              selectedTextStyle={styles.dropdownHiddenText}
+              itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
+              maxHeight={220}
+              showsVerticalScrollIndicator={false}
+              activeColor="transparent"
+              closeModalWhenSelectedItem
+              flatListProps={{
+                bounces: false,
+                overScrollMode: 'never',
+                showsVerticalScrollIndicator: false,
+                contentContainerStyle: { paddingVertical: 0 },
+              }}
+              onChange={(item: { label: string; value: string }) => {
+                setDensityUnit(item.value)
+                densityUnitDropdownRef.current?.close?.()
+              }}
+              renderLeftIcon={() => null}
+              renderRightIcon={() => null}
+              renderItem={(item: { label: string; value: string }) => {
+                const isSelected = item.value === densityUnit
+                return (
+                  <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
+                    <Text
+                      style={[
+                        styles.modalOptionText,
+                        { color: theme.colors.text },
+                        isSelected ? styles.modalOptionTextActive : null,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  </View>
+                )
+              }}
+            />
+          </View>
         </View>
 
         <TouchableOpacity
@@ -619,160 +660,160 @@ export function CalculationsFormSection({
         </TouchableOpacity>
       </View>
 
-      <View style={[styles.formTwoColRow, { direction: 'ltr' }]}> 
+      <View style={[styles.formTwoColRow, { direction: 'ltr' }]}>
         <View style={[styles.formLeftCol, language === 'ar' ? { direction: 'rtl' } : null]}>
 
-      {fields.map((field) => (
-        <View key={field.key} style={styles.inputRow}>
-          {shouldShowUnitForKey(field.key) ? (
-            <View style={styles.inputWithUnit}>
-              <View style={styles.inputPrefix}>
-                <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
-                  {field.label}
-                </Text>
-              </View>
-              <TextInput
-                style={styles.inputFlex}
-                value={dims[field.key] || ''}
-                onChangeText={(text) => handleDimChange(field.key, text)}
-                keyboardType="numeric"
-                multiline={false}
-                numberOfLines={1}
-                placeholder={getLocalizedPlaceholder(field.title, language)}
-                placeholderTextColor={theme.colors.textSecondary}
-                selectionColor={theme.colors.secondary}
-              />
-              <View
-                ref={(node) => {
-                  unitAnchorRefs.current[field.key] = node
-                }}
-                collapsable={false}
-              >
-                <TouchableOpacity
-                  style={styles.unitButton}
-                  onPress={() => {
-                    const node = unitAnchorRefs.current[field.key] ?? null
-                    openPickerFromNode(node, {
-                      showTitle: false,
-                      title: undefined,
-                      options: DIM_UNITS.map((u) => ({ label: u, value: u })),
-                      value: getUnitForKey(field.key),
-                      width: 96,
-                      maxHeight: 170,
-                      onSelect: (value: string) => {
-                        setUnitForKey(field.key, value as DimUnit)
-                        closePicker()
-                      },
-                    })
-                  }}
-                >
-                  <Text style={styles.unitButtonText}>{getUnitForKey(field.key)}</Text>
-                </TouchableOpacity>
-              </View>
+          {fields.map((field) => (
+            <View key={field.key} style={styles.inputRow}>
+              {shouldShowUnitForKey(field.key) ? (
+                <View style={styles.inputWithUnit}>
+                  <View style={styles.inputPrefix}>
+                    <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+                      {field.label}
+                    </Text>
+                  </View>
+                  <TextInput
+                    style={styles.inputFlex}
+                    value={dims[field.key] || ''}
+                    onChangeText={(text) => handleDimChange(field.key, text)}
+                    keyboardType="numeric"
+                    multiline={false}
+                    numberOfLines={1}
+                    placeholder={getLocalizedPlaceholder(field.title, language)}
+                    placeholderTextColor={theme.colors.textSecondary}
+                    selectionColor={theme.colors.secondary}
+                  />
+                  <View
+                    ref={(node) => {
+                      unitAnchorRefs.current[field.key] = node
+                    }}
+                    collapsable={false}
+                  >
+                    <TouchableOpacity
+                      style={styles.unitButton}
+                      onPress={() => {
+                        const node = unitAnchorRefs.current[field.key] ?? null
+                        openPickerFromNode(node, {
+                          showTitle: false,
+                          title: undefined,
+                          options: DIM_UNITS.map((u) => ({ label: u, value: u })),
+                          value: getUnitForKey(field.key),
+                          width: 65,
+                          maxHeight: 170,
+                          onSelect: (value: string) => {
+                            setUnitForKey(field.key, value as DimUnit)
+                            closePicker()
+                          },
+                        })
+                      }}
+                    >
+                      <Text style={styles.unitButtonText}>{getUnitForKey(field.key)}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.inputWithPrefix}>
+                  <View style={styles.inputPrefix}>
+                    <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+                      {field.label}
+                    </Text>
+                  </View>
+                  <TextInput
+                    style={styles.inputFlexNoUnit}
+                    value={dims[field.key] || ''}
+                    onChangeText={(text) => handleDimChange(field.key, text)}
+                    keyboardType="numeric"
+                    multiline={false}
+                    numberOfLines={1}
+                    placeholder={getLocalizedPlaceholder(field.title, language)}
+                    placeholderTextColor={theme.colors.textSecondary}
+                    selectionColor={theme.colors.secondary}
+                  />
+                </View>
+              )}
             </View>
-          ) : (
+          ))}
+
+          <View style={styles.inputRow}>
             <View style={styles.inputWithPrefix}>
               <View style={styles.inputPrefix}>
                 <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
-                  {field.label}
+                  {calcT.quantity}
                 </Text>
               </View>
               <TextInput
                 style={styles.inputFlexNoUnit}
-                value={dims[field.key] || ''}
-                onChangeText={(text) => handleDimChange(field.key, text)}
+                value={qtyText}
+                onChangeText={(text) => {
+                  const normalized = normalizeNumericInput(text)
+                  const n = toNumber(normalized)
+
+                  setQtyText(normalized)
+
+                  if (!normalized) {
+                    setQty(0)
+                    return
+                  }
+
+                  if (!n || n <= 0) {
+                    setQty(0)
+                    return
+                  }
+
+                  setQty(Math.floor(n))
+                }}
+                onBlur={() => {
+                  const n = toNumber(qtyText)
+
+                  if (!qtyText || !n || n <= 0) {
+                    setQty(0)
+                    setQtyText('')
+                    return
+                  }
+
+                  const next = Math.floor(n)
+                  setQty(next)
+                  setQtyText(String(next))
+                }}
                 keyboardType="numeric"
                 multiline={false}
                 numberOfLines={1}
-                placeholder={getLocalizedPlaceholder(field.title, language)}
+                placeholder="1"
                 placeholderTextColor={theme.colors.textSecondary}
                 selectionColor={theme.colors.secondary}
               />
             </View>
-          )}
-        </View>
-      ))}
-
-      <View style={styles.inputRow}>
-        <View style={styles.inputWithPrefix}>
-          <View style={styles.inputPrefix}>
-            <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
-              {calcT.quantity}
-            </Text>
           </View>
-          <TextInput
-            style={styles.inputFlexNoUnit}
-            value={qtyText}
-            onChangeText={(text) => {
-              const normalized = normalizeNumericInput(text)
-              const n = toNumber(normalized)
 
-              setQtyText(normalized)
-
-              if (!normalized) {
-                setQty(0)
-                return
-              }
-
-              if (!n || n <= 0) {
-                setQty(0)
-                return
-              }
-
-              setQty(Math.floor(n))
-            }}
-            onBlur={() => {
-              const n = toNumber(qtyText)
-
-              if (!qtyText || !n || n <= 0) {
-                setQty(0)
-                setQtyText('')
-                return
-              }
-
-              const next = Math.floor(n)
-              setQty(next)
-              setQtyText(String(next))
-            }}
-            keyboardType="numeric"
-            multiline={false}
-            numberOfLines={1}
-            placeholder="1"
-            placeholderTextColor={theme.colors.textSecondary}
-            selectionColor={theme.colors.secondary}
-          />
-        </View>
-      </View>
-
-      <View style={styles.inputRow}>
-        <View style={styles.priceInputWithPrefixCurrency}>
-          <View style={styles.inputPrefix}>
-            <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
-              {calcT.pricePerKg}
-            </Text>
+          <View style={styles.inputRow}>
+            <View style={styles.priceInputWithPrefixCurrency}>
+              <View style={styles.inputPrefix}>
+                <Text style={[styles.inputPrefixText, { color: theme.colors.text }]} numberOfLines={1}>
+                  {calcT.pricePerKg}
+                </Text>
+              </View>
+              <TextInput
+                style={styles.priceInput}
+                value={price ? String(price) : ''}
+                onChangeText={(text) => {
+                  const normalized = normalizeNumericInput(text)
+                  if (!normalized) {
+                    setPrice(null)
+                    return
+                  }
+                  const n = toNumber(normalized)
+                  setPrice(n > 0 ? n : null)
+                }}
+                keyboardType="numeric"
+                multiline={false}
+                numberOfLines={1}
+                placeholder={calcT.pricePerKg}
+                placeholderTextColor={theme.colors.textSecondary}
+                selectionColor={theme.colors.secondary}
+              />
+              <Text style={styles.priceInputCurrency}>{currencyCode}</Text>
+            </View>
           </View>
-          <TextInput
-            style={styles.priceInput}
-            value={price ? String(price) : ''}
-            onChangeText={(text) => {
-              const normalized = normalizeNumericInput(text)
-              if (!normalized) {
-                setPrice(null)
-                return
-              }
-              const n = toNumber(normalized)
-              setPrice(n > 0 ? n : null)
-            }}
-            keyboardType="numeric"
-            multiline={false}
-            numberOfLines={1}
-            placeholder={calcT.pricePerKg}
-            placeholderTextColor={theme.colors.textSecondary}
-            selectionColor={theme.colors.secondary}
-          />
-          <Text style={styles.priceInputCurrency}>{currencyCode}</Text>
-        </View>
-      </View>
 
         </View>
 
@@ -782,7 +823,7 @@ export function CalculationsFormSection({
               {!!displayedPreviewSource && (
                 <Image
                   source={displayedPreviewSource as any}
-                  style={[styles.calcPreviewImage, StyleSheet.absoluteFillObject]}
+                  style={styles.calcPreviewImage}
                   resizeMode="contain"
                   resizeMethod="resize"
                   fadeDuration={0}

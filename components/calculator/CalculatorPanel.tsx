@@ -43,6 +43,12 @@ export type CalculatorPanelProps = {
   initialLengthInput?: string
   initialLengthUnit?: "m" | "mm"
   presetKey?: string | null
+  prefillKey?: string | null
+  prefillPricePerKgInput?: string
+  prefillRequiredInput?: string
+  prefillLengthInput?: string
+  prefillLengthUnit?: "m" | "mm"
+  prefillDims?: Dims
   onShowBanner?: (type: "success" | "error", message: string) => void
 }
 
@@ -122,6 +128,12 @@ export function CalculatorPanel({
   initialLengthInput,
   initialLengthUnit,
   presetKey,
+  prefillKey,
+  prefillPricePerKgInput,
+  prefillRequiredInput,
+  prefillLengthInput,
+  prefillLengthUnit,
+  prefillDims,
   onShowBanner,
 }: CalculatorPanelProps) {
   const theme = useTheme()
@@ -142,6 +154,7 @@ export function CalculatorPanel({
   const [errorReportOpen, setErrorReportOpen] = useState(false)
   const [presetKeyApplied, setPresetKeyApplied] = useState<string | null>(null)
   const [presetSectionId, setPresetSectionId] = useState<number | null>(null)
+  const [prefillKeyApplied, setPrefillKeyApplied] = useState<string | null>(null)
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false)
   const sectorImageCaptureRef = useRef<View | null>(null)
   const cardRef = useRef<View | null>(null)
@@ -193,6 +206,35 @@ export function CalculatorPanel({
   useEffect(() => {
     if (!presetKeyApplied) return
     if (presetKey) return
+
+  useEffect(() => {
+    if (!prefillKey) return
+    if (prefillKeyApplied === prefillKey) return
+
+    setPrefillKeyApplied(prefillKey)
+    if (prefillPricePerKgInput != null) setPricePerKgInput(prefillPricePerKgInput)
+    if (prefillRequiredInput != null) setRequiredInput(prefillRequiredInput)
+    if (prefillLengthInput != null) setLengthInput(prefillLengthInput)
+    if (prefillLengthUnit != null) setLengthUnit(prefillLengthUnit)
+    if (isDimsSection(selectedSectionId) && prefillDims) {
+      setDims(prefillDims)
+    }
+  }, [
+    prefillKey,
+    prefillKeyApplied,
+    prefillPricePerKgInput,
+    prefillRequiredInput,
+    prefillLengthInput,
+    prefillLengthUnit,
+    prefillDims,
+    selectedSectionId,
+  ])
+
+  useEffect(() => {
+    if (prefillKey) return
+    if (!prefillKeyApplied) return
+    setPrefillKeyApplied(null)
+  }, [prefillKey, prefillKeyApplied])
 
     setPresetKeyApplied(null)
     setPresetSectionId(null)
