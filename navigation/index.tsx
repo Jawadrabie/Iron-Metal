@@ -85,7 +85,10 @@ export function RootNavigator() {
         <Stack.Screen
           name="EngineeringCalculations"
           component={CalculationsScreen}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            animation: "slide_from_left",
+          }}
         />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Support" component={SupportScreen} />

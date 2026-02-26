@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { StatusBar } from "expo-status-bar"
-import { Alert, Linking, Platform, StyleSheet } from "react-native"
+import { Alert, Animated, Easing, Linking, Platform, StyleSheet } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context"
 import * as SplashScreen from "expo-splash-screen"
@@ -163,6 +163,9 @@ function navigateToHomeDeepLink(deepLink: HomeDeepLinkParams) {
     deepLinkNavTimeout = setTimeout(attemptNavigate, 250)
   }
 
+  // If this deep link wants to open the calculator modal (cm=true), we rely on
+  // the app logic (Home screen) to handle it. Since we now defer processing until
+  // splash is gone (see queuedUrl logic in App component), we can just navigate immediately.
   attemptNavigate()
 }
 
@@ -186,6 +189,7 @@ function navigateToNotificationsTab() {
 export default function App() {
   const [fontsReady, setFontsReady] = useState(false)
   const [showSplashOverlay, setShowSplashOverlay] = useState(true)
+  const [pendingUrl, setPendingUrl] = useState<string | null>(null)
   const nativeSplashHiddenRef = useRef(false)
   const handledInitialNotificationResponseRef = useRef(false)
 
@@ -237,11 +241,24 @@ export default function App() {
     }
   }, [])
 
+  // Process queued deep link only after splash overlay is gone
+  useEffect(() => {
+    if (showSplashOverlay) return
+    if (!pendingUrl) return
+
+    const deepLink = parseHomeDeepLinkUrl(pendingUrl)
+    setPendingUrl(null)
+
+    if (deepLink) {
+      console.log("[App] processing deferred deep link", deepLink.url)
+      navigateToHomeDeepLink(deepLink)
+    }
+  }, [showSplashOverlay, pendingUrl])
+
   useEffect(() => {
     const handleIncomingUrl = (url: string) => {
-      const deepLink = parseHomeDeepLinkUrl(url)
-      if (!deepLink) return
-      navigateToHomeDeepLink(deepLink)
+      // Just queue it; the effect above will handle it when splash is done
+      setPendingUrl(url)
     }
 
     Linking.getInitialURL()

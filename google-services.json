@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:72590416490:android:8a669f66926221c0508813",
+        "android_client_info": {
+          "package_name": "com.alabuotrading.ironandmetal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCfHN48ddezkVIiI3EJWEaBCbuied-x40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:72590416490:android:db40147f241aeb43508813",
         "android_client_info": {
           "package_name": "com.alabuotrading.ironmetal"

@@ -626,7 +626,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     }
 
     // Tell the app to open the calculator modal automatically
-    params.push("cm=1")
+    // params.push("cm=1") -> Disabled per user request (only prefill, do not auto-open)
 
     // Include all calculator modal fields in calcInputs for deep link
     const calcInputs: Record<string, string | number> = {}
