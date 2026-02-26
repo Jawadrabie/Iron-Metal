@@ -29,22 +29,41 @@ export const CalculatorTypeStrip = memo(function CalculatorTypeStrip({
   const containerWidthRef = useRef(0)
   const contentWidthRef = useRef(0)
   const scrollXRef = useRef(0)
-  const [showScrollHint, setShowScrollHint] = useState(false)
+  const [showRightScrollHint, setShowRightScrollHint] = useState(false)
+  const [showLeftScrollHint, setShowLeftScrollHint] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
 
   const recomputeScrollHint = useCallback(() => {
     const containerWidth = containerWidthRef.current
     const contentWidth = contentWidthRef.current
     if (!containerWidth || !contentWidth) {
-      setShowScrollHint(false)
+      setShowRightScrollHint(false)
+      setShowLeftScrollHint(false)
       return
     }
 
     const canScroll = contentWidth > containerWidth + 8
+    const atStart = scrollXRef.current <= 8
     const atEnd = scrollXRef.current + containerWidth >= contentWidth - 8
-    const next = canScroll && !atEnd
+    const nextRight = canScroll && !atEnd
+    const nextLeft = canScroll && !atStart
 
-    setShowScrollHint((current) => (current === next ? current : next))
+    setShowRightScrollHint((current) => (current === nextRight ? current : nextRight))
+    setShowLeftScrollHint((current) => (current === nextLeft ? current : nextLeft))
   }, [])
+
+  const handleLeftScrollHintPress = useCallback(() => {
+    if (!listRef.current) return
+    const containerWidth = containerWidthRef.current
+    const contentWidth = contentWidthRef.current
+    if (!containerWidth || !contentWidth) return
+
+    const step = Math.max(120, Math.round(containerWidth * 0.7))
+    const nextOffset = Math.max(0, scrollXRef.current - step)
+    scrollXRef.current = nextOffset
+    listRef.current.scrollToOffset({ offset: nextOffset, animated: true })
+    recomputeScrollHint()
+  }, [recomputeScrollHint])
 
   const handleScrollHintPress = useCallback(() => {
     if (!listRef.current) return
@@ -78,6 +97,7 @@ export const CalculatorTypeStrip = memo(function CalculatorTypeStrip({
 
   const handleScrollEnd = useCallback(
     (e: any) => {
+      setIsDragging(false)
       scrollXRef.current = e?.nativeEvent?.contentOffset?.x ?? 0
       recomputeScrollHint()
     },
@@ -206,12 +226,13 @@ export const CalculatorTypeStrip = memo(function CalculatorTypeStrip({
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.sliderListContent}
         ItemSeparatorComponent={renderSeparator}
-        removeClippedSubviews
-        windowSize={7}
-        initialNumToRender={8}
-        maxToRenderPerBatch={8}
+        removeClippedSubviews={false}
+        windowSize={9}
+        initialNumToRender={calculators.length}
+        maxToRenderPerBatch={calculators.length}
         updateCellsBatchingPeriod={50}
         onContentSizeChange={handleContentSizeChange}
+        onScrollBeginDrag={() => setIsDragging(true)}
         onScrollEndDrag={handleScrollEnd}
         onMomentumScrollEnd={handleScrollEnd}
         getItemLayout={getItemLayout}
@@ -219,7 +240,22 @@ export const CalculatorTypeStrip = memo(function CalculatorTypeStrip({
         showsHorizontalScrollIndicator={false}
       />
 
-      {showScrollHint && (
+      {showLeftScrollHint && !isDragging && (
+        <View pointerEvents="box-none" style={[styles.sliderScrollHint, styles.sliderScrollHintLeft]}>
+          <TouchableOpacity
+            style={[
+              styles.sliderScrollHintButton,
+              { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+            ]}
+            activeOpacity={0.9}
+            onPress={handleLeftScrollHintPress}
+          >
+            <Feather name="chevron-left" size={18} color={theme.colors.text} />
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {showRightScrollHint && !isDragging && (
         <View pointerEvents="box-none" style={styles.sliderScrollHint}>
           <TouchableOpacity
             style={[

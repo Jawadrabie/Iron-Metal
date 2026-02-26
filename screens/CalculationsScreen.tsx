@@ -107,10 +107,53 @@ const CalculationsScreen = () => {
       const target = Number(deepLinkCalcId);
       if (Number.isFinite(target) && calculators.some((c) => c.id === target)) {
         skipResetRef.current = true;
-        setSelectedCalcId(target);
-        if (deepLinkCalcInputs) {
-          setDims(deepLinkCalcInputs);
+
+        // Apply deep-link inputs BEFORE switching the calculator so the form
+        // mounts with the right initial values.
+        if (deepLinkCalcInputs && typeof deepLinkCalcInputs === 'object') {
+          try {
+            const nextDims: any = {}
+            let nextQty: number | null = null
+            let nextPrice: number | null = null
+
+            for (const [key, raw] of Object.entries(deepLinkCalcInputs)) {
+              if (key === 'qty') {
+                const n = typeof raw === 'number' ? raw : Number(raw)
+                if (Number.isFinite(n) && n > 0) nextQty = Math.floor(n)
+                continue
+              }
+
+              if (key === 'price') {
+                const n = typeof raw === 'number' ? raw : Number(raw)
+                if (Number.isFinite(n) && n > 0) nextPrice = n
+                continue
+              }
+
+              // TextInput expects strings. If we pass numbers, the field may render empty.
+              if (typeof raw === 'number') {
+                nextDims[key] = Number.isFinite(raw) ? String(raw) : ''
+                continue
+              }
+
+              // Keep booleans/strings as-is (booleans are used for toggles like includeRadius)
+              nextDims[key] = raw as any
+            }
+
+            if (nextQty != null) setQty(nextQty)
+            if (nextPrice != null) setPrice(nextPrice)
+            setDims(nextDims)
+            console.log('[deep-link] engineering calculator prefill applied', {
+              calcId: target,
+              dimsKeys: Object.keys(nextDims),
+              qty: nextQty,
+              price: nextPrice,
+            })
+          } catch (e) {
+            console.warn('[deep-link] failed to apply engineering calcInputs', e)
+          }
         }
+
+        setSelectedCalcId(target);
       }
       // clear params so we don't re-trigger on remount if unnecessary
       navigation.setParams({ calcId: undefined, calcInputs: undefined });

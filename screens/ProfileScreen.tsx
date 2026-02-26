@@ -1,4 +1,6 @@
+import { useEffect, useRef } from "react"
 import {
+  Animated,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,6 +17,7 @@ import { CountryModal } from "../components/profile/CountryModal"
 import { LanguageModal } from "../components/profile/LanguageModal"
 import { colors } from "../constants/colors"
 import { useTheme } from "../contexts/ThemeContext"
+import { ErrorState } from "../components/ui/ErrorState"
 
 export default function ProfileScreen() {
   const theme = useTheme()
@@ -22,6 +25,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation<any>()
   const {
     loading,
+    profileLoadError,
     user,
     saving,
     fullName,
@@ -41,113 +45,159 @@ export default function ProfileScreen() {
     setShowCountryPicker,
     setShowLanguagePicker,
     setShowLogoutConfirm,
+    setPreferredLanguage,
+    retryLoadProfile,
     handleSave,
     handlePickAvatar,
     handleLogout,
     canSave,
   } = useProfileScreen()
+  const contentOpacity = useRef(new Animated.Value(1)).current
+  const isLanguageSwitchingRef = useRef(false)
 
   const isRTL = preferredLanguage !== "en"
+
+  const handleSelectLanguage = (language: "en" | "ar") => {
+    if (isLanguageSwitchingRef.current) return
+    if (preferredLanguage === language) return
+
+    isLanguageSwitchingRef.current = true
+
+    Animated.timing(contentOpacity, {
+      toValue: 0.6,
+      duration: 140,
+      useNativeDriver: true,
+    }).start(() => {
+      setPreferredLanguage(language)
+      requestAnimationFrame(() => {
+        Animated.timing(contentOpacity, {
+          toValue: 1,
+          duration: 180,
+          useNativeDriver: true,
+        }).start(() => {
+          isLanguageSwitchingRef.current = false
+        })
+      })
+    })
+  }
 
   const showBanner = (type: "success" | "error", message: string) => {
     // ...
   }
 
+  if (profileLoadError && !loading) {
+    return (
+      <View style={[styles.root, isDark ? { backgroundColor: theme.colors.background } : null]}>
+        <View style={styles.profileErrorContainer}>
+          <ErrorState message={profileLoadError} onRetry={() => { void retryLoadProfile() }} />
+        </View>
+      </View>
+    )
+  }
+
   return (
     <View style={[styles.root, isDark ? { backgroundColor: theme.colors.background } : null]}>
-      {user && (
-        <View
-          style={[
-            styles.headerLogoutContainer,
-            isRTL ? styles.headerLogoutContainerRTL : styles.headerLogoutContainerLTR,
-          ]}
-        >
-          <TouchableOpacity
-            style={styles.headerLogoutButton}
-            activeOpacity={0.9}
-            onPress={() => setShowLogoutConfirm(true)}
-          >
-            <Feather name="log-out" size={18} color="#dc2626" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.headerDeleteButton}
-            activeOpacity={0.9}
-            onPress={() => navigation.navigate("DeleteAccount" as never)}
-          >
-            <Feather name="trash-2" size={18} color="#dc2626" />
-          </TouchableOpacity>
-        </View>
-      )}
-
-      {bannerMessage && (
-        <View
-          style={[
-            styles.banner,
-            bannerType === "success" ? styles.bannerSuccess : styles.bannerError,
-            isRTL ? styles.bannerRTL : null,
-          ]}
-        >
-          <Feather
-            name={bannerType === "success" ? "check-circle" : "alert-circle"}
-            size={16}
-            color={bannerType === "success" ? "#16A34A" : "#b91c1b"}
-          />
-          <Text
+      <Animated.View
+        style={{
+          flex: 1,
+          opacity: contentOpacity,
+        }}
+      >
+        {user && (
+          <View
             style={[
-              styles.bannerText,
-              bannerType === "error" && styles.bannerTextError,
-              isRTL ? styles.bannerTextRTL : null,
+              styles.headerLogoutContainer,
+              isRTL ? styles.headerLogoutContainerRTL : styles.headerLogoutContainerLTR,
             ]}
           >
-            {bannerMessage}
-          </Text>
-        </View>
-      )}
+            <TouchableOpacity
+              style={styles.headerLogoutButton}
+              activeOpacity={0.9}
+              onPress={() => setShowLogoutConfirm(true)}
+            >
+              <Feather name="log-out" size={18} color="#dc2626" />
+            </TouchableOpacity>
 
-      {(showCountryPicker || showLanguagePicker) && (
-        <Pressable
-          style={StyleSheet.absoluteFill}
-          onPress={() => {
-            setShowCountryPicker(false)
-            setShowLanguagePicker(false)
-          }}
-        />
-      )}
+            <TouchableOpacity
+              style={styles.headerDeleteButton}
+              activeOpacity={0.9}
+              onPress={() => navigation.navigate("DeleteAccount" as never)}
+            >
+              <Feather name="trash-2" size={18} color="#dc2626" />
+            </TouchableOpacity>
+          </View>
+        )}
 
-      <ScrollView
-        style={[styles.scroll, { flex: 1 }]}
-        contentContainerStyle={[
-          styles.content,
-          !loading && !user && styles.contentGuest,
-        ]}
-        keyboardShouldPersistTaps="handled"
-        nestedScrollEnabled
-        showsVerticalScrollIndicator={false}
-        overScrollMode="never"
-      >
-        <ProfileContent
-          loading={loading}
-          user={user}
-          fullName={fullName}
-          avatarUrl={avatarUrl}
-          uploadingAvatar={uploadingAvatar}
-          phone={phone}
-          country={country}
-          saving={saving}
-          canSave={canSave}
-          onPickAvatar={handlePickAvatar}
-          onChangeFullName={setFullName}
-          onChangePhone={setPhone}
-          onSelectCountry={(code) => setCountry(code)}
-          onSave={handleSave}
-          styles={styles}
-        />
-      </ScrollView>
+        {bannerMessage && (
+          <View
+            style={[
+              styles.banner,
+              bannerType === "success" ? styles.bannerSuccess : styles.bannerError,
+              isRTL ? styles.bannerRTL : null,
+            ]}
+          >
+            <Feather
+              name={bannerType === "success" ? "check-circle" : "alert-circle"}
+              size={16}
+              color={bannerType === "success" ? "#16A34A" : "#b91c1b"}
+            />
+            <Text
+              style={[
+                styles.bannerText,
+                bannerType === "error" && styles.bannerTextError,
+                isRTL ? styles.bannerTextRTL : null,
+              ]}
+            >
+              {bannerMessage}
+            </Text>
+          </View>
+        )}
+
+        {(showCountryPicker || showLanguagePicker) && (
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={() => {
+              setShowCountryPicker(false)
+              setShowLanguagePicker(false)
+            }}
+          />
+        )}
+
+        <ScrollView
+          style={[styles.scroll, { flex: 1 }]}
+          contentContainerStyle={[
+            styles.content,
+            !loading && !user && styles.contentGuest,
+          ]}
+          keyboardShouldPersistTaps="handled"
+          nestedScrollEnabled
+          showsVerticalScrollIndicator={false}
+          overScrollMode="never"
+        >
+          <ProfileContent
+            loading={loading}
+            user={user}
+            fullName={fullName}
+            avatarUrl={avatarUrl}
+            uploadingAvatar={uploadingAvatar}
+            phone={phone}
+            country={country}
+            saving={saving}
+            canSave={canSave}
+            onPickAvatar={handlePickAvatar}
+            onChangeFullName={setFullName}
+            onChangePhone={setPhone}
+            onSelectCountry={(code) => setCountry(code)}
+            onSave={handleSave}
+            styles={styles}
+          />
+        </ScrollView>
+      </Animated.View>
 
       <LanguageModal
         visible={showLanguagePicker}
         onClose={() => setShowLanguagePicker(false)}
+        onSelectLanguage={handleSelectLanguage}
         styles={styles}
       />
 
@@ -176,6 +226,11 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: "#f9fafb",
+  },
+  profileErrorContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerLogoutContainer: {
     position: "absolute",

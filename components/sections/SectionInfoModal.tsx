@@ -358,7 +358,12 @@ export function SectionInfoModal({
 
   return (
     <Modal visible={visible} transparent animationType="none" onRequestClose={handleCloseAll}>
-      <View style={[styles.backdrop, theme.isDark ? { backgroundColor: "rgba(30,30,30,0.9)" } : null]}>
+      <View
+        style={[
+          styles.backdrop,
+          theme.isDark ? { backgroundColor: "rgba(30,30,30,0.9)" } : null,
+        ]}
+      >
         {bannerMessage && (
           <View
             style={[

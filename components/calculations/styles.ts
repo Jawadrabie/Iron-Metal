@@ -18,6 +18,10 @@ export const createCalculationsStyles = (theme: any) =>
       top: 22,
       zIndex: 50,
     },
+    sliderScrollHintLeft: {
+      right: undefined,
+      left: 6,
+    },
     sliderScrollHintButton: {
       width: 30,
       height: 30,

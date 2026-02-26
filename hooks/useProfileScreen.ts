@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Alert, Platform } from "react-native"
 import * as ImagePicker from "expo-image-picker"
 import * as FileSystem from "expo-file-system/legacy"
@@ -25,6 +25,7 @@ export function useProfileScreen() {
   const { user, loading: authLoading } = useAuthState()
 
   const [loading, setLoading] = useState(true)
+  const [profileLoadError, setProfileLoadError] = useState<string | null>(null)
   const [profile, setProfile] = useState<any | null>(null)
   const [saving, setSaving] = useState(false)
   const [fullName, setFullName] = useState("")
@@ -63,77 +64,79 @@ export function useProfileScreen() {
     }, 2500)
   }
 
+  const loadProfile = useCallback(async () => {
+    if (authLoading) return
+
+    setLoading(true)
+    setProfileLoadError(null)
+    let lang: AppLanguage = "en"
+    try {
+      const storedLanguage = await getStoredLanguage()
+      if (storedLanguage) {
+        lang = storedLanguage
+        setLanguage(storedLanguage)
+      }
+
+      if (!user) {
+        setProfile(null)
+        return
+      }
+
+      const { profile } = await getUserProfile(user.id)
+
+      const p = profile || null
+      setProfile(p)
+      const nextFullName = p?.full_name ?? ""
+
+      const nextPhone = p?.phone ?? ""
+
+      setFullName(nextFullName)
+      setPhone(nextPhone)
+
+      const profileLanguageRaw = p?.preferred_language
+      const profileLanguage: AppLanguage | null =
+        profileLanguageRaw === "ar" || profileLanguageRaw === "en"
+          ? profileLanguageRaw
+          : null
+
+      const initialLanguage = storedLanguage ?? profileLanguage ?? "en"
+      lang = initialLanguage
+      setLanguage(initialLanguage)
+      void setStoredLanguage(initialLanguage)
+
+      const nextCountry = p?.country ?? "SA"
+      setCountry(nextCountry)
+
+      saveBaselineRef.current = {
+        fullName: nextFullName,
+        phone: nextPhone,
+        country: nextCountry,
+      }
+      setAvatarUrl(
+        p?.avatar_url ||
+          (user.user_metadata && user.user_metadata.avatar_url) ||
+          "",
+      )
+      setHideStatus(!(p?.show_status ?? true))
+      setHideContacts(p?.hide_contacts ?? false)
+      setMarketing(p?.marketing_opt_in ?? false)
+    } catch (e: any) {
+      const t = profileTexts[lang].messages
+      setProfileLoadError(e?.message || t.loadAccountFailed)
+    } finally {
+      setLoading(false)
+    }
+  }, [authLoading, setLanguage, user])
+
   useEffect(() => {
     let cancelled = false
 
-    const load = async () => {
-      if (authLoading) return
-
-      setLoading(true)
-      let lang: AppLanguage = preferredLanguage
-      try {
-        const storedLanguage = await getStoredLanguage()
-        if (!cancelled && storedLanguage) {
-          lang = storedLanguage
-          setLanguage(storedLanguage)
-        }
-
-        if (!user || cancelled) {
-          setProfile(null)
-          return
-        }
-
-        const { profile } = await getUserProfile(user.id)
-        if (cancelled) return
-
-        const p = profile || null
-        setProfile(p)
-        const nextFullName = p?.full_name ?? ""
-
-        const nextPhone = p?.phone ?? ""
-
-        setFullName(nextFullName)
-        setPhone(nextPhone)
-
-        const profileLanguageRaw = p?.preferred_language
-        const profileLanguage: AppLanguage | null =
-          profileLanguageRaw === "ar" || profileLanguageRaw === "en"
-            ? profileLanguageRaw
-            : null
-
-        const initialLanguage = storedLanguage ?? profileLanguage ?? "en"
-        lang = initialLanguage
-        setLanguage(initialLanguage)
-        void setStoredLanguage(initialLanguage)
-
-        const nextCountry = p?.country ?? "SA"
-        setCountry(nextCountry)
-
-        saveBaselineRef.current = {
-          fullName: nextFullName,
-          phone: nextPhone,
-          country: nextCountry,
-        }
-        setAvatarUrl(
-          p?.avatar_url ||
-            (user.user_metadata && user.user_metadata.avatar_url) ||
-            "",
-        )
-        setHideStatus(!(p?.show_status ?? true))
-        setHideContacts(p?.hide_contacts ?? false)
-        setMarketing(p?.marketing_opt_in ?? false)
-
-      } catch (e: any) {
-        if (!cancelled) {
-          const t = profileTexts[lang].messages
-          Alert.alert(t.errorTitle, e?.message || t.loadAccountFailed)
-        }
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
+    const run = async () => {
+      await loadProfile()
+      if (cancelled) return
     }
 
-    load()
+    void run()
 
     return () => {
       cancelled = true
@@ -142,7 +145,7 @@ export function useProfileScreen() {
         clearTimeout(bannerTimeoutRef.current)
       }
     }
-  }, [authLoading, user])
+  }, [loadProfile])
 
   const setPreferredLanguage = (value: string) => {
     const lang: AppLanguage = value === "en" ? "en" : "ar"
@@ -264,6 +267,7 @@ export function useProfileScreen() {
 
   return {
     loading,
+    profileLoadError,
     user,
     profile,
     saving,
@@ -297,6 +301,7 @@ export function useProfileScreen() {
     setShowCountryPicker,
     setShowLanguagePicker,
     setShowLogoutConfirm,
+    retryLoadProfile: loadProfile,
     handleSave,
     handlePickAvatar,
     handleLogout,

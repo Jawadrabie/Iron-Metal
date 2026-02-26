@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { ActivityIndicator, KeyboardAvoidingView, Linking, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native"
+import { ActivityIndicator, Animated, KeyboardAvoidingView, Linking, Platform, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View, useWindowDimensions } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native"
 
@@ -23,6 +23,7 @@ import type { FeaturedSectorRow } from "../lib/featured-sectors"
 import { registerForPushNotificationsAsync } from "../lib/notifications/registerPushToken"
 import { useLanguage } from "../hooks/useLanguage"
 import { openWebsite } from "../lib/utils"
+import { ErrorState } from "../components/ui/ErrorState"
 
 const STRINGS = {
   en: {
@@ -40,12 +41,13 @@ const STRINGS = {
 } as const
 
 export function HomeScreen() {
+  const tabOrder: Array<"home" | "notifications" | "account"> = ["home", "notifications", "account"]
   const theme = useTheme()
   const { language } = useLanguage("en")
   const t = STRINGS[language]
   const isRTL = language === "ar"
   const navigation = useNavigation()
-  const { data, loading, error } = useCatalogData()
+  const { data, loading, error, refresh: refreshCatalog } = useCatalogData()
   const route = useRoute<RouteProp<RootStackParamList, "Home">>()
   const initialTabParam = route?.params?.initialTab
   const initialTabFromRoute = initialTabParam ?? "home"
@@ -69,6 +71,8 @@ export function HomeScreen() {
   const {
     items: notifications,
     loading: notificationsLoading,
+    isRefetching: notificationsRefetching,
+    hasLoadedOnce: notificationsLoadedOnce,
     error: notificationsError,
     unreadCount,
     refresh: refreshNotifications,
@@ -91,6 +95,22 @@ export function HomeScreen() {
   const handleTabChangeRef = useRef(handleTabChange)
   const [calculatorVisible, setCalculatorVisible] = useState(false)
   const [tabBarHeight, setTabBarHeight] = useState(0)
+  const [exitingTab, setExitingTab] = useState<"home" | "notifications" | "account" | null>(null)
+  const animatedTabOpacityRef = useRef({
+    home: new Animated.Value(initialTabFromRoute === "home" ? 1 : 0),
+    notifications: new Animated.Value(initialTabFromRoute === "notifications" ? 1 : 0),
+    account: new Animated.Value(initialTabFromRoute === "account" ? 1 : 0),
+  })
+  const animatedTabTranslateXRef = useRef({
+    home: new Animated.Value(0),
+    notifications: new Animated.Value(0),
+    account: new Animated.Value(0),
+  })
+  const previousAnimatedTabRef = useRef<"home" | "notifications" | "account">(
+    initialTabFromRoute === "notifications" || initialTabFromRoute === "account"
+      ? initialTabFromRoute
+      : "home",
+  )
 
   const [calcPrefillKey, setCalcPrefillKey] = useState<string | null>(null)
   const [calcPrefillInputs, setCalcPrefillInputs] = useState<{
@@ -177,7 +197,7 @@ export function HomeScreen() {
       return
     }
 
-    if (pendingDeepLink.cm) {
+    if (pendingDeepLink.calcInputs && Object.keys(pendingDeepLink.calcInputs).length > 0) {
       const inputs = pendingDeepLink.calcInputs ?? {}
       const nextPrefill: {
         pricePerKgInput?: string
@@ -204,7 +224,7 @@ export function HomeScreen() {
 
       setCalcPrefillInputs(nextPrefill)
       setCalcPrefillKey(pendingDeepLink.nonce)
-      setCalculatorVisible(true)
+      // setCalculatorVisible(true)
     }
 
     setAppliedDeepLinkNonce(pendingDeepLink.nonce)
@@ -250,6 +270,44 @@ export function HomeScreen() {
     refreshNotifications().catch(() => undefined)
   }, [activeTab, notificationsGuest, refreshNotifications])
 
+  useEffect(() => {
+    if (activeTab !== "home" && activeTab !== "notifications" && activeTab !== "account") {
+      return
+    }
+
+    const previousTab = previousAnimatedTabRef.current
+    if (previousTab === activeTab) return
+
+    setExitingTab(previousTab)
+
+    const previousIndex = tabOrder.indexOf(previousTab)
+    const nextIndex = tabOrder.indexOf(activeTab)
+    const direction = nextIndex > previousIndex ? 1 : -1
+    const slideDistance = width
+
+    animatedTabTranslateXRef.current[activeTab].setValue(direction * slideDistance)
+    animatedTabOpacityRef.current[activeTab].setValue(1)
+
+    previousAnimatedTabRef.current = activeTab
+
+    Animated.parallel([
+      Animated.timing(animatedTabTranslateXRef.current[previousTab], {
+        toValue: -direction * slideDistance,
+        duration: 230,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animatedTabTranslateXRef.current[activeTab], {
+        toValue: 0,
+        duration: 230,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      animatedTabOpacityRef.current[previousTab].setValue(0)
+      animatedTabTranslateXRef.current[previousTab].setValue(0)
+      setExitingTab(null)
+    })
+  }, [activeTab, width])
+
   const handleOpenNotification = async (item: NotificationRow) => {
     await markAsRead(item.id)
 
@@ -280,7 +338,7 @@ export function HomeScreen() {
   if (error) {
     return (
       <View style={[styles.loadingContainer, { backgroundColor: theme.colors.background }]}>
-        <Text style={[styles.errorText, { color: theme.colors.error }]}>{t.catalogLoadFailed}</Text>
+        <ErrorState message={t.catalogLoadFailed} onRetry={() => { void refreshCatalog() }} />
       </View>
     )
   }
@@ -294,8 +352,15 @@ export function HomeScreen() {
       >
         <AppBar visitorCount={stats.count} visitorCountries={stats.countries} />
         <View style={styles.tabStack}>
-          <View
-            style={[styles.tabPane, activeTab === "home" ? styles.tabPaneActive : styles.tabPaneHidden]}
+          <Animated.View
+            style={[
+              styles.tabPane,
+              {
+                opacity: animatedTabOpacityRef.current.home,
+                transform: [{ translateX: animatedTabTranslateXRef.current.home }],
+                zIndex: activeTab === "home" ? 3 : exitingTab === "home" ? 2 : 1,
+              },
+            ]}
             pointerEvents={activeTab === "home" ? "auto" : "none"}
           >
             <HomeMainContent
@@ -315,18 +380,24 @@ export function HomeScreen() {
               dims={currentDims}
               bottomPadding={tabBarHeight + (insets.bottom || 0) + 8}
             />
-          </View>
+          </Animated.View>
 
-          <View
+          <Animated.View
             style={[
               styles.tabPane,
-              activeTab === "notifications" ? styles.tabPaneActive : styles.tabPaneHidden,
+              {
+                opacity: animatedTabOpacityRef.current.notifications,
+                transform: [{ translateX: animatedTabTranslateXRef.current.notifications }],
+                zIndex: activeTab === "notifications" ? 3 : exitingTab === "notifications" ? 2 : 1,
+              },
             ]}
             pointerEvents={activeTab === "notifications" ? "auto" : "none"}
           >
             <NotificationsScreen
               items={notifications}
               loading={notificationsLoading}
+              isRefetching={notificationsRefetching}
+              hasLoadedOnce={notificationsLoadedOnce}
               error={notificationsError}
               isGuest={notificationsGuest}
               onRefresh={refreshNotifications}
@@ -334,17 +405,21 @@ export function HomeScreen() {
               onOpenNotification={handleOpenNotification}
               onPressLogin={() => navigation.navigate("Login" as never)}
             />
-          </View>
+          </Animated.View>
 
-          <View
+          <Animated.View
             style={[
               styles.tabPane,
-              activeTab === "account" ? styles.tabPaneActive : styles.tabPaneHidden,
+              {
+                opacity: animatedTabOpacityRef.current.account,
+                transform: [{ translateX: animatedTabTranslateXRef.current.account }],
+                zIndex: activeTab === "account" ? 3 : exitingTab === "account" ? 2 : 1,
+              },
             ]}
             pointerEvents={activeTab === "account" ? "auto" : "none"}
           >
             <ProfileScreen />
-          </View>
+          </Animated.View>
         </View>
       </KeyboardAvoidingView>
 
@@ -356,8 +431,10 @@ export function HomeScreen() {
         tabBarHeight={tabBarHeight}
         onItemPress={(key) => {
           if (key === "theme") {
-            theme.setMode(theme.mode === "dark" ? "light" : "dark")
             handleCloseMore()
+            requestAnimationFrame(() => {
+              theme.setMode(theme.mode === "dark" ? "light" : "dark")
+            })
           } else if (key === "account") {
             handleTabChange("account")
           } else if (key === "suggestions") {
@@ -501,26 +578,12 @@ const styles = StyleSheet.create({
   tabPane: {
     ...StyleSheet.absoluteFillObject,
   },
-  tabPaneActive: {
-    opacity: 1,
-    zIndex: 1,
-  },
-  tabPaneHidden: {
-    opacity: 0,
-    zIndex: 0,
-  },
   loadingContainer: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
     padding: 24,
-  },
-  errorText: {
-    color: "#dc2626",
-    textAlign: "center",
-    fontSize: 16,
-    lineHeight: 24,
   },
   placeholder: {
     flex: 1,

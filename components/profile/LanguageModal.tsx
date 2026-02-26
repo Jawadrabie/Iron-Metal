@@ -1,5 +1,6 @@
 import React from "react"
 import {
+  InteractionManager,
   Modal,
   Text,
   TouchableOpacity,
@@ -11,12 +12,14 @@ import { useI18n } from "../../contexts/I18nContext"
 export type LanguageModalProps = {
   visible: boolean
   onClose: () => void
+  onSelectLanguage?: (language: "en" | "ar") => void
   styles: any
 }
 
 export function LanguageModal({
   visible,
   onClose,
+  onSelectLanguage,
   styles,
 }: LanguageModalProps) {
   if (!visible) return null
@@ -72,8 +75,14 @@ export function LanguageModal({
                     ]}
                     activeOpacity={0.9}
                     onPress={() => {
-                      opt.onSelect()
                       onClose()
+                      InteractionManager.runAfterInteractions(() => {
+                        if (onSelectLanguage) {
+                          onSelectLanguage(opt.code)
+                        } else {
+                          opt.onSelect()
+                        }
+                      })
                     }}
                   >
                     <Text
