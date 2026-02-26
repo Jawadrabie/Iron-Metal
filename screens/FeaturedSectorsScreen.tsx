@@ -20,6 +20,7 @@ import type { FeaturedSectorRow } from "../lib/featured-sectors"
 import { colors } from "../constants/colors"
 import { useI18n } from "../contexts/I18nContext"
 import { useTheme } from "../contexts/ThemeContext"
+import { ErrorState } from "../components/ui/ErrorState"
 
 type RootNav = NativeStackNavigationProp<RootStackParamList>
 
@@ -116,7 +117,7 @@ export default function FeaturedSectorsScreen() {
               </TouchableOpacity>
             </>
           ) : (
-            <Text style={[styles.errorText, isDark ? { color: theme.colors.error } : null]}>{error}</Text>
+            <ErrorState message={error} onRetry={() => { void refresh() }} />
           )}
         </View>
       ) : items.length === 0 ? (
@@ -191,11 +192,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  errorText: {
-    fontSize: 14,
-    color: "#dc2626",
-    textAlign: "center",
   },
   loginButton: {
     marginTop: 12,

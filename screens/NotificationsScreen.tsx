@@ -12,6 +12,7 @@ import { Feather } from "@expo/vector-icons"
 import type { NotificationRow } from "../hooks/useNotifications"
 import { useLanguage } from "../hooks/useLanguage"
 import { useTheme } from "../contexts/ThemeContext"
+import { ErrorState } from "../components/ui/ErrorState"
 
 const STRINGS = {
   en: {
@@ -31,8 +32,10 @@ const STRINGS = {
 type NotificationsScreenProps = {
   items: NotificationRow[]
   loading: boolean
+  isRefetching?: boolean
+  hasLoadedOnce?: boolean
   error?: string | null
-  onRefresh: () => Promise<void> | void
+  onRefresh: (showSpinner?: boolean) => Promise<void> | void
   onMarkAllAsRead: () => Promise<void> | void
   onOpenNotification: (item: NotificationRow) => void
   isGuest?: boolean
@@ -42,6 +45,8 @@ type NotificationsScreenProps = {
 export function NotificationsScreen({
   items,
   loading,
+  isRefetching = false,
+  hasLoadedOnce = false,
   error,
   onRefresh,
   onMarkAllAsRead,
@@ -58,10 +63,10 @@ export function NotificationsScreen({
   const hasNotifications = items.length > 0
   const hasUnread = items.some((n) => !n.read_at)
   const guest = !!isGuest
-  const showInitialLoader = loading && !hasNotifications && !guest
-  const showErrorState = !loading && error && !hasNotifications
-  const showGuestEmptyState = !error && !hasNotifications && guest
-  const showEmptyState = !loading && !error && !hasNotifications && !guest
+  const showInitialLoader = (loading || !hasLoadedOnce) && !hasNotifications && !guest
+  const showErrorState = hasLoadedOnce && !loading && error && !hasNotifications
+  const showGuestEmptyState = hasLoadedOnce && !error && !hasNotifications && guest
+  const showEmptyState = hasLoadedOnce && !loading && !error && !hasNotifications && !guest
 
   return (
     <View style={[styles.container, isDark ? { backgroundColor: theme.colors.background } : null]}>
@@ -87,7 +92,7 @@ export function NotificationsScreen({
         </View>
       ) : showErrorState ? (
         <View style={styles.centerContent}>
-          <Text style={[styles.errorText, isDark ? { color: theme.colors.error } : null]}>{error}</Text>
+          <ErrorState message={error} onRetry={() => { void onRefresh() }} />
         </View>
       ) : showGuestEmptyState ? (
         <View style={styles.centerContent}>
@@ -140,8 +145,8 @@ export function NotificationsScreen({
           overScrollMode="never"
           refreshControl={
             <RefreshControl
-              refreshing={loading && !guest}
-              onRefresh={onRefresh}
+              refreshing={(loading || isRefetching) && !guest}
+              onRefresh={() => onRefresh(true)}
               colors={[isDark ? theme.colors.primary : "#302C6D"]}
               tintColor={isDark ? theme.colors.primary : "#302C6D"}
             />
@@ -261,11 +266,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#ffffff",
     fontWeight: "600",
-  },
-  errorText: {
-    fontSize: 14,
-    color: "#dc2626",
-    textAlign: "center",
   },
   listContent: {
     paddingBottom: 12,

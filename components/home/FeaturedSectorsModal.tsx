@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import {
   ActivityIndicator,
   Linking,
@@ -21,6 +21,7 @@ import { useLanguage } from "../../hooks/useLanguage"
 import { openWebsite } from "../../lib/utils"
 import { colors } from "../../constants/colors"
 import { useTheme } from "../../contexts/ThemeContext"
+import { ErrorState } from "../ui/ErrorState"
 
 const STRINGS = {
   en: {
@@ -110,12 +111,23 @@ export const FeaturedSectorsModal = memo(function FeaturedSectorsModal({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
 
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError(undefined)
+    const result = await getFeaturedSectorsMobile(language)
+    if (result.error) {
+      setError(result.error)
+    }
+    setItems(result.items || [])
+    setLoading(false)
+  }, [language])
+
   useEffect(() => {
     if (!visible) return
 
     let cancelled = false
 
-    const load = async () => {
+    const runLoad = async () => {
       setLoading(true)
       setError(undefined)
       const result = await getFeaturedSectorsMobile(language)
@@ -127,7 +139,7 @@ export const FeaturedSectorsModal = memo(function FeaturedSectorsModal({
       setLoading(false)
     }
 
-    load()
+    void runLoad()
 
     return () => {
       cancelled = true
@@ -180,7 +192,7 @@ export const FeaturedSectorsModal = memo(function FeaturedSectorsModal({
                 </View>
               ) : error ? (
                 <View style={styles.centerBox}>
-                  <Text style={[styles.errorText, isDark ? { color: theme.colors.error } : null]}>{error}</Text>
+                  <ErrorState message={error} onRetry={() => { void load() }} />
                 </View>
               ) : items.length === 0 ? (
                 <View style={styles.centerBox}>
@@ -292,11 +304,6 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     alignItems: "center",
     justifyContent: "center",
-  },
-  errorText: {
-    fontSize: 14,
-    color: "#dc2626",
-    textAlign: "center",
   },
   emptyText: {
     fontSize: 13,

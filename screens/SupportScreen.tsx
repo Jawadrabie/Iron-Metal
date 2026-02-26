@@ -23,6 +23,7 @@ import { getCurrentUser } from "../lib/auth"
 import { supabase } from "../lib/supabase/client"
 import { sendSupportRequest } from "../lib/api/support"
 import { openWebsite } from "../lib/utils"
+import { ErrorState } from "../components/ui/ErrorState"
 
 const WHATSAPP_NUMBER = "+966 11 269 0999"
 const WHATSAPP_NUMBER_DIGITS = "966112690999"
@@ -63,6 +64,7 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
 
   const [checkingAuth, setCheckingAuth] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
 
   const authRefreshInFlightRef = useRef(false)
   const authLoadedOnceRef = useRef(false)
@@ -86,8 +88,12 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
       try {
         const { user } = await getCurrentUser()
         if (cancelledRef.cancelled) return
+        setAuthError(null)
         setIsLoggedIn(!!user)
         authLoadedOnceRef.current = true
+      } catch (e: any) {
+        if (cancelledRef.cancelled) return
+        setAuthError(e?.message || null)
       } finally {
         authRefreshInFlightRef.current = false
         if (!cancelledRef.cancelled && showLoader) setCheckingAuth(false)
@@ -450,11 +456,27 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
 
   const contactRowDirection = styles.rowLTR
 
+  const handleRetryAuth = useCallback(() => {
+    const cancelledRef = { cancelled: false }
+    void refreshAuth(cancelledRef, { showLoader: true })
+  }, [refreshAuth])
+
   if (checkingAuth) {
     return (
       <View style={[styles.root, { backgroundColor: theme.colors.background }]}>
         <View style={styles.loadingBox}>
           <ActivityIndicator size="large" color={theme.colors.secondary} />
+        </View>
+        {overlaysNode}
+      </View>
+    )
+  }
+
+  if (authError) {
+    return (
+      <View style={[styles.root, { backgroundColor: theme.colors.background }]}> 
+        <View style={styles.loadingBox}>
+          <ErrorState message={authError} onRetry={handleRetryAuth} />
         </View>
         {overlaysNode}
       </View>

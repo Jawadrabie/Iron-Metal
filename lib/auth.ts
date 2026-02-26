@@ -154,18 +154,68 @@ export async function verifyWhatsappOtpMobile(args: {
       return { success: false, error: message }
     }
 
-    const session = json?.session
-    if (session?.access_token && session?.refresh_token) {
-      await supabase.auth.setSession({
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
-      })
+    const session =
+      json?.session ||
+      json?.data?.session ||
+      null
+
+    const accessToken =
+      session?.access_token ||
+      session?.accessToken ||
+      null
+
+    const refreshToken =
+      session?.refresh_token ||
+      session?.refreshToken ||
+      null
+
+    if (!accessToken || !refreshToken) {
+      return {
+        success: false,
+        error:
+          lang === "ar"
+            ? "لم تكتمل جلسة تسجيل الدخول. حاول مرة أخرى."
+            : "Login session was not created. Please try again.",
+      }
     }
 
+    const { error: setSessionError } = await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    })
+
+    if (setSessionError) {
+      return {
+        success: false,
+        error:
+          setSessionError.message ||
+          (lang === "ar"
+            ? "فشل حفظ جلسة تسجيل الدخول. حاول مرة أخرى."
+            : "Failed to persist login session. Please try again."),
+      }
+    }
+
+    // Double-check via getSession to ensure persistence
+    const { data: savedSessionData, error: savedSessionError } = await supabase.auth.getSession()
+    
+    // Extra safety: wait a moment for AsyncStorage to actually write the data on slower devices
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    if (savedSessionError || !savedSessionData?.session?.user) {
+      return {
+        success: false,
+        error:
+          lang === "ar"
+            ? "تعذر تأكيد جلسة تسجيل الدخول. حاول مرة أخرى."
+            : "Unable to confirm login session. Please try again.",
+      }
+    }
+
+    // Force strict user return from the saved session
     return {
       success: true,
-      user: json?.user ?? null,
-      profile: json?.profile ?? null,
+      user: savedSessionData.session.user, // Use the confirmed session user
+      session: savedSessionData.session,
     }
   } catch (e: any) {
     return { success: false, error: formatNetworkError(e, lang) }
@@ -173,9 +223,20 @@ export async function verifyWhatsappOtpMobile(args: {
 }
 
 export async function getCurrentUser() {
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+  if (sessionData?.session?.user) {
+    return { user: sessionData.session.user }
+  }
+
   const { data, error } = await supabase.auth.getUser()
-  if (error) return { user: null, error: error.message }
-  return { user: data?.user ?? null }
+  if (error) {
+    return {
+      user: null,
+      error: error.message || sessionError?.message,
+    }
+  }
+
+  return { user: data?.user ?? null, error: sessionError?.message }
 }
 
 export async function getUserProfile(userId: string) {

@@ -19,32 +19,71 @@ export type NotificationRow = {
 type UseNotificationsResult = {
   items: NotificationRow[]
   loading: boolean
+  isRefetching: boolean
+  hasLoadedOnce: boolean
   error: string | null
   unreadCount: number
   isGuest: boolean
-  refresh: () => Promise<void>
+  refresh: (showSpinner?: boolean) => Promise<void>
   markAllAsRead: () => Promise<void>
   markAsRead: (id: string) => Promise<void>
 }
 
 const PAGE_SIZE = 20
 
+function normalizeNotificationsErrorMessage(
+  rawMessage: string | null | undefined,
+  language: "ar" | "en",
+): string {
+  const message = String(rawMessage || "").trim()
+  const normalized = message.toLowerCase()
+
+  const isNetworkIssue =
+    normalized.includes("network request failed") ||
+    normalized.includes("failed to fetch") ||
+    normalized.includes("network error") ||
+    normalized.includes("request timeout") ||
+    normalized.includes("timeout")
+
+  if (isNetworkIssue) {
+    return language === "ar"
+      ? "لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة ثم المحاولة مرة أخرى."
+      : "No internet connection. Please check your network and try again."
+  }
+
+  if (message) return message
+
+  return language === "ar" ? "تعذر تحميل الإشعارات" : "Failed to load notifications"
+}
+
 export function useNotifications(): UseNotificationsResult {
   const { language } = useLanguage("en")
   const { user, loading: authLoading } = useAuthState()
   const [items, setItems] = useState<NotificationRow[]>([])
+  const itemsLengthRef = useRef(0)
+  useEffect(() => {
+    itemsLengthRef.current = items.length
+  }, [items])
+  const hasCompletedFirstLoadRef = useRef(false)
   const [loading, setLoading] = useState(true)
+  const [isRefetching, setIsRefetching] = useState(false)
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null)
   const appStateRef = useRef<AppStateStatus>(AppState.currentState as AppStateStatus)
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (silent = false, showSpinner = false) => {
     if (authLoading) return
 
     try {
       setError(null)
-      setLoading(true)
+      const isFirstCompletedLoad = !hasCompletedFirstLoadRef.current
+      if (!silent && isFirstCompletedLoad) {
+        setLoading(true)
+      } else if (showSpinner) {
+        setIsRefetching(true)
+      }
 
       if (!user) {
         setUserId(null)
@@ -66,7 +105,12 @@ export function useNotifications(): UseNotificationsResult {
 
       if (listError) {
         console.warn("useNotifications list", listError)
-        setError(listError.message)
+        setError(
+          normalizeNotificationsErrorMessage(
+            listError.message,
+            language === "ar" ? "ar" : "en",
+          ),
+        )
         setItems([])
         return
       }
@@ -74,17 +118,18 @@ export function useNotifications(): UseNotificationsResult {
       setItems((rows ?? []) as NotificationRow[])
     } catch (e: any) {
       console.warn("useNotifications", e)
-      setError(
-        e?.message ?? (language === "ar" ? "تعذر تحميل الإشعارات" : "Failed to load notifications"),
-      )
+      setError(normalizeNotificationsErrorMessage(e?.message, language === "ar" ? "ar" : "en"))
       setItems([])
     } finally {
+      hasCompletedFirstLoadRef.current = true
       setLoading(false)
+      setIsRefetching(false)
+      setHasLoadedOnce(true)
     }
   }, [language, user, authLoading])
 
   useEffect(() => {
-    load()
+    load(false)
   }, [load])
 
   useEffect(() => {
@@ -93,7 +138,7 @@ export function useNotifications(): UseNotificationsResult {
       appStateRef.current = nextStatus
       const wasBackground = prevStatus === "background" || prevStatus === "inactive"
       if (wasBackground && nextStatus === "active") {
-        load()
+        load(true)
       }
     })
     return () => {
@@ -161,8 +206,8 @@ export function useNotifications(): UseNotificationsResult {
     }
   }, [userId])
 
-  const refresh = useCallback(async () => {
-    await load()
+  const refresh = useCallback(async (showSpinner = false) => {
+    await load(true, showSpinner)
   }, [load])
 
   const markAllAsRead = useCallback(async () => {
@@ -221,6 +266,8 @@ export function useNotifications(): UseNotificationsResult {
   return {
     items,
     loading,
+    isRefetching,
+    hasLoadedOnce,
     error,
     unreadCount,
     isGuest,

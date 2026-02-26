@@ -11,6 +11,10 @@ export type CommonLocale = {
     localLink: string
     support: string
   }
+  errorState: {
+    defaultMessage: string
+    retry: string
+  }
 }
 
 export const commonTexts: Record<"ar" | "en", CommonLocale> = {
@@ -27,6 +31,10 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
       localLink: "Website",
       support: "Support",
     },
+    errorState: {
+      defaultMessage: "Something went wrong. Please try again.",
+      retry: "Retry",
+    },
   },
   ar: {
     moreMenu: {
@@ -40,6 +48,10 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
       featured: "المميز",
       localLink: "موقعنا",
       support: "الدعم",
+    },
+    errorState: {
+      defaultMessage: "حدث خطأ ما. حاول مرة أخرى.",
+      retry: "إعادة المحاولة",
     },
   },
 }
