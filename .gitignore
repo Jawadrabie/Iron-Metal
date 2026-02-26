@@ -49,3 +49,7 @@ iron-metal-push-firebase-adminsdk-*.json
 /android
 
 القطاعات مع الاسهم والمقاسات/
+
+# Local plan files — do not upload
+الخطة.md
+اقتراحات_تحسين_UI_UX.md
