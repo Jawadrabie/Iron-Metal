@@ -3,6 +3,22 @@ import { type User, type Session } from "@supabase/supabase-js"
 import { supabase } from "../lib/supabase/client"
 import { AppState } from "react-native"
 
+function isInvalidRefreshTokenError(message?: string | null) {
+  if (!message) return false
+  return /invalid refresh token|refresh token not found|session not found/i.test(message)
+}
+
+async function getSessionSafely() {
+  const { data, error } = await supabase.auth.getSession()
+
+  if (error && isInvalidRefreshTokenError(error.message)) {
+    await supabase.auth.signOut().catch(() => null)
+    return null
+  }
+
+  return data?.session ?? null
+}
+
 // Singleton cache to avoid multiple listeners racing or inconsistent states
 let globalUser: User | null = null
 let globalSession: Session | null = null
@@ -16,7 +32,7 @@ supabase.auth.onAuthStateChange((_event, session) => {
 })
 
 // Also fetch initial session immediately
-supabase.auth.getSession().then(({ data: { session } }) => {
+getSessionSafely().then((session) => {
   globalSession = session
   globalUser = session?.user ?? null
   listeners.forEach((listener) => listener(globalUser))
@@ -48,7 +64,7 @@ export function useAuthState() {
 
     // Double check with supabase directly just in case (e.g. cold start)
     if (loading) {
-      supabase.auth.getSession().then(({ data: { session } }) => {
+      getSessionSafely().then((session) => {
         if (mounted.current) {
           const u = session?.user ?? null
           if (u?.id !== user?.id) {
@@ -69,7 +85,7 @@ export function useAuthState() {
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
       if (nextAppState === "active") {
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        getSessionSafely().then((session) => {
            if (session?.user?.id !== globalUser?.id) {
              globalUser = session?.user ?? null
              globalSession = session

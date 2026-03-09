@@ -5,7 +5,8 @@ import * as Clipboard from "expo-clipboard"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { captureRef } from "react-native-view-shot"
 import { Feather } from "@expo/vector-icons"
-import { getCurrencyByCountry } from "../../lib/currency-utils"
+import { DEFAULT_CURRENCY, getCurrencyByCountry } from "../../lib/currency-utils"
+import { detectCountryCodeByIp } from "../../lib/detect-country"
 import { useLanguage } from "../../hooks/useLanguage"
 import { useTheme } from "../../contexts/ThemeContext"
 import {
@@ -53,7 +54,7 @@ export type CalculatorPanelProps = {
 }
 
 // استخدم مفتاحًا جديدًا لتخزين العملة التلقائية حتى لا نتأثر بأي قيمة قديمة تم اختيارها يدويًّا
-const CURRENCY_STORAGE_KEY = "@ironmetal:auto_currency_code_v3"
+const CURRENCY_STORAGE_KEY = "@ironmetal:auto_currency_code_v4"
 const FEATURED_CALC_STORAGE_PREFIX = "@ironmetal:calc_featured_v1:"
 
 // كاش في الذاكرة لعمر التطبيق حتى تظهر العملة مباشرة في نفس الجلسة بدون انتظار AsyncStorage
@@ -144,7 +145,7 @@ export function CalculatorPanel({
   const [requiredInput, setRequiredInput] = useState("1")
   const [lengthInput, setLengthInput] = useState("12")
   const [lengthUnit, setLengthUnit] = useState<"m" | "mm">("m")
-  const [currencyCode, setCurrencyCode] = useState(() => inMemoryCurrencyCode ?? "")
+  const [currencyCode, setCurrencyCode] = useState(() => inMemoryCurrencyCode ?? DEFAULT_CURRENCY.code)
   const [dims, setDims] = useState<Dims>(initialDims ?? DEFAULT_DIMS)
   const [isActualWeight, setIsActualWeight] = useState(false)
   const [dimsUnitDropdownOpen, setDimsUnitDropdownOpen] = useState(false)
@@ -283,28 +284,12 @@ export function CalculatorPanel({
           return
         }
 
-        const apiKey = process.env.EXPO_PUBLIC_IPGEO_API_KEY
-        if (!apiKey) {
-          console.warn("[currency] missing EXPO_PUBLIC_IPGEO_API_KEY, skipping IP detection")
-          return
-        }
+        const countryCode = await detectCountryCodeByIp({
+          ipGeoApiKey: process.env.EXPO_PUBLIC_IPGEO_API_KEY,
+          logPrefix: "[currency]",
+        })
+        if (!countryCode) return
 
-        console.log("[currency] fetching IP info from ipgeolocation.io ...")
-        const response = await fetch(
-          `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&fields=ip,country_name,country_code2`,
-        )
-        console.log("[currency] ipgeolocation status", response.status)
-        if (!response.ok) {
-          console.warn("[currency] ipgeolocation response not ok")
-          return
-        }
-        const data = await response.json()
-        console.log("[currency] ipgeolocation payload", data)
-        const countryCode = (data && (data.country_code2 as string)) || null
-        if (!countryCode) {
-          console.warn("[currency] missing country_code2 in ipgeolocation payload")
-          return
-        }
         const currency = getCurrencyByCountry(countryCode)
         if (currency && currency.code) {
           console.log("[currency] resolved from country", countryCode, "->", currency.code)

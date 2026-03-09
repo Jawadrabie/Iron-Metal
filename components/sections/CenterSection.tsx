@@ -143,8 +143,9 @@ export function CenterSection({
   return (
     <View style={styles.container}>
       <View style={styles.imageWrapperOuter}>
-        {mainImageUri && (
-          <View style={styles.imageWrapper}>
+        <View style={styles.imageWrapper}>
+          {mainImageUri ? (
+            <>
             {displayVariant &&
               ![9, 10, 11, 13, 15, 16].includes(selectedSection?.id ?? 0) && (
                 <TouchableOpacity
@@ -163,33 +164,34 @@ export function CenterSection({
                   <Text style={[styles.infoButtonText, { color: theme.colors.text }]}>i</Text>
                 </TouchableOpacity>
               )}
-            <MaskedSectionImage
-              uri={mainImageUri}
-              fallbackUri={fallbackImageUri}
-              width={350}
-              height={250}
-              color={shouldForceBlackSectionImage ? "#000000" : isDark ? theme.colors.icon : "#000000"}
-            />
-            <DimensionOverlay config={overlayConfig} values={overlayValues} width={350} height={280} />
-            <TouchableOpacity
-              style={[
-                styles.sliderIconFloating,
-                {
-                  backgroundColor: "transparent",
-                  shadowColor: "transparent",
-                  elevation: 3,
-                  shadowOpacity: 0,
-                },
-              ]}
-              activeOpacity={0.7}
-              onPress={onCalculatorPress}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-              disabled={!onCalculatorPress}
-            >
-              <MaterialCommunityIcons name="calculator" size={22} color={theme.colors.secondary} />
-            </TouchableOpacity>
-          </View>
-         )}
+              <MaskedSectionImage
+                uri={mainImageUri}
+                fallbackUri={fallbackImageUri}
+                width={350}
+                height={250}
+                color={shouldForceBlackSectionImage ? "#000000" : isDark ? theme.colors.icon : "#000000"}
+              />
+              <DimensionOverlay config={overlayConfig} values={overlayValues} width={350} height={280} />
+            </>
+          ) : null}
+          <TouchableOpacity
+            style={[
+              styles.sliderIconFloating,
+              {
+                backgroundColor: "transparent",
+                shadowColor: "transparent",
+                elevation: 3,
+                shadowOpacity: 0,
+              },
+            ]}
+            activeOpacity={0.7}
+            onPress={onCalculatorPress}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            disabled={!onCalculatorPress}
+          >
+            <MaterialCommunityIcons name="calculator" size={22} color={theme.colors.secondary} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {![13, 15, 16].includes(selectedSection?.id ?? 0) && currentVariants.length > 1 && (

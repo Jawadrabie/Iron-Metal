@@ -1,3 +1,4 @@
+import "react-native-url-polyfill/auto";
 import { registerRootComponent } from 'expo';
 import { I18nManager } from 'react-native';
 

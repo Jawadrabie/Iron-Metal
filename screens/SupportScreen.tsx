@@ -16,6 +16,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons"
 import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import * as ImagePicker from "expo-image-picker"
 import * as FileSystem from "expo-file-system/legacy"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useI18n } from "../contexts/I18nContext"
 import { useTheme } from "../contexts/ThemeContext"
@@ -47,6 +48,7 @@ type SupportScreenProps = {
 
 export default function SupportScreen({ variant = "support" }: SupportScreenProps) {
   const navigation = useNavigation<any>()
+  const insets = useSafeAreaInsets()
   const theme = useTheme()
   const { isRTL, t } = useI18n()
   const tt = t.support.ui
@@ -455,6 +457,7 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
   }
 
   const contactRowDirection = styles.rowLTR
+  const footerPaddingBottom = 10 + (insets.bottom > 0 ? insets.bottom : 0)
 
   const handleRetryAuth = useCallback(() => {
     const cancelledRef = { cancelled: false }
@@ -515,7 +518,15 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.guestFooter, { borderTopColor: theme.colors.border }]}>
+          <View
+            style={[
+              styles.guestFooter,
+              {
+                borderTopColor: theme.colors.border,
+                paddingBottom: footerPaddingBottom,
+              },
+            ]}
+          >
             <View style={styles.contactList}>
               <TouchableOpacity
                 style={[styles.contactRow, contactRowDirection]}
@@ -647,7 +658,15 @@ export default function SupportScreen({ variant = "support" }: SupportScreenProp
         </View>
       </ScrollView>
 
-      <View style={[styles.supportFooter, { borderTopColor: theme.colors.border }]}>
+      <View
+        style={[
+          styles.supportFooter,
+          {
+            borderTopColor: theme.colors.border,
+            paddingBottom: footerPaddingBottom,
+          },
+        ]}
+      >
         <View style={styles.contactList}>
           <TouchableOpacity
             style={[styles.contactRow, contactRowDirection]}

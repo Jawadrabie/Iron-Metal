@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { getCurrencyByCountry, DEFAULT_CURRENCY } from "../../lib/currency-utils"
+import { detectCountryCodeByIp } from "../../lib/detect-country"
 
-const CURRENCY_STORAGE_KEY = "@ironmetal:auto_currency_code_v3"
+const CURRENCY_STORAGE_KEY = "@ironmetal:auto_currency_code_v4"
 
 let inMemoryCurrencyCode: string | null = null
 
@@ -24,16 +25,10 @@ export function useCurrencyCode() {
           return
         }
 
-        const apiKey = process.env.EXPO_PUBLIC_IPGEO_API_KEY
-        if (!apiKey) return
-
-        const response = await fetch(
-          `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&fields=ip,country_name,country_code2`,
-        )
-        if (!response.ok) return
-
-        const data = await response.json()
-        const countryCode = (data && (data.country_code2 as string)) || null
+        const countryCode = await detectCountryCodeByIp({
+          ipGeoApiKey: process.env.EXPO_PUBLIC_IPGEO_API_KEY,
+          logPrefix: "[currency]",
+        })
         if (!countryCode) return
 
         const currency = getCurrencyByCountry(countryCode)

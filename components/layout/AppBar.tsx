@@ -23,6 +23,7 @@ type AppBarProps = {
 type CountryOption = {
   label: string
   value: string
+  country: string
   count: number
 }
 
@@ -173,12 +174,21 @@ export function AppBar({ visitorCount, visitorCountries }: AppBarProps) {
 
   const data: CountryOption[] =
     visitorCountries
-      ?.filter((item): item is { country: string; count: number } => !!item?.country)
-      .map((item) => ({
-        label: item.country,
-        value: item.country,
-        count: item.count,
-      })) ?? []
+      ?.flatMap((item, index) => {
+        if (!item || typeof item.country !== "string") return []
+
+        const country = item.country.trim() || "Unknown"
+        const count = Number.isFinite(item.count) ? item.count : 0
+
+        return [
+          {
+            label: country,
+            country,
+            value: `${country}-${index}`,
+            count,
+          },
+        ]
+      }) ?? []
 
   const renderDropdownHeader = () => (
     <View style={[styles.dropdownItem, isRTL ? styles.dropdownItemRtl : null]}>
@@ -199,7 +209,7 @@ export function AppBar({ visitorCount, visitorCountries }: AppBarProps) {
   )
 
   const renderCountryItem = (item: CountryOption) => {
-    const countryName = isRTL ? countryNameToArabic(item.label) : item.label
+    const countryName = isRTL ? countryNameToArabic(item.country) : item.country
 
     return (
       <View style={[styles.dropdownItem, isRTL ? styles.dropdownItemRtl : null]}>
@@ -259,6 +269,7 @@ export function AppBar({ visitorCount, visitorCountries }: AppBarProps) {
                 <Dropdown
                   ref={dropdownRef}
                   data={data}
+                  mode="default"
                   labelField="label"
                   valueField="value"
                   value={null}
@@ -281,9 +292,7 @@ export function AppBar({ visitorCount, visitorCountries }: AppBarProps) {
                   showsVerticalScrollIndicator={false}
                   activeColor="transparent"
                   closeModalWhenSelectedItem
-                  onChange={() => {
-                    dropdownRef.current?.close()
-                  }}
+                  onChange={(_item) => undefined}
                   flatListProps={{
                     bounces: false,
                     overScrollMode: "never",
@@ -431,8 +440,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#e5e7eb",
   },
   dropdownSelectedText: {
-    fontSize: 0,
-    height: 0,
+    fontSize: 1,
+    lineHeight: 1,
+    height: 1,
+    width: 1,
+    opacity: 0,
     color: "transparent",
   },
   dropdownItem: {

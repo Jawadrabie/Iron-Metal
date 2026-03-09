@@ -32,10 +32,28 @@ function safeNum(value: number | null | undefined, fractionDigits = 2): string {
   return value.toFixed(fractionDigits)
 }
 
-const BASE_SITE_URL =
-  process.env.EXPO_PUBLIC_SITE_URL ||
-  process.env.EXPO_PUBLIC_SUPABASE_URL ||
-  "https://iron-metal.net"
+function resolvePublicSiteOrigin(): string {
+  const rawSiteUrl = String(process.env.EXPO_PUBLIC_SITE_URL || "").trim()
+
+  if (rawSiteUrl && !/supabase\.co/i.test(rawSiteUrl)) {
+    try {
+      return new URL(rawSiteUrl).origin
+    } catch {
+      try {
+        const withScheme = /^https?:\/\//i.test(rawSiteUrl)
+          ? rawSiteUrl
+          : `https://${rawSiteUrl}`
+        return new URL(withScheme).origin
+      } catch {
+        return rawSiteUrl.replace(/\/+$/, "")
+      }
+    }
+  }
+
+  return "https://iron-metal.net"
+}
+
+const BASE_SITE_URL = resolvePublicSiteOrigin()
 
 const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME || "ironmetal"
 const BASE_APP_URL = `${APP_SCHEME}://`
@@ -672,12 +690,11 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
     }
 
     const query = params.join("&")
-    const targetUrl = query ? `${BASE_APP_URL}?${query}` : BASE_APP_URL
-    const clickUrl = query ? `${BASE_SITE_URL}/open?${query}` : `${BASE_SITE_URL}/open`
+    const clickUrl = query ? `${BASE_SITE_URL}/?${query}` : `${BASE_SITE_URL}/`
 
 
     // Lower error correction => fewer modules => less dense QR (easier to scan)
-    const qrModules = buildQrModules(targetUrl, "L")
+    const qrModules = buildQrModules(clickUrl, "L")
     const qrGap = 10
 
     // Keep QR physical size consistent with sections PDF (fixed 64 points)
@@ -776,7 +793,7 @@ export async function generateCalculatorPdf(data: CalculatorPdfPayload): Promise
           Border: [0, 0, 0],
           A: {
             S: PDFName.of("URI"),
-            URI: PDFString.of(targetUrl),
+            URI: PDFString.of(clickUrl),
           },
         }
 

@@ -127,7 +127,7 @@ export const createCalculationsStyles = (theme: any) =>
     },
     densitySelectUnit: {
       flexShrink: 0,
-      width: 74,
+      width: 64,
       borderWidth: 1,
       borderColor: theme.colors.border,
       backgroundColor: theme.colors.surface2,
@@ -141,6 +141,11 @@ export const createCalculationsStyles = (theme: any) =>
       fontSize: 11,
       fontWeight: "800",
       color: theme.colors.text,
+    },
+    dropdownTapOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      zIndex: 3,
+      backgroundColor: "transparent",
     },
     densityResetButton: {
       height: 42,

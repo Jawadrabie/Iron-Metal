@@ -2,7 +2,7 @@ export type CommonLocale = {
   moreMenu: {
     themeLight: string
     themeDark: string
-    install: string
+    info: string
     myAds: string
     settings: string
     account: string
@@ -22,7 +22,7 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
     moreMenu: {
       themeLight: "Theme: Light",
       themeDark: "Theme: Dark",
-      install: "Install",
+      info: "Info",
       myAds: "My Ads",
       settings: "Settings",
       account: "Account",
@@ -40,7 +40,7 @@ export const commonTexts: Record<"ar" | "en", CommonLocale> = {
     moreMenu: {
       themeLight: "المظهر: فاتح",
       themeDark: "المظهر: داكن",
-      install: "تثبيت",
+      info: "معلومات",
       myAds: "إعلاناتي",
       settings: "الإعدادات",
       account: "الحساب",

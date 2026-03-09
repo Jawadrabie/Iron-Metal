@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "Iron&Metal",
+    "name": "Iron & Metal",
     "slug": "mobile",
     "scheme": "ironmetal",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "updates": {
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "NEVER"
@@ -17,7 +17,7 @@
       "backgroundColor": "#ffffff",
       "dark": {
         "image": "./assets/icon/logo6.png",
-        "backgroundColor": "#1E1E1E"
+        "backgroundColor": "#ffffff"
       }
     },
     "ios": {
@@ -37,7 +37,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.alabuotrading.ironandmetal",
-      "versionCode": 2,
+      "versionCode": 6,
       "googleServicesFile": "./google-services.json",
       "intentFilters": [
         {
@@ -69,15 +69,28 @@
     },
     "extra": {
       "eas": {
-        "projectId": "bb9dca3c-7b06-473d-a39a-66ebda95f1d5"
+        "projectId": "42278706-85b2-47aa-9639-1a0be9f263fd"
       }
     },
     "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff",
+          "image": "./assets/icon/logo6.png",
+          "imageWidth": 18,
+          "resizeMode": "contain",
+          "dark": {
+            "image": "./assets/icon/logo6.png",
+            "backgroundColor": "#ffffff"
+          }
+        }
+      ],
       "expo-web-browser",
       "expo-asset",
       "expo-font",
       "expo-notifications"
     ],
-    "owner": "mnqwzxp"
+    "owner": "jawadrabie"
   }
 }

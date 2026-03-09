@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     zIndex: 999,
-    backgroundColor: "#f3f4f6",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
   },

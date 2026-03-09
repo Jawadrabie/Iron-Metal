@@ -38,6 +38,12 @@ function formatNetworkError(error: any, lang: string = "en") {
       : "Network timeout. Please try again."
   }
 
+  if (raw.includes("network request failed") || raw.includes("failed to fetch")) {
+    return isArabic
+      ? "تعذر الاتصال بخادم تسجيل الدخول. تحقق من الشبكة أو حدّث التطبيق إلى آخر نسخة."
+      : "Unable to reach the login server. Check your network or update the app to the latest version."
+  }
+
   return message || (isArabic ? "خطأ في الاتصال" : "Network error")
 }
 
@@ -88,18 +94,11 @@ export async function sendWhatsappOtpMobile(phone: string, lang: string = "en") 
   try {
     const normalizedPhone = normalizeIntl(phone)
     const primaryUrl = `${API_BASE_URL}/api/mobile/auth/whatsapp/send`
-    const fallbackUrl = `${API_BASE_URL}/api/mobile/mobile/auth/whatsapp/send`
 
-    let { res, json, text } = await postJson(primaryUrl, {
+    const { res, json, text } = await postJson(primaryUrl, {
       phone: normalizedPhone,
       lang,
     })
-    if (res.status === 404) {
-      ;({ res, json, text } = await postJson(fallbackUrl, {
-        phone: normalizedPhone,
-        lang,
-      }))
-    }
 
     if (!res.ok || json?.success === false) {
       const fallbackText =
@@ -132,14 +131,16 @@ export async function verifyWhatsappOtpMobile(args: {
   requestId?: string
 }, lang: string = "en") {
   try {
-    const normalizedArgs = { ...args, phone: normalizeIntl(args.phone) }
-    const primaryUrl = `${API_BASE_URL}/api/mobile/auth/whatsapp/verify`
-    const fallbackUrl = `${API_BASE_URL}/api/mobile/mobile/auth/whatsapp/verify`
-
-    let { res, json, text } = await postJson(primaryUrl, normalizedArgs)
-    if (res.status === 404) {
-      ;({ res, json, text } = await postJson(fallbackUrl, normalizedArgs))
+    const normalizedCode = String(args.code || "").trim()
+    const normalizedArgs = {
+      ...args,
+      phone: normalizeIntl(args.phone),
+      code: normalizedCode,
+      otp: normalizedCode,
     }
+    const primaryUrl = `${API_BASE_URL}/api/mobile/auth/whatsapp/verify`
+
+    const { res, json, text } = await postJson(primaryUrl, normalizedArgs)
 
     if (!res.ok || json?.success === false) {
       const fallbackText =
@@ -185,37 +186,31 @@ export async function verifyWhatsappOtpMobile(args: {
     })
 
     if (setSessionError) {
+      const msg = setSessionError.message?.toLowerCase() || ""
+      const isBlocked = msg.includes("network request failed") || msg.includes("failed to fetch")
+      const fallbackError = isBlocked
+        ? (lang === "ar"
+          ? "اتصالك يحظر خوادم التطبيق (Supabase). يرجى تشغيل كاسر بروكسي (VPN) والمحاولة."
+          : "Your connection blocks the app's servers (Supabase). Please enable a VPN.")
+        : (lang === "ar"
+          ? "فشل حفظ جلسة تسجيل الدخول. حاول مرة أخرى."
+          : "Failed to persist login session. Please try again.")
+
       return {
         success: false,
-        error:
-          setSessionError.message ||
-          (lang === "ar"
-            ? "فشل حفظ جلسة تسجيل الدخول. حاول مرة أخرى."
-            : "Failed to persist login session. Please try again."),
+        error: isBlocked ? fallbackError : (formatNetworkError(setSessionError, lang) || fallbackError),
       }
     }
 
-    // Double-check via getSession to ensure persistence
-    const { data: savedSessionData, error: savedSessionError } = await supabase.auth.getSession()
-    
-    // Extra safety: wait a moment for AsyncStorage to actually write the data on slower devices
-    await new Promise(resolve => setTimeout(resolve, 500))
+    const verifiedUser =
+      json?.user ||
+      session?.user ||
+      null
 
-    if (savedSessionError || !savedSessionData?.session?.user) {
-      return {
-        success: false,
-        error:
-          lang === "ar"
-            ? "تعذر تأكيد جلسة تسجيل الدخول. حاول مرة أخرى."
-            : "Unable to confirm login session. Please try again.",
-      }
-    }
-
-    // Force strict user return from the saved session
     return {
       success: true,
-      user: savedSessionData.session.user, // Use the confirmed session user
-      session: savedSessionData.session,
+      user: verifiedUser,
+      session,
     }
   } catch (e: any) {
     return { success: false, error: formatNetworkError(e, lang) }
@@ -224,6 +219,20 @@ export async function verifyWhatsappOtpMobile(args: {
 
 export async function getCurrentUser() {
   const { data: sessionData, error: sessionError } = await supabase.auth.getSession()
+
+  if (sessionError) {
+    const msg = String(sessionError.message || "").toLowerCase()
+    const hasInvalidRefreshToken =
+      msg.includes("invalid refresh token") ||
+      msg.includes("refresh token not found") ||
+      msg.includes("session not found")
+
+    if (hasInvalidRefreshToken) {
+      await supabase.auth.signOut().catch(() => null)
+      return { user: null }
+    }
+  }
+
   if (sessionData?.session?.user) {
     return { user: sessionData.session.user }
   }

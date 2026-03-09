@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import "react-native-url-polyfill/auto";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { StatusBar } from "expo-status-bar"
 import { Alert, Animated, Easing, Linking, Platform, StyleSheet } from "react-native"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
@@ -12,6 +13,7 @@ import { RootNavigator, navigationRef, type HomeDeepLinkParams } from "./navigat
 import { I18nProvider } from "./contexts/I18nContext"
 import { ThemeProvider, useTheme } from "./contexts/ThemeContext"
 import { SplashOverlay } from "./components/overlay/SplashOverlay"
+import { SplashProvider } from "./contexts/splash-context"
 SplashScreen.preventAutoHideAsync().catch(() => null)
 
 Notifications.setNotificationHandler({
@@ -192,17 +194,40 @@ export default function App() {
   const [pendingUrl, setPendingUrl] = useState<string | null>(null)
   const nativeSplashHiddenRef = useRef(false)
   const handledInitialNotificationResponseRef = useRef(false)
+  const appStartedAtRef = useRef(Date.now())
+  const handleSplashDone = useCallback(() => {
+    setShowSplashOverlay(false)
+  }, [])
+
+  useEffect(() => {
+    const hideNativeSplashSoon = () => {
+      if (nativeSplashHiddenRef.current) return
+      nativeSplashHiddenRef.current = true
+      SplashScreen.hideAsync().catch(() => null)
+    }
+
+    const timer = setTimeout(hideNativeSplashSoon, 40)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(() => {
     let mounted = true
 
     // Check for missing env vars
-    if (!process.env.EXPO_PUBLIC_SUPABASE_URL || !process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY) {
+    const hasSupabaseEnv =
+      !!process.env.EXPO_PUBLIC_SUPABASE_URL && !!process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+    if (!hasSupabaseEnv) {
+      console.warn(
+        "[startup] EXPO_PUBLIC_SUPABASE_URL / EXPO_PUBLIC_SUPABASE_ANON_KEY are missing, using app fallback config.",
+      )
+
       if (Platform.OS !== 'web') {
         setTimeout(() => {
           Alert.alert(
             "تنبيه",
-            "متغيرات البيئة للاتصال غير موجودة. لن يعمل تسجيل الدخول.\n(Supabase Env Vars Missing)",
+            "تم تشغيل إعدادات احتياطية للاتصال. يُفضَّل إعادة بناء التطبيق مع متغيرات البيئة الرسمية لضمان الاستقرار.",
             [{ text: "OK" }]
           )
         }, 1000)
@@ -279,7 +304,13 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationResponseReceivedListener(() => {
+    const INITIAL_NOTIFICATION_MAX_AGE_MS = 30_000
+
+    const subscription = Notifications.addNotificationResponseReceivedListener((response) => {
+      if (response.actionIdentifier !== Notifications.DEFAULT_ACTION_IDENTIFIER) {
+        return
+      }
+
       handledInitialNotificationResponseRef.current = true
       navigateToNotificationsTab()
       Notifications.clearLastNotificationResponseAsync().catch(() => null)
@@ -290,8 +321,24 @@ export default function App() {
         if (handledInitialNotificationResponseRef.current) return
 
         if (response) {
-          handledInitialNotificationResponseRef.current = true
-          navigateToNotificationsTab()
+          const isDefaultAction =
+            response.actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER
+
+          const rawDate = response.notification.date
+          const responseDateMs =
+            typeof rawDate === "number" && Number.isFinite(rawDate)
+              ? rawDate < 1_000_000_000_000
+                ? rawDate * 1000
+                : rawDate
+              : 0
+
+          const isFreshAtLaunch =
+            responseDateMs > 0 && appStartedAtRef.current - responseDateMs <= INITIAL_NOTIFICATION_MAX_AGE_MS
+
+          if (isDefaultAction && isFreshAtLaunch) {
+            handledInitialNotificationResponseRef.current = true
+            navigateToNotificationsTab()
+          }
           Notifications.clearLastNotificationResponseAsync().catch(() => null)
         }
       })
@@ -315,7 +362,7 @@ export default function App() {
       <ThemedAppRoot
         fontsReady={fontsReady}
         showSplashOverlay={showSplashOverlay}
-        onSplashDone={() => setShowSplashOverlay(false)}
+        onSplashDone={handleSplashDone}
         onLayout={handleLayout}
       />
     </ThemeProvider>
@@ -334,6 +381,10 @@ function ThemedAppRoot({
   onLayout: () => void
 }) {
   const theme = useTheme()
+  const splashValue = useMemo(
+    () => ({ splashVisible: showSplashOverlay, splashDone: !showSplashOverlay }),
+    [showSplashOverlay],
+  )
 
   return (
     <GestureHandlerRootView
@@ -346,9 +397,11 @@ function ThemedAppRoot({
           onLayout={onLayout}
         >
           {fontsReady ? (
-            <I18nProvider>
-              <RootNavigator />
-            </I18nProvider>
+            <SplashProvider value={splashValue}>
+              <I18nProvider>
+                <RootNavigator />
+              </I18nProvider>
+            </SplashProvider>
           ) : null}
           <StatusBar style={theme.isDark ? "light" : "dark"} />
         </SafeAreaView>

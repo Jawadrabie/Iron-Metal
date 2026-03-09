@@ -25,10 +25,28 @@ const A4_WIDTH = 595.28
 const A4_HEIGHT = 841.89
 const MARGIN = 32
 
-const BASE_SITE_URL =
-  process.env.EXPO_PUBLIC_SITE_URL ||
-  process.env.EXPO_PUBLIC_SUPABASE_URL ||
-  "https://iron-metal.net"
+function resolvePublicSiteOrigin(): string {
+  const rawSiteUrl = String(process.env.EXPO_PUBLIC_SITE_URL || "").trim()
+
+  if (rawSiteUrl && !/supabase\.co/i.test(rawSiteUrl)) {
+    try {
+      return new URL(rawSiteUrl).origin
+    } catch {
+      try {
+        const withScheme = /^https?:\/\//i.test(rawSiteUrl)
+          ? rawSiteUrl
+          : `https://${rawSiteUrl}`
+        return new URL(withScheme).origin
+      } catch {
+        return rawSiteUrl.replace(/\/+$/, "")
+      }
+    }
+  }
+
+  return "https://iron-metal.net"
+}
+
+const BASE_SITE_URL = resolvePublicSiteOrigin()
 
 const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME || "ironmetal"
 const BASE_APP_URL = `${APP_SCHEME}://`
@@ -531,11 +549,10 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
     if (data.dims) params.push(`i=${encodeURIComponent(JSON.stringify(data.dims))}`)
 
     const query = params.join("&")
-    const qrTargetUrl = query ? `${BASE_APP_URL}?${query}` : BASE_APP_URL
-    const clickUrl = query ? `${BASE_SITE_URL}/open?${query}` : `${BASE_SITE_URL}/open`
+    const clickUrl = query ? `${BASE_SITE_URL}/?${query}` : `${BASE_SITE_URL}/`
 
     // Use 'L' (Low) error correction for less density and easier scanning
-    const qrModules = buildQrModules(qrTargetUrl, "L")
+    const qrModules = buildQrModules(clickUrl, "L")
     const qrSize = 64
     const qrGap = 10
     const qrX = width - MARGIN - qrSize
@@ -611,7 +628,7 @@ export async function generateEngineeringCalculatorPdf(data: EngineeringCalculat
           Subtype: PDFName.of("Link"),
           Rect: [Math.round(qrX), Math.round(qrY), Math.round(qrX + qrSize), Math.round(qrY + qrSize)],
           Border: [0, 0, 0],
-          A: { S: PDFName.of("URI"), URI: PDFString.of(qrTargetUrl) },
+          A: { S: PDFName.of("URI"), URI: PDFString.of(clickUrl) },
         }
 
         if (pageRef) {

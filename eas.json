@@ -5,6 +5,12 @@
   "build": {
     "preview": {
       "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://docytsghlznipuapvizn.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvY3l0c2dobHpuaXB1YXB2aXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNDU5MTcsImV4cCI6MjA2NDYyMTkxN30.3kAUiHH2X3fqz0v2-ToevLUBjYGM-p239UzGzM_nEhk",
+        "EXPO_PUBLIC_SITE_URL": "https://iron-metal.net",
+        "EXPO_PUBLIC_SCHEME": "ironmetal"
+      },
       "android": {
         "buildType": "apk"
       },
@@ -13,6 +19,12 @@
       }
     },
     "production": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://docytsghlznipuapvizn.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvY3l0c2dobHpuaXB1YXB2aXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNDU5MTcsImV4cCI6MjA2NDYyMTkxN30.3kAUiHH2X3fqz0v2-ToevLUBjYGM-p239UzGzM_nEhk",
+        "EXPO_PUBLIC_SITE_URL": "https://iron-metal.net",
+        "EXPO_PUBLIC_SCHEME": "ironmetal"
+      },
       "ios": {
         "distribution": "store"
       },

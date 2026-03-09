@@ -167,10 +167,12 @@ export function CalculationsFormSection({
       value: item.label,
       rightLabel: `${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''
         }`,
+      selectedLabel: `${item.label} ${formatDensity(convertFromKgM3(item.value, densityUnit), densityUnit)} ${DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || ''}`.trim(),
     }))
   }, [densityUnit, selectedGroup.items])
 
-  const MATERIAL_ITEM_HEIGHT = 28
+  const DENSITY_GROUP_DROPDOWN_WIDTH = 150
+  const DENSITY_UNIT_DROPDOWN_WIDTH = 82
 
   const baseMaterialFlatListProps = {
     bounces: false,
@@ -184,26 +186,67 @@ export function CalculationsFormSection({
     updateCellsBatchingPeriod: 50,
   }
 
-  const selectedMaterialIndex = materialOptions.findIndex((o) => o.value === densityMaterial)
-  const materialFlatListProps =
-    selectedMaterialIndex > -1
-      ? {
-        ...baseMaterialFlatListProps,
-        initialScrollIndex: selectedMaterialIndex,
-        getItemLayout: (_data: any, index: number) => ({
-          length: MATERIAL_ITEM_HEIGHT,
-          offset: MATERIAL_ITEM_HEIGHT * index,
-          index,
-        }),
-      }
-      : baseMaterialFlatListProps
+  const materialFlatListProps = baseMaterialFlatListProps
 
   const autoCalcTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const densityGroupDropdownRef = useRef<IDropdownRef>(null)
   const densityMaterialDropdownRef = useRef<IDropdownRef>(null)
   const densityUnitDropdownRef = useRef<IDropdownRef>(null)
+  const densityGroupAnchorRef = useRef<View | null>(null)
+  const densityMaterialAnchorRef = useRef<View | null>(null)
+  const densityUnitAnchorRef = useRef<View | null>(null)
+  const [densityGroupDropdownLeft, setDensityGroupDropdownLeft] = useState<number | undefined>(undefined)
+  const [densityMaterialDropdownLeft, setDensityMaterialDropdownLeft] = useState<number | undefined>(undefined)
+  const [densityUnitDropdownLeft, setDensityUnitDropdownLeft] = useState<number | undefined>(undefined)
   const unitAnchorRefs = useRef<Record<string, View | null>>({})
+
+  const clampDropdownLeft = (left: number, menuWidth: number) => {
+    const margin = 8
+    return Math.max(margin, Math.min(left, screenWidth - menuWidth - margin))
+  }
+
+  const measureDropdownLeft = (
+    anchor: View | null,
+    menuWidth: number,
+    setLeft: (value: number) => void,
+    alignRight = false,
+  ) => {
+    if (!anchor) return
+    anchor.measureInWindow((x, _y, w) => {
+      const rawLeft = alignRight ? x + w - menuWidth : x
+      setLeft(clampDropdownLeft(rawLeft, menuWidth))
+    })
+  }
+
+  const openDensityGroupDropdown = () => {
+    measureDropdownLeft(
+      densityGroupAnchorRef.current,
+      DENSITY_GROUP_DROPDOWN_WIDTH,
+      setDensityGroupDropdownLeft,
+    )
+    requestAnimationFrame(() => densityGroupDropdownRef.current?.open?.())
+  }
+
+  const openDensityUnitDropdown = () => {
+    measureDropdownLeft(
+      densityUnitAnchorRef.current,
+      DENSITY_UNIT_DROPDOWN_WIDTH,
+      setDensityUnitDropdownLeft,
+      true,
+    )
+    requestAnimationFrame(() => densityUnitDropdownRef.current?.open?.())
+  }
+
+  const openDensityMaterialDropdown = () => {
+    const menuWidth = Math.min(220, Math.max(180, Math.round(screenWidth * 0.6)))
+    measureDropdownLeft(
+      densityMaterialAnchorRef.current,
+      menuWidth,
+      setDensityMaterialDropdownLeft,
+    )
+    requestAnimationFrame(() => densityMaterialDropdownRef.current?.open?.())
+  }
 
   useEffect(() => {
     setDims((prev: any) => ({ ...prev, density: String(densityKgM3 / 1000) }))
@@ -427,227 +470,248 @@ export function CalculationsFormSection({
       )}
 
       <View style={[styles.densityRow, { direction: 'ltr', flexDirection: 'row' }]}>
-        <View collapsable={false} style={{ flex: 0.85, minWidth: 0 }}>
-          <TouchableOpacity
+        <View
+          ref={densityGroupAnchorRef}
+          collapsable={false}
+          style={{ flex: 0.72, minWidth: 0 }}
+          onLayout={() => {
+            requestAnimationFrame(() => {
+              measureDropdownLeft(
+                densityGroupAnchorRef.current,
+                DENSITY_GROUP_DROPDOWN_WIDTH,
+                setDensityGroupDropdownLeft,
+              )
+            })
+          }}
+        >
+          <Dropdown
+            ref={densityGroupDropdownRef}
+            data={DENSITY_GROUPS.map((g) => ({ label: g.label, value: g.label }))}
+            mode="default"
+            labelField="label"
+            valueField="value"
+            value={densityGroup}
             style={styles.densitySelect}
-            onPress={() => densityGroupDropdownRef.current?.open?.()}
-          >
-            <Text style={styles.densitySelectText} numberOfLines={1} ellipsizeMode="tail">
-              {densityGroup}
-            </Text>
-          </TouchableOpacity>
-
-          <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
-            <Dropdown
-              ref={densityGroupDropdownRef}
-              data={DENSITY_GROUPS.map((g) => ({ label: g.label, value: g.label }))}
-              labelField="label"
-              valueField="value"
-              value={densityGroup}
-              style={StyleSheet.absoluteFillObject}
-              dropdownPosition="bottom"
-              containerStyle={[
-                styles.dropdownContainer,
-                {
-                  width: 180,
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  borderWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-              placeholder=""
-              selectedTextStyle={styles.dropdownHiddenText}
-              itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
-              maxHeight={320}
-              showsVerticalScrollIndicator={false}
-              activeColor="transparent"
-              closeModalWhenSelectedItem
-              flatListProps={{
-                bounces: false,
-                overScrollMode: 'never',
-                showsVerticalScrollIndicator: false,
-                contentContainerStyle: { paddingVertical: 0 },
-              }}
-              onChange={(item: { label: string; value: string }) => {
-                setDensityGroup(item.value)
-                const first = DENSITY_GROUPS.find((g) => g.label === item.value)?.items?.[0]?.label
-                if (first) setDensityMaterial(first)
-                densityGroupDropdownRef.current?.close?.()
-              }}
-              renderLeftIcon={() => null}
-              renderRightIcon={() => null}
-              renderItem={(item: { label: string; value: string }) => {
-                const isSelected = item.value === densityGroup
-                return (
-                  <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
-                    <Text
-                      style={[
-                        styles.modalOptionText,
-                        { color: theme.colors.text },
-                        isSelected ? styles.modalOptionTextActive : null,
-                      ]}
-                    >
-                      {item.label}
-                    </Text>
-                  </View>
-                )
-              }}
-            />
-          </View>
-        </View>
-
-        <View collapsable={false} style={{ flex: 1.15, minWidth: 0 }}>
-          <TouchableOpacity
-            style={styles.densitySelect}
-            onPress={() => densityMaterialDropdownRef.current?.open?.()}
-          >
-            <Text style={styles.densitySelectText} numberOfLines={1} ellipsizeMode="tail">
-              {densityMaterial}
-              {materialDensityInline ? ` ${materialDensityInline}` : ''}
-            </Text>
-          </TouchableOpacity>
-
-          <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
-            <Dropdown
-              ref={densityMaterialDropdownRef}
-              data={materialOptions}
-              labelField="label"
-              valueField="value"
-              value={densityMaterial}
-              style={StyleSheet.absoluteFillObject}
-              dropdownPosition="bottom"
-              containerStyle={[
-                styles.dropdownContainer,
-                {
-                  width: Math.min(220, Math.max(180, Math.round(screenWidth * 0.6))),
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  borderWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-              placeholder=""
-              selectedTextStyle={styles.dropdownHiddenText}
-              itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
-              maxHeight={Math.min(180, Math.max(130, screenHeight * 0.24))}
-              showsVerticalScrollIndicator={false}
-              activeColor="transparent"
-              closeModalWhenSelectedItem
-              autoScroll={false}
-              flatListProps={materialFlatListProps}
-              onChange={(item: { label: string; value: string; rightLabel?: string }) => {
-                setDensityMaterial(item.value)
-                densityMaterialDropdownRef.current?.close?.()
-              }}
-              renderLeftIcon={() => null}
-              renderRightIcon={() => null}
-              renderItem={(item: { label: string; value: string; rightLabel?: string }) => {
-                const isSelected = item.value === densityMaterial
-                return (
-                  <View
+            dropdownPosition="bottom"
+            containerStyle={[
+              styles.dropdownContainer,
+              {
+                width: DENSITY_GROUP_DROPDOWN_WIDTH,
+                left: densityGroupDropdownLeft,
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+                borderWidth: StyleSheet.hairlineWidth,
+              },
+            ]}
+            placeholder=""
+            selectedTextStyle={styles.densitySelectText}
+            placeholderStyle={styles.densitySelectText}
+            itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
+            maxHeight={320}
+            showsVerticalScrollIndicator={false}
+            activeColor="transparent"
+            closeModalWhenSelectedItem
+            flatListProps={{
+              bounces: false,
+              overScrollMode: 'never',
+              showsVerticalScrollIndicator: false,
+              contentContainerStyle: { paddingVertical: 0 },
+            }}
+            onChange={(item: { label: string; value: string }) => {
+              setDensityGroup(item.value)
+              const first = DENSITY_GROUPS.find((g) => g.label === item.value)?.items?.[0]?.label
+              if (first) setDensityMaterial(first)
+              densityGroupDropdownRef.current?.close?.()
+            }}
+            renderRightIcon={() => null}
+            renderItem={(item: { label: string; value: string }) => {
+              const isSelected = item.value === densityGroup
+              return (
+                <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
+                  <Text
                     style={[
-                      styles.modalOption,
-                      styles.modalOptionCompact,
-                      { height: MATERIAL_ITEM_HEIGHT, marginBottom: 0, paddingVertical: 3 },
-                      isSelected ? styles.modalOptionActive : null,
+                      styles.modalOptionText,
+                      { color: theme.colors.text },
+                      isSelected ? styles.modalOptionTextActive : null,
                     ]}
                   >
-                    <View style={[styles.modalOptionRow, styles.modalOptionRowCompact]}>
-                      <Text
-                        numberOfLines={1}
-                        ellipsizeMode="clip"
-                        style={[
-                          styles.modalOptionLeftText,
-                          styles.modalOptionLeftTextCompact,
-                          { color: theme.colors.text },
-                          isSelected ? styles.modalOptionTextActive : null,
-                        ]}
-                      >
-                        {item.label}
-                      </Text>
-                      {!!item.rightLabel && (
-                        <Text
-                          style={[
-                            styles.modalOptionRightText,
-                            styles.modalOptionRightTextCompact,
-                            { color: theme.colors.textSecondary },
-                          ]}
-                        >
-                          {item.rightLabel}
-                        </Text>
-                      )}
-                    </View>
-                  </View>
-                )
-              }}
-            />
-          </View>
+                    {item.label}
+                  </Text>
+                </View>
+              )
+            }}
+          />
+          <TouchableOpacity
+            style={styles.dropdownTapOverlay}
+            activeOpacity={1}
+            onPress={openDensityGroupDropdown}
+          />
         </View>
 
-        <View collapsable={false}>
-          <TouchableOpacity
-            style={styles.densitySelectUnit}
-            onPress={() => densityUnitDropdownRef.current?.open?.()}
-          >
-            <Text style={styles.densitySelectText} numberOfLines={1}>
-              {DENSITY_UNITS.find((u) => u.value === densityUnit)?.label || 'kg/m³'}
-            </Text>
-          </TouchableOpacity>
-
-          <View pointerEvents="none" collapsable={false} style={styles.dropdownAnchor}>
-            <Dropdown
-              ref={densityUnitDropdownRef}
-              data={DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value }))}
-              labelField="label"
-              valueField="value"
-              value={densityUnit}
-              style={StyleSheet.absoluteFillObject}
-              dropdownPosition="bottom"
-              containerStyle={[
-                styles.dropdownContainer,
-                {
-                  width: 100,
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  borderWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-              placeholder=""
-              selectedTextStyle={styles.dropdownHiddenText}
-              itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
-              maxHeight={220}
-              showsVerticalScrollIndicator={false}
-              activeColor="transparent"
-              closeModalWhenSelectedItem
-              flatListProps={{
-                bounces: false,
-                overScrollMode: 'never',
-                showsVerticalScrollIndicator: false,
-                contentContainerStyle: { paddingVertical: 0 },
-              }}
-              onChange={(item: { label: string; value: string }) => {
-                setDensityUnit(item.value)
-                densityUnitDropdownRef.current?.close?.()
-              }}
-              renderLeftIcon={() => null}
-              renderRightIcon={() => null}
-              renderItem={(item: { label: string; value: string }) => {
-                const isSelected = item.value === densityUnit
-                return (
-                  <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
+        <View ref={densityMaterialAnchorRef} collapsable={false} style={{ flex: 1.15, minWidth: 0 }}>
+          <Dropdown
+            ref={densityMaterialDropdownRef}
+            data={materialOptions}
+            mode="default"
+            labelField="selectedLabel"
+            valueField="value"
+            value={densityMaterial}
+            style={styles.densitySelect}
+            dropdownPosition="bottom"
+            containerStyle={[
+              styles.dropdownContainer,
+              {
+                width: Math.min(220, Math.max(180, Math.round(screenWidth * 0.6))),
+                left: densityMaterialDropdownLeft,
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+                borderWidth: StyleSheet.hairlineWidth,
+              },
+            ]}
+            placeholder=""
+            selectedTextStyle={styles.densitySelectText}
+            placeholderStyle={styles.densitySelectText}
+            itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
+            maxHeight={Math.min(180, Math.max(130, screenHeight * 0.24))}
+            showsVerticalScrollIndicator={false}
+            activeColor="transparent"
+            closeModalWhenSelectedItem
+            autoScroll={false}
+            flatListProps={materialFlatListProps}
+            onFocus={() => {
+              const menuWidth = Math.min(220, Math.max(180, Math.round(screenWidth * 0.6)))
+              measureDropdownLeft(
+                densityMaterialAnchorRef.current,
+                menuWidth,
+                setDensityMaterialDropdownLeft,
+              )
+            }}
+            onChange={(item: { label: string; value: string; rightLabel?: string; selectedLabel: string }) => {
+              setDensityMaterial(item.value)
+              densityMaterialDropdownRef.current?.close?.()
+            }}
+            renderRightIcon={() => null}
+            renderItem={(item: { label: string; value: string; rightLabel?: string; selectedLabel: string }) => {
+              const isSelected = item.value === densityMaterial
+              return (
+                <View
+                  style={[
+                    styles.modalOption,
+                    styles.modalOptionCompact,
+                    { marginBottom: 0, paddingVertical: 3 },
+                    isSelected ? styles.modalOptionActive : null,
+                  ]}
+                >
+                  <View style={[styles.modalOptionRow, styles.modalOptionRowCompact]}>
                     <Text
+                      numberOfLines={1}
+                      ellipsizeMode="clip"
                       style={[
-                        styles.modalOptionText,
+                        styles.modalOptionLeftText,
+                        styles.modalOptionLeftTextCompact,
                         { color: theme.colors.text },
                         isSelected ? styles.modalOptionTextActive : null,
                       ]}
                     >
                       {item.label}
                     </Text>
+                    {!!item.rightLabel && (
+                      <Text
+                        style={[
+                          styles.modalOptionRightText,
+                          styles.modalOptionRightTextCompact,
+                          { color: theme.colors.textSecondary },
+                        ]}
+                      >
+                        {item.rightLabel}
+                      </Text>
+                    )}
                   </View>
-                )
-              }}
-            />
-          </View>
+                </View>
+              )
+            }}
+          />
+          <TouchableOpacity
+            style={styles.dropdownTapOverlay}
+            activeOpacity={1}
+            onPress={openDensityMaterialDropdown}
+          />
+        </View>
+
+        <View
+          ref={densityUnitAnchorRef}
+          collapsable={false}
+          onLayout={() => {
+            requestAnimationFrame(() => {
+              measureDropdownLeft(
+                densityUnitAnchorRef.current,
+                DENSITY_UNIT_DROPDOWN_WIDTH,
+                setDensityUnitDropdownLeft,
+                true,
+              )
+            })
+          }}
+        >
+          <Dropdown
+            ref={densityUnitDropdownRef}
+            data={DENSITY_UNITS.map((u) => ({ label: u.label, value: u.value }))}
+            mode="default"
+            labelField="label"
+            valueField="value"
+            value={densityUnit}
+            style={styles.densitySelectUnit}
+            dropdownPosition="bottom"
+            containerStyle={[
+              styles.dropdownContainer,
+              {
+                width: DENSITY_UNIT_DROPDOWN_WIDTH,
+                left: densityUnitDropdownLeft,
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+                borderWidth: StyleSheet.hairlineWidth,
+              },
+            ]}
+            placeholder=""
+            selectedTextStyle={styles.densitySelectText}
+            placeholderStyle={styles.densitySelectText}
+            itemContainerStyle={{ paddingHorizontal: 0, paddingVertical: 0 }}
+            maxHeight={220}
+            showsVerticalScrollIndicator={false}
+            activeColor="transparent"
+            closeModalWhenSelectedItem
+            flatListProps={{
+              bounces: false,
+              overScrollMode: 'never',
+              showsVerticalScrollIndicator: false,
+              contentContainerStyle: { paddingVertical: 0 },
+            }}
+            onChange={(item: { label: string; value: string }) => {
+              setDensityUnit(item.value)
+              densityUnitDropdownRef.current?.close?.()
+            }}
+            renderRightIcon={() => null}
+            renderItem={(item: { label: string; value: string }) => {
+              const isSelected = item.value === densityUnit
+              return (
+                <View style={[styles.modalOption, isSelected ? styles.modalOptionActive : null]}>
+                  <Text
+                    style={[
+                      styles.modalOptionText,
+                      { color: theme.colors.text },
+                      isSelected ? styles.modalOptionTextActive : null,
+                    ]}
+                  >
+                    {item.label}
+                  </Text>
+                </View>
+              )
+            }}
+          />
+          <TouchableOpacity
+            style={styles.dropdownTapOverlay}
+            activeOpacity={1}
+            onPress={openDensityUnitDropdown}
+          />
         </View>
 
         <TouchableOpacity

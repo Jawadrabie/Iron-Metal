@@ -10,12 +10,12 @@ const GAP_ABOVE_TAB = 12
 
 const MORE_ITEMS = [
   { key: "theme", icon: { set: "feather", name: "sun" } },
-  { key: "install", icon: { set: "feather", name: "download" } },
+  { key: "featured", icon: { set: "feather", name: "star" } },
   { key: "myAds", icon: { set: "material", name: "bullhorn" } },
   { key: "settings", icon: { set: "feather", name: "settings" } },
   { key: "account", icon: { set: "feather", name: "user" } },
   { key: "suggestions", icon: { set: "material", name: "lightbulb-on-outline" } },
-  { key: "featured", icon: { set: "feather", name: "star" } },
+  { key: "info", icon: { set: "feather", name: "info" } },
   { key: "localLink", icon: { set: "feather", name: "globe" } },
   { key: "support", icon: { set: "materialIcons", name: "headset-mic" } },
 ] as const
@@ -55,7 +55,7 @@ export const MoreMenuModal = memo(function MoreMenuModal({ visible, onClose, ins
 
     const labelByKey: Record<MoreItemKey, string> = {
       theme: themeLabel,
-      install: tt.install,
+      info: tt.info,
       myAds: tt.myAds,
       settings: tt.settings,
       account: tt.account,
