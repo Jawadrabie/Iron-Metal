@@ -1,13 +1,4 @@
-workflows:
-  ios-expo-workflow:
-    name: iOS Expo Build
-    instance_type: mac_mini_m1
-    environment:
-      groups:
-        - expo
-        - apple
-      node: latest
-    scripts:
+scripts:
       - name: Install dependencies
         script: npm install
       - name: Install EAS CLI
@@ -17,13 +8,14 @@ workflows:
           # 1. إنشاء ملف المفتاح
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # 2. إدخال المفاتيح في بيئة العمل بأسماء رسمية يفهمها EAS
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="$APP_STORE_CONNECT_KEY_ID"
-          export EXPO_ASC_API_KEY_ISSUER_ID="$APP_STORE_CONNECT_ISSUER_ID"
+          # 2. إعداد المتغيرات اللازمة
           export EAS_NO_VCS=1
+          export EAS_BUILD_NO_EXPO_GO_WARNING=true
           
-          # 3. تشغيل البناء مع إخباره صراحة باستخدام الـ API Key بدلاً من ملف credentials.json
-          eas build --platform ios --profile production --local --non-interactive --non-interactive
-    artifacts:
-      - build/*.ipa
+          # 3. أمر البناء باستخدام الـ Flags المباشرة (هذه الطريقة تجبره على المسار المحلي)
+          # لاحظ استخدام --apple-id و الأعلام الجديدة للـ API Key
+          eas build --platform ios --profile production --local --non-interactive \
+            --apple-id "alabuo@gmail.com" \
+            --id "$APP_STORE_CONNECT_KEY_ID" \
+            --issuer "$APP_STORE_CONNECT_ISSUER_ID" \
+            --p8-path "./AuthKey_XLB4TLKY66.p8"
