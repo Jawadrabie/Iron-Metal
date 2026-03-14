@@ -12,7 +12,7 @@
         "EXPO_PUBLIC_SCHEME": "ironmetal"
       },
       "ios": {
-        "distribution": "store",
+        "distribution": "store"
       }
     }
   },
