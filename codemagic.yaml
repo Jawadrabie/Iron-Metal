@@ -5,6 +5,7 @@ workflows:
     environment:
       groups:
         - expo
+        - apple
       node: latest
     scripts:
       - name: Install dependencies
@@ -13,6 +14,13 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          eas build --platform ios --profile production --local --non-interactive
+          # إنشاء ملف المفتاح برمجياً داخل السيرفر
+          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
+          
+          # تنفيذ البناء باستخدام المفاتيح
+          eas build --platform ios --profile production --local --non-interactive \
+            --p8-path ./AuthKey_XLB4TLKY66.p8 \
+            --id $APP_STORE_CONNECT_KEY_ID \
+            --issuer $APP_STORE_CONNECT_ISSUER_ID
     artifacts:
       - build/*.ipa
