@@ -14,30 +14,28 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء مفتاح آبل p8
+          # 1. إنشاء مفتاح آبل
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إنشاء ملف credentials.json المحلي الصارم
-          # هذا الملف سيجعل EAS يصدق أن كل شيء موثق وجاهز محلياً
+          # 2. إنشاء ملف الاعتمادات (بصيغة مبسطة يقبلها الإصدار الجديد)
           cat > credentials.json <<EOF
           {
             "ios": {
-              "production": {
-                "ascApiKeyId": "XLB4TLKY66",
-                "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-                "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8",
-                "appleTeamId": "9MLYHHLY82"
-              }
+              "appleTeamId": "9MLYHHLY82",
+              "ascApiKeyId": "XLB4TLKY66",
+              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
             }
           }
           EOF
 
-          # 3. متغيرات البيئة
+          # 3. إعدادات البيئة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء - لاحظ استخدام --credentials-source local
+          # 4. أمر البناء المصحح (بدون الفلاغ المرفوض)
+          # سيعرف EAS أن المصدر محلي تلقائياً من ملف eas.json
           mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --credentials-source local --output=build/ironmetal.ipa
+          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
     artifacts:
       - build/*.ipa
