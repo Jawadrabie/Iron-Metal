@@ -1,41 +1,44 @@
 workflows:
   ios-expo-workflow:
-    name: iOS Force Override Build
+    name: Expo iOS Production Build
     instance_type: mac_mini_m1
+
     environment:
+      node: 18
       groups:
         - expo
         - apple
-      node: latest
+
     scripts:
       - name: Install dependencies
-        script: npm install
-      - name: Install EAS CLI
-        script: npm install -g eas-cli
-      - name: Override & Build
         script: |
-          # 1. إنشاء مفتاح p8
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
+          npm install
 
-          # 2. إنشاء ملف الاعتمادات بتنسيق الـ API Key الصافي
-          # هذا التنسيق هو الوحيد الذي يقبله الإصدار الجديد v12 للبناء المحلي
-          cat > credentials.json <<EOF
-          {
-            "ios": {
-              "appleTeamId": "9MLYHHLY82",
-              "ascApiKeyId": "XLB4TLKY66",
-              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
-            }
-          }
-          EOF
+      - name: Install Expo & EAS
+        script: |
+          npm install -g expo-cli
+          npm install -g eas-cli
 
+      - name: Prepare Apple API key
+        script: |
+          echo "$APP_STORE_CONNECT_P8" > AuthKey.p8
+
+      - name: Export Apple credentials
+        script: |
+          export EXPO_TOKEN=$EXPO_TOKEN
+          export EXPO_ASC_API_KEY_PATH=AuthKey.p8
+          export EXPO_ASC_API_KEY_ID=$APP_STORE_CONNECT_KEY_ID
+          export EXPO_ASC_API_KEY_ISSUER_ID=$APP_STORE_CONNECT_ISSUER_ID
+          export EXPO_APPLE_TEAM_ID=9MLYHHLY82
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
+          export EAS_BUILD_AUTOCREATE_CREDENTIALS=1
 
-          # 3. الضربة القاضية: بناء محلي مع تجاهل تام للشهادات القديمة
-          # سنستخدم --local لكي لا يذهب EAS لسيرفرات إكسبو ويفشل عند "الشهادة القديمة"
-          mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
-    artifacts:
-      - build/*.ipa
+      - name: Build iOS
+        script: |
+          eas build \
+            --platform ios \
+            --profile production \
+            --non-interactive \
+            --clear-credentials \
+            --no-wait
