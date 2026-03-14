@@ -1,21 +1,30 @@
-scripts:
+workflows:
+  ios-expo-workflow:
+    name: iOS Expo Build
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - expo
+        - apple
+      node: latest
+    scripts:
       - name: Install dependencies
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء ملف المفتاح
+          # 1. إنشاء ملف المفتاح الفعلي من المتغير السري
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # 2. إعداد المتغيرات اللازمة
+          # 2. تعطيل تحذيرات النظام وإجبار الوضع غير التفاعلي
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
           
-          # 3. أمر البناء باستخدام الـ Flags المباشرة (هذه الطريقة تجبره على المسار المحلي)
-          # لاحظ استخدام --apple-id و الأعلام الجديدة للـ API Key
+          # 3. أمر البناء النهائي والمباشر (استخدمنا الـ Flags لربط كل شيء يدوياً)
           eas build --platform ios --profile production --local --non-interactive \
-            --apple-id "alabuo@gmail.com" \
             --id "$APP_STORE_CONNECT_KEY_ID" \
             --issuer "$APP_STORE_CONNECT_ISSUER_ID" \
             --p8-path "./AuthKey_XLB4TLKY66.p8"
+    artifacts:
+      - build/*.ipa
