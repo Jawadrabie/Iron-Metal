@@ -1,6 +1,6 @@
 workflows:
   ios-expo-workflow:
-    name: iOS Expo Build
+    name: iOS Expo Build & Deploy
     instance_type: mac_mini_m1
     environment:
       groups:
@@ -12,13 +12,12 @@ workflows:
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
-      - name: Build iOS IPA
+      - name: Build and Submit to Apple
         script: |
-          # 1. إنشاء مفتاح آبل
+          # 1. إنشاء ملف المفتاح الجديد p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. الهيكل الصحيح 100% لملف credentials.json
-          # لاحظ تغليف البيانات داخل "production" ثم "store"
+          # 2. إنشاء ملف credentials.json بالهيكل الذي يقبله EAS محلياً
           cat > credentials.json <<EOF
           {
             "ios": {
@@ -32,12 +31,16 @@ workflows:
           }
           EOF
 
-          # 3. إعدادات البيئة
+          # 3. متغيرات البيئة الأساسية
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء
+          # 4. بناء ملف الـ IPA محلياً
+          # استخدام --clear-cache مهم جداً مع المفتاح الجديد لمسح أي بقايا قديمة
           mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
+          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa --clear-cache
+
+          # 5. الرفع التلقائي إلى App Store Connect (Apple Console)
+          eas submit --platform ios --profile production --path=build/ironmetal.ipa --non-interactive
     artifacts:
       - build/*.ipa
