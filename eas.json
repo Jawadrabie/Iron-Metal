@@ -13,10 +13,7 @@
       },
       "ios": {
         "distribution": "store",
-        "credentialsSource": "local",
-        "ascApiKeyId": "XLB4TLKY66",
-        "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-        "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+        "credentialsSource": "local"
       }
     }
   },
