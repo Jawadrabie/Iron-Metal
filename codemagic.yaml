@@ -1,11 +1,10 @@
 workflows:
   ios-expo-workflow:
     name: iOS Expo Build
-    working_directory: mobile
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo   # هذا هو اسم المجموعة التي وضعنا فيها الـ Token
+        - expo
       node: latest
     scripts:
       - name: Install dependencies
@@ -14,7 +13,6 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # هنا سيقوم السيرفر باستخدام الـ EXPO_TOKEN تلقائياً
           eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
