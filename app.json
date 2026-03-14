@@ -69,7 +69,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "42278706-85b2-47aa-9639-1a0be9f263fd"
+        "projectId": "bb9dca3c-7b06-473d-a39a-66ebda95f1d5"
       }
     },
     "plugins": [
@@ -91,6 +91,6 @@
       "expo-font",
       "expo-notifications"
     ],
-    "owner": "jawadrabie"
+    "owner": "mnqwzxp"
   }
 }
