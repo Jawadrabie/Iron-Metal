@@ -4,8 +4,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo
-        - apple
+        - expo   # تأكد أن EXPO_TOKEN الخاص بالحساب الجديد موجود هنا
+        - apple  # تأكد أن APP_STORE_CONNECT_P8 موجود هنا
       node: latest
     scripts:
       - name: Install dependencies
@@ -17,30 +17,29 @@ workflows:
           # 1. إنشاء ملف المفتاح الجديد p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إنشاء ملف credentials.json بالهيكل الذي يقبله EAS محلياً
+          # 2. إنشاء ملف credentials.json بالهيكل الذي يقبله EAS محلياً للـ API Key
+          # ملاحظة: تم وضع البيانات مباشرة تحت ios لتفادي خطأ التوثيق
           cat > credentials.json <<EOF
           {
             "ios": {
-              "production": {
-                "ascApiKeyId": "XLB4TLKY66",
-                "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-                "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8",
-                "appleTeamId": "9MLYHHLY82"
-              }
+              "appleTeamId": "9MLYHHLY82",
+              "ascApiKeyId": "XLB4TLKY66",
+              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
             }
           }
           EOF
 
-          # 3. متغيرات البيئة الأساسية
+          # 3. إعدادات البيئة الأساسية
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
           # 4. بناء ملف الـ IPA محلياً
-          # استخدام --clear-cache مهم جداً مع المفتاح الجديد لمسح أي بقايا قديمة
           mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa --clear-cache
+          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
 
           # 5. الرفع التلقائي إلى App Store Connect (Apple Console)
+          # سيقوم هذا الأمر برفع ملف الـ IPA الناتج إلى حسابك فوراً
           eas submit --platform ios --profile production --path=build/ironmetal.ipa --non-interactive
     artifacts:
       - build/*.ipa
