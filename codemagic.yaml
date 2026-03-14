@@ -14,25 +14,30 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء ملف المفتاح p8
+          # 1. إنشاء مفتاح آبل p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات (هذا هو الأهم لتجاوز الـ 2FA وخطأ التوثيق)
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
-          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
-          
+          # 2. إنشاء ملف credentials.json المحلي الصارم
+          # هذا الملف سيجعل EAS يصدق أن كل شيء موثق وجاهز محلياً
+          cat > credentials.json <<EOF
+          {
+            "ios": {
+              "production": {
+                "ascApiKeyId": "XLB4TLKY66",
+                "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+                "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8",
+                "appleTeamId": "9MLYHHLY82"
+              }
+            }
+          }
+          EOF
+
+          # 3. متغيرات البيئة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. أمر المزامنة بالصيغة الصحيحة (حذفنا الفلاغات المرفوضة)
-          # هذا سيجعل EAS يربط المفتاح بالحساب الجديد صمتاً
-          eas credentials --platform ios --non-interactive || true
-
-          # 4. أمر البناء النهائي
-          # أضفنا --clear-cache لضمان عدم استخدام أي شهادة "غير موثقة" قديمة
+          # 4. أمر البناء - لاحظ استخدام --credentials-source local
           mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa --clear-cache
+          eas build --platform ios --profile production --local --non-interactive --credentials-source local --output=build/ironmetal.ipa
     artifacts:
       - build/*.ipa
