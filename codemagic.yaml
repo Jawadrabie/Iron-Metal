@@ -17,17 +17,21 @@ workflows:
           # 1. إنشاء ملف المفتاح
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات بالأسماء "المقدسة" لدى Expo (سيتعرف عليها تلقائياً)
+          # 2. تصدير المتغيرات الأساسية
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
           
-          # 3. إعدادات البيئة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء "النقي" (بدون أي Flags زائدة تسبب أخطاء)
-          # بما أننا لم نحدد credentialsSource في eas.json، سيبحث EAS في المتغيرات أعلاه فوراً
-          eas build --platform ios --profile production --local --non-interactive
+          # 3. الخطوة الحاسمة: مسح الذاكرة المحلية والبعيدة للشهادات المكسورة
+          # سنخبر EAS أن يمسح أي شهادات قديمة مرتبطة بهذا المشروع ليبدأ بناء نظيف
+          # نستخدم --platform ios للتأكد من استهداف المشكلة
+          npx eas-cli device:delete-apple-credentials --platform ios --non-interactive || true
+
+          # 4. أمر البناء مع إجبار النظام على تجاهل الشهادات السابقة
+          # سنستخدم --clear-cache للتأكد من عدم وجود بقايا
+          eas build --platform ios --profile production --local --non-interactive --clear-cache
     artifacts:
       - build/*.ipa
