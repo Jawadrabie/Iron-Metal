@@ -1,40 +1,30 @@
-workflows:
-  ios-expo-workflow:
-    name: iOS Expo Build
-    instance_type: mac_mini_m1
-    environment:
-      groups:
-        - expo
-        - apple
-      node: latest
-    scripts:
-      - name: Install dependencies
-        script: npm install
-      - name: Install EAS CLI
-        script: npm install -g eas-cli
-      - name: Build iOS IPA
-        script: |
-          # 1. إنشاء مفتاح آبل
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
-
-          # 2. إنشاء ملف الاعتمادات (بصيغة مبسطة يقبلها الإصدار الجديد)
-          cat > credentials.json <<EOF
-          {
-            "ios": {
-              "appleTeamId": "9MLYHHLY82",
-              "ascApiKeyId": "XLB4TLKY66",
-              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
-            }
-          }
-          EOF
-
-          # 3. إعدادات البيئة
-          export EAS_NO_VCS=1
-          export EAS_BUILD_NO_EXPO_GO_WARNING=true
-
-          # 4. أمر البناء (بدون الفلاغات التي تسبب مشاكل)
-          mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
-    artifacts:
-      - build/*.ipa
+{
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://docytsghlznipuapvizn.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvY3l0c2dobHpuaXB1YXB2aXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNDU5MTcsImV4cCI6MjA2NDYyMTkxN30.3kAUiHH2X3fqz0v2-ToevLUBjYGM-p239UzGzM_nEhk",
+        "EXPO_PUBLIC_SITE_URL": "https://iron-metal.net",
+        "EXPO_PUBLIC_SCHEME": "ironmetal"
+      },
+      "ios": {
+        "distribution": "store",
+        "credentialsSource": "local"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleTeamId": "9MLYHHLY82",
+        "ascApiKeyId": "XLB4TLKY66",
+        "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+        "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+      }
+    }
+  }
+}
