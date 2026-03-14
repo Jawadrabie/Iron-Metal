@@ -1,25 +1,34 @@
-scripts:
+workflows:
+  ios-expo-workflow:
+    name: iOS Expo Build
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - expo   # تأكد من وجود EXPO_TOKEN هنا
+        - apple  # تأكد من وجود APP_STORE_CONNECT_P8 هنا
+      node: latest
+    scripts:
       - name: Install dependencies
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إعداد المفتاح
+          # 1. تجهيز مفتاح الدخول لآبل
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات التي يفهمها EAS تلقائياً
+          # 2. تصدير المتغيرات التي يراها EAS تلقائياً (بدون ملفات JSON)
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
           export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
           
+          # 3. إعدادات الأتمتة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. الخطوة "السحرية": تجديد الشهادات قبل البناء
-          # هذا السطر سيستخدم المفتاح لإنشاء شهادات جديدة نظيفة في حسابك
-          eas credentials --platform ios --profile production --non-interactive --clear-credentials || true
-
-          # 4. البناء النهائي
+          # 4. أمر البناء "السحري"
+          # سيقوم EAS باستخدام المفتاح لإنشاء الشهادات في حسابك آلياً ثم البناء
           eas build --platform ios --profile production --local --non-interactive
+    artifacts:
+      - build/*.ipa
