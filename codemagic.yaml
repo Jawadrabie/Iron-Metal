@@ -4,8 +4,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo   # تأكد أن هذا الجروب يحتوي على EXPO_TOKEN
-        - apple  # تأكد أن هذا الجروب يحتوي على APP_STORE_CONNECT_P8 والـ IDs
+        - expo
+        - apple
       node: latest
     scripts:
       - name: Install dependencies
@@ -14,25 +14,20 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إعداد المتغيرات الأساسية للهوية
-          export EXPO_APPLE_ID="alabuo@gmail.com"
+          # 1. إنشاء ملف المفتاح
+          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
+
+          # 2. تصدير المتغيرات بالأسماء "المقدسة" لدى Expo (سيتعرف عليها تلقائياً)
+          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
           
-          # 2. إنشاء ملف المفتاح الفعلي p8
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          
-          # 3. تعطيل تحذيرات النظام وتفعيل الوضع غير التفاعلي
+          # 3. إعدادات البيئة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. خطوة التهيئة: نطلب من EAS إنشاء ملف الاعتمادات الصحيح آلياً
-          # هذا السطر سيقوم بالتواصل مع آبل وجلب الشهادات وتخزينها محلياً للبناء
-          eas credentials --platform ios --profile production --non-interactive || true
-          
-          # 5. أمر البناء النهائي
-          # سيستخدم الآن الشهادات التي تم تجهيزها في الخطوة السابقة
-          eas build --platform ios --profile production --local --non-interactive --credentials-source local
+          # 4. أمر البناء "النقي" (بدون أي Flags زائدة تسبب أخطاء)
+          # بما أننا لم نحدد credentialsSource في eas.json، سيبحث EAS في المتغيرات أعلاه فوراً
+          eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
