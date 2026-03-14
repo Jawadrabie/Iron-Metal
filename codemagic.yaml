@@ -17,14 +17,17 @@ workflows:
           # 1. إنشاء مفتاح آبل
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إنشاء ملف الاعتمادات (بصيغة مبسطة يقبلها الإصدار الجديد)
+          # 2. الهيكل الصحيح 100% لملف credentials.json
+          # لاحظ تغليف البيانات داخل "production" ثم "store"
           cat > credentials.json <<EOF
           {
             "ios": {
-              "appleTeamId": "9MLYHHLY82",
-              "ascApiKeyId": "XLB4TLKY66",
-              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+              "production": {
+                "ascApiKeyId": "XLB4TLKY66",
+                "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+                "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8",
+                "appleTeamId": "9MLYHHLY82"
+              }
             }
           }
           EOF
@@ -33,8 +36,7 @@ workflows:
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء المصحح (بدون الفلاغ المرفوض)
-          # سيعرف EAS أن المصدر محلي تلقائياً من ملف eas.json
+          # 4. أمر البناء
           mkdir -p build
           eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
     artifacts:
