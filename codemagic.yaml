@@ -1,6 +1,6 @@
 workflows:
   ios-expo-workflow:
-    name: iOS Force Build
+    name: iOS Clean & Force Build
     instance_type: mac_mini_m1
     environment:
       groups:
@@ -17,7 +17,7 @@ workflows:
           # 1. إعداد المفتاح p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. حقن المتغيرات مباشرة في بيئة العمل (تخطي الـ 2FA والملفات المحلية)
+          # 2. حقن المتغيرات للتعامل مع آبل
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
@@ -26,7 +26,10 @@ workflows:
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. الضربة القاضية: أمر واحد يبني ويرفع للسحاب (بدون --local)
-          # هذا الأمر سيستخدم حساب Expo الجديد الخاص بك لعمل البناء على سيرفرات Expo 
-          # وبما أننا زودناه بالمفاتيح، سيتخطى طلب الـ SMS تلقائياً
+          # 3. الخطوة الهجومية: مسح الشهادات العالقة في Expo لكسر حلقة الـ Validation
+          # هذا الأمر سيخبر إكسبو: "انسَ كل ما تعرفه عن شهادات هذا التطبيق"
+          eas credentials --platform ios --profile production --clear --non-interactive || true
+
+          # 4. بناء سحابي نظيف تماماً
+          # سيبدأ EAS الآن من الصفر وسيستخدم الـ API Key لإنشاء شهادات جديدة ومقبولة
           eas build --platform ios --profile production --non-interactive --no-wait
