@@ -13,7 +13,6 @@
       },
       "ios": {
         "distribution": "store",
-        "credentialsSource": "local"
       }
     }
   },
