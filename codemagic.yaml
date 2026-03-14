@@ -8,28 +8,29 @@ workflows:
         - apple  # تأكد أن APP_STORE_CONNECT_P8 موجود هنا
       node: latest
     scripts:
-      - name: Install dependencies
-        script: npm install
-      - name: Install EAS CLI
-        script: npm install -g eas-cli
-      - name: Build iOS IPA
-        script: |
-          # 1. إنشاء ملف المفتاح p8 من متغير البيئة
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
+  - name: Install dependencies
+    script: npm install
+  - name: Install EAS CLI
+    script: npm install -g eas-cli
+  - name: Build iOS IPA
+    script: |
+      # 1. تجهيز مفتاح p8
+      echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات التي يحتاجها EAS للتعامل مع آبل تلقائياً
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
-          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
-          
-          # 3. إعدادات بيئة EAS للأتمتة
-          export EAS_NO_VCS=1
-          export EAS_BUILD_NO_EXPO_GO_WARNING=true
+      # 2. تصدير المتغيرات "المقدسة" لـ EAS
+      export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
+      export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
+      export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
+      export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
+      
+      export EAS_NO_VCS=1
+      export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء
-          # بما أن الحساب جديد، سيقوم EAS باستخدام المفاتيح أعلاه لإنشاء 
-          # Distribution Certificate و Provisioning Profile جديدين تماماً
-          eas build --platform ios --profile production --local --non-interactive
+      # 3. الخطوة الحاسمة: إجبار EAS على ضبط الشهادات قبل البناء
+      # هذا الأمر سيقوم بمسح أي تعارض وإنشاء شهادة توزيع جديدة آلياً
+      eas credentials --platform ios --profile production --non-interactive --clear-credentials || true
+
+      # 4. أمر البناء النهائي
+      eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
