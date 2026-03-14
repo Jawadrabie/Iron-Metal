@@ -14,24 +14,27 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء ملف المفتاح
+          # 1. إنشاء ملف المفتاح p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات الأساسية
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
-          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-          
+          # 2. إنشاء ملف الاعتمادات المحلي بتنسيق JSON دقيق جداً
+          # لاحظ إضافة appleTeamId هنا، بدونه يرفض EAS الملف
+          cat > credentials.json <<EOF
+          {
+            "ios": {
+              "appleTeamId": "9MLYHHLY82",
+              "ascApiKeyId": "XLB4TLKY66",
+              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+            }
+          }
+          EOF
+
+          # 3. متغيرات البيئة للسلامة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. الخطوة الحاسمة: مسح الذاكرة المحلية والبعيدة للشهادات المكسورة
-          # سنخبر EAS أن يمسح أي شهادات قديمة مرتبطة بهذا المشروع ليبدأ بناء نظيف
-          # نستخدم --platform ios للتأكد من استهداف المشكلة
-          npx eas-cli device:delete-apple-credentials --platform ios --non-interactive || true
-
-          # 4. أمر البناء مع إجبار النظام على تجاهل الشهادات السابقة
-          # سنستخدم --clear-cache للتأكد من عدم وجود بقايا
-          eas build --platform ios --profile production --local --non-interactive --clear-cache
+          # 4. أمر البناء (الآن سيجد ملف credentials.json كاملاً ولن يذهب للسيرفر)
+          eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
