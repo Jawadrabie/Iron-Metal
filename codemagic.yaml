@@ -14,10 +14,10 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # إنشاء ملف المفتاح برمجياً داخل السيرفر
+          # إنشاء ملف المفتاح من المتغير الذي أضفته
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # تنفيذ البناء باستخدام المفاتيح
+          # تنفيذ البناء
           eas build --platform ios --profile production --local --non-interactive \
             --p8-path ./AuthKey_XLB4TLKY66.p8 \
             --id $APP_STORE_CONNECT_KEY_ID \
