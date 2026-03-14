@@ -1,40 +1,25 @@
-workflows:
-  ios-expo-workflow:
-    name: iOS Expo Build
-    instance_type: mac_mini_m1
-    environment:
-      groups:
-        - expo
-        - apple
-      node: latest
-    scripts:
+scripts:
       - name: Install dependencies
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء ملف المفتاح p8
+          # 1. إعداد المفتاح
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إنشاء ملف الاعتمادات المحلي بتنسيق JSON دقيق جداً
-          # لاحظ إضافة appleTeamId هنا، بدونه يرفض EAS الملف
-          cat > credentials.json <<EOF
-          {
-            "ios": {
-              "appleTeamId": "9MLYHHLY82",
-              "ascApiKeyId": "XLB4TLKY66",
-              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
-            }
-          }
-          EOF
-
-          # 3. متغيرات البيئة للسلامة
+          # 2. تصدير المتغيرات التي يفهمها EAS تلقائياً
+          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
+          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
+          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
+          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
+          
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء (الآن سيجد ملف credentials.json كاملاً ولن يذهب للسيرفر)
+          # 3. الخطوة "السحرية": تجديد الشهادات قبل البناء
+          # هذا السطر سيستخدم المفتاح لإنشاء شهادات جديدة نظيفة في حسابك
+          eas credentials --platform ios --profile production --non-interactive --clear-credentials || true
+
+          # 4. البناء النهائي
           eas build --platform ios --profile production --local --non-interactive
-    artifacts:
-      - build/*.ipa
