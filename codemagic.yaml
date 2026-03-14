@@ -23,4 +23,21 @@ workflows:
         script: |
           echo "$APP_STORE_CONNECT_P8" > AuthKey.p8
 
-      - name: Export Apple & Expo environment v
+      - name: Export Apple & Expo environment variables
+        script: |
+          export EXPO_TOKEN=$EXPO_TOKEN
+          export EXPO_ASC_API_KEY_PATH=AuthKey.p8
+          export EXPO_ASC_API_KEY_ID=$APP_STORE_CONNECT_KEY_ID
+          export EXPO_ASC_API_KEY_ISSUER_ID=$APP_STORE_CONNECT_ISSUER_ID
+          export EXPO_APPLE_TEAM_ID=9MLYHHLY82
+          export EAS_BUILD_AUTOCREATE_CREDENTIALS=1
+          export EAS_NO_VCS=1
+          export EAS_BUILD_NO_EXPO_GO_WARNING=true
+
+      - name: Start iOS build
+        script: |
+          eas build \
+            --platform ios \
+            --profile production \
+            --non-interactive \
+            --no-wait
