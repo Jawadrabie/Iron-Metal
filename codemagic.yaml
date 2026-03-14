@@ -4,8 +4,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo   # تأكد من وجود EXPO_TOKEN هنا
-        - apple  # تأكد من وجود APP_STORE_CONNECT_P8 هنا
+        - expo   # تأكد أن EXPO_TOKEN هنا هو الخاص بالحساب الجديد
+        - apple  # تأكد أن APP_STORE_CONNECT_P8 موجود هنا
       node: latest
     scripts:
       - name: Install dependencies
@@ -14,21 +14,22 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. تجهيز مفتاح الدخول لآبل
+          # 1. إنشاء ملف المفتاح p8 من متغير البيئة
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات التي يراها EAS تلقائياً (بدون ملفات JSON)
+          # 2. تصدير المتغيرات التي يحتاجها EAS للتعامل مع آبل تلقائياً
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
           export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
           
-          # 3. إعدادات الأتمتة
+          # 3. إعدادات بيئة EAS للأتمتة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. أمر البناء "السحري"
-          # سيقوم EAS باستخدام المفتاح لإنشاء الشهادات في حسابك آلياً ثم البناء
+          # 4. أمر البناء
+          # بما أن الحساب جديد، سيقوم EAS باستخدام المفاتيح أعلاه لإنشاء 
+          # Distribution Certificate و Provisioning Profile جديدين تماماً
           eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
