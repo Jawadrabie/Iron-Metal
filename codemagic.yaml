@@ -14,17 +14,16 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. إنشاء ملف المفتاح من المتغيرات
+          # 1. إنشاء ملف المفتاح
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # 2. تعريف متغيرات البيئة لـ EAS
+          # 2. إعداد المتغيرات الأساسية
           export EAS_NO_VCS=1
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="$APP_STORE_CONNECT_KEY_ID"
-          export EXPO_ASC_API_KEY_ISSUER_ID="$APP_STORE_CONNECT_ISSUER_ID"
           
-          # 3. أمر البناء مع إجبار استخدام الشهادات المحلية (local)
-          # هذا السطر يمنع EAS من البحث في الشهادات القديمة على سيرفرات Expo
-          eas build --platform ios --profile production --local --non-interactive --credentials-source local
+          # 3. أمر البناء باستخدام الـ Flags المباشرة والمجربة
+          eas build --platform ios --profile production --local --non-interactive \
+            --id "$APP_STORE_CONNECT_KEY_ID" \
+            --issuer "$APP_STORE_CONNECT_ISSUER_ID" \
+            --p8-path "./AuthKey_XLB4TLKY66.p8"
     artifacts:
       - build/*.ipa
