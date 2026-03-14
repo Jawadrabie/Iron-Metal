@@ -1,45 +1,32 @@
 workflows:
   ios-expo-workflow:
-    name: iOS Expo Build & Deploy
+    name: iOS Force Build
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo   # تأكد أن EXPO_TOKEN الخاص بالحساب الجديد موجود هنا
-        - apple  # تأكد أن APP_STORE_CONNECT_P8 موجود هنا
+        - expo
+        - apple
       node: latest
     scripts:
       - name: Install dependencies
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
-      - name: Build and Submit to Apple
+      - name: Force Production Build
         script: |
-          # 1. إنشاء ملف المفتاح الجديد p8
+          # 1. إعداد المفتاح p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إنشاء ملف credentials.json بالهيكل الذي يقبله EAS محلياً للـ API Key
-          # ملاحظة: تم وضع البيانات مباشرة تحت ios لتفادي خطأ التوثيق
-          cat > credentials.json <<EOF
-          {
-            "ios": {
-              "appleTeamId": "9MLYHHLY82",
-              "ascApiKeyId": "XLB4TLKY66",
-              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
-              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
-            }
-          }
-          EOF
-
-          # 3. إعدادات البيئة الأساسية
+          # 2. حقن المتغيرات مباشرة في بيئة العمل (تخطي الـ 2FA والملفات المحلية)
+          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
+          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
+          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
+          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
+          
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 4. بناء ملف الـ IPA محلياً
-          mkdir -p build
-          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
-
-          # 5. الرفع التلقائي إلى App Store Connect (Apple Console)
-          # سيقوم هذا الأمر برفع ملف الـ IPA الناتج إلى حسابك فوراً
-          eas submit --platform ios --profile production --path=build/ironmetal.ipa --non-interactive
-    artifacts:
-      - build/*.ipa
+          # 3. الضربة القاضية: أمر واحد يبني ويرفع للسحاب (بدون --local)
+          # هذا الأمر سيستخدم حساب Expo الجديد الخاص بك لعمل البناء على سيرفرات Expo 
+          # وبما أننا زودناه بالمفاتيح، سيتخطى طلب الـ SMS تلقائياً
+          eas build --platform ios --profile production --non-interactive --no-wait
