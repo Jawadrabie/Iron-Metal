@@ -4,7 +4,7 @@ workflows:
     instance_type: mac_mini_m1
 
     environment:
-      node: 18
+      node: 20
       groups:
         - expo
         - apple
@@ -12,6 +12,8 @@ workflows:
     scripts:
       - name: Install dependencies
         script: |
+          node -v
+          npm -v
           npm install
 
       - name: Install Expo & EAS CLI
@@ -23,7 +25,7 @@ workflows:
         script: |
           echo "$APP_STORE_CONNECT_P8" > AuthKey.p8
 
-      - name: Export Apple & Expo environment variables
+      - name: Export Apple credentials
         script: |
           export EXPO_TOKEN=$EXPO_TOKEN
           export EXPO_ASC_API_KEY_PATH=AuthKey.p8
