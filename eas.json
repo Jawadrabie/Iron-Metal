@@ -1,23 +1,9 @@
 {
   "cli": {
-    "version": ">= 12.0.0"
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote"
   },
   "build": {
-    "preview": {
-      "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "https://docytsghlznipuapvizn.supabase.co",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvY3l0c2dobHpuaXB1YXB2aXpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwNDU5MTcsImV4cCI6MjA2NDYyMTkxN30.3kAUiHH2X3fqz0v2-ToevLUBjYGM-p239UzGzM_nEhk",
-        "EXPO_PUBLIC_SITE_URL": "https://iron-metal.net",
-        "EXPO_PUBLIC_SCHEME": "ironmetal"
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
-      }
-    },
     "production": {
       "env": {
         "EXPO_PUBLIC_SUPABASE_URL": "https://docytsghlznipuapvizn.supabase.co",
@@ -26,14 +12,20 @@
         "EXPO_PUBLIC_SCHEME": "ironmetal"
       },
       "ios": {
-        "distribution": "store"
-      },
-      "android": {
-        "buildType": "app-bundle"
+        "distribution": "store",
+        "credentialsSource": "remote"
       }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleTeamId": "9MLYHHLY82",
+        "ascApiKeyId": "XLB4TLKY66",
+        "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+        "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+      }
+    }
   }
+  
 }
