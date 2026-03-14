@@ -4,8 +4,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        - expo
-        - apple
+        - expo   # تأكد من وجود EXPO_TOKEN الجديد هنا
+        - apple  # تأكد من وجود APP_STORE_CONNECT_P8 هنا
       node: latest
     scripts:
       - name: Install dependencies
@@ -14,23 +14,23 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # 1. تجهيز مفتاح p8
+          # 1. إنشاء ملف المفتاح الفعلي لتجاوز طلب الـ 2FA (SMS)
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. تصدير المتغيرات لـ EAS
+          # 2. تصدير المتغيرات التي تجعل EAS يتحدث مع آبل صامتاً
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
           export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
           export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
           
+          # 3. إعدادات الأتمتة
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. مزامنة الشهادات (ضروري جداً للتطبيقات المرفوعة مسبقاً)
+          # 4. أمر المزامنة (للتأكد من ربط الشهادات الحالية)
           eas credentials --platform ios --profile production --non-interactive || true
 
-          # 4. أمر البناء النهائي
-          # قمت بإضافة سطر لإنشاء مجلد البناء ونقل الملف إليه لضمان ظهور الـ Artifacts
+          # 5. أمر البناء النهائي مع تحديد مسار الملف الناتج
           mkdir -p build
           eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
     artifacts:
