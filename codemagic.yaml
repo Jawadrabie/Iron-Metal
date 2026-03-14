@@ -1,6 +1,6 @@
 workflows:
   ios-expo-workflow:
-    name: iOS Clean & Force Build
+    name: iOS Force Override Build
     instance_type: mac_mini_m1
     environment:
       groups:
@@ -12,24 +12,30 @@ workflows:
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
-      - name: Force Production Build
+      - name: Override & Build
         script: |
-          # 1. إعداد المفتاح p8
+          # 1. إنشاء مفتاح p8
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. حقن المتغيرات للتعامل مع آبل
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
-          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
-          
+          # 2. إنشاء ملف الاعتمادات بتنسيق الـ API Key الصافي
+          # هذا التنسيق هو الوحيد الذي يقبله الإصدار الجديد v12 للبناء المحلي
+          cat > credentials.json <<EOF
+          {
+            "ios": {
+              "appleTeamId": "9MLYHHLY82",
+              "ascApiKeyId": "XLB4TLKY66",
+              "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
+              "ascApiKeyPath": "./AuthKey_XLB4TLKY66.p8"
+            }
+          }
+          EOF
+
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. الخطوة الهجومية: مسح الشهادات العالقة في Expo لكسر حلقة الـ Validation
-          # هذا الأمر سيخبر إكسبو: "انسَ كل ما تعرفه عن شهادات هذا التطبيق"
-          eas credentials --platform ios --profile production --clear --non-interactive || true
-
-          # 4. بناء سحابي نظيف تماماً
-          # سيبدأ EAS الآن من الصفر وسيستخدم الـ API Key لإنشاء شهادات جديدة ومقبولة
-          eas build --platform ios --profile production --non-interactive --no-wait
+          # 3. الضربة القاضية: بناء محلي مع تجاهل تام للشهادات القديمة
+          # سنستخدم --local لكي لا يذهب EAS لسيرفرات إكسبو ويفشل عند "الشهادة القديمة"
+          mkdir -p build
+          eas build --platform ios --profile production --local --non-interactive --output=build/ironmetal.ipa
+    artifacts:
+      - build/*.ipa
