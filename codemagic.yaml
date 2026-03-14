@@ -14,13 +14,19 @@ workflows:
         script: npm install -g eas-cli
       - name: Build iOS IPA
         script: |
-          # إنشاء ملف المفتاح من المتغير الذي أضفته
+          # إنشاء ملف المفتاح في مكان ثابت
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # تنفيذ البناء
-          eas build --platform ios --profile production --local --non-interactive \
-            --p8-path ./AuthKey_XLB4TLKY66.p8 \
-            --id $APP_STORE_CONNECT_KEY_ID \
-            --issuer $APP_STORE_CONNECT_ISSUER_ID
+          # إعداد متغيرات البيئة التي يتوقعها EAS
+          export EXPO_APPLE_APP_SPECIFIC_PASSWORD="" # اتركه فارغاً لأننا نستخدم API Key
+          export EAS_NO_VCS=1
+          
+          # إخبار EAS بمكان المفتاح والمعلومات عبر متغيرات البيئة
+          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
+          export EXPO_ASC_API_KEY_ID="$APP_STORE_CONNECT_KEY_ID"
+          export EXPO_ASC_API_KEY_ISSUER_ID="$APP_STORE_CONNECT_ISSUER_ID"
+          
+          # تشغيل البناء بأمر بسيط
+          eas build --platform ios --profile production --local --non-interactive
     artifacts:
       - build/*.ipa
