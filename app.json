@@ -23,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.akafi.ironmetal",
-      "buildNumber": "17",
+      "buildNumber": "19",
       "usesIcloudStorage": false,
       "itsAppUsesNonExemptEncryption": false,
       "associatedDomains": ["applinks:iron-metal.net"]
