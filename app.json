@@ -3,7 +3,7 @@
     "name": "Iron & Metal",
     "slug": "mobile",
     "scheme": "ironmetal",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "updates": {
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "NEVER"
@@ -23,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.akafi.ironmetal",
-      "buildNumber": "19",
+      "buildNumber": "20",
       "usesIcloudStorage": false,
       "itsAppUsesNonExemptEncryption": false,
       "associatedDomains": ["applinks:iron-metal.net"]
