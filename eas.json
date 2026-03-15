@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 12.0.0",
+    "version": ">= 16.28.0",
     "appVersionSource": "remote"
   },
   "build": {
@@ -12,13 +12,15 @@
         "EXPO_PUBLIC_SCHEME": "ironmetal"
       },
       "ios": {
-        "distribution": "store"
+        "distribution": "store",
+        "appleTeamId": "9MLYHHLY82"
       }
     }
   },
   "submit": {
     "production": {
       "ios": {
+        "ascAppId": "6447297319",
         "appleTeamId": "9MLYHHLY82",
         "ascApiKeyId": "XLB4TLKY66",
         "ascApiKeyIssuerId": "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1",
