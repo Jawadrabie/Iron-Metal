@@ -1,4 +1,4 @@
-# اسم المشروع: Iron-Metal
+# اسم الـ Workflow: بناء ورفع تلقائي لمتجر آبل
 workflows:
   ios-release:
     name: IronMetal iOS Production
@@ -6,7 +6,7 @@ workflows:
     max_build_duration: 60
     environment:
       vars:
-        # إعدادات لضمان عدم التوقف لطلب أي مدخلات يدوية أو SMS
+        # بيانات المفتاح والتعريف لضمان عدم طلب تسجيل دخول يدوي أو كود SMS
         EXPO_APPLE_TEAM_ID: "9MLYHHLY82"
         EXPO_ASC_API_KEY_ID: "XLB4TLKY66"
         EXPO_ASC_API_KEY_ISSUER_ID: "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
@@ -14,7 +14,7 @@ workflows:
         EAS_NO_VCS: "1"
         EAS_BUILD_NO_EXPO_GO_WARNING: "true"
       groups:
-        - expo # تأكد أن EXPO_TOKEN و APP_STORE_CONNECT_P8 مضافين في هذه المجموعة في Codemagic
+        - expo # تأكد من وجود EXPO_TOKEN و APP_STORE_CONNECT_P8 في إعدادات Codemagic
     scripts:
       - name: Install Dependencies
         script: |
@@ -22,60 +22,17 @@ workflows:
           npm install -g eas-cli
       - name: Build and Submit to App Store
         script: |
-          # 1. استخراج ملف المفتاح (.p8) من المتغيرات البيئية
-          # سيتم إنشاء الملف في مجلد المشروع لكي يراه EAS CLI
+          # 1. إنشاء ملف المفتاح التقني (.p8)
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
-          
-          # 2. تحديد مسار المفتاح للمتغير الخاص بـ EAS
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-
-          # 3. تشغيل عملية البناء والرفع التلقائي
-          # الأمر --auto-submit هو الحل الجذري الذي يربط البناء بالرفع مباشرة
-          # وسيستخدم الإعدادات الموجودة في ملف eas.json الخاص بك
+          
+          # 2. تشغيل البناء والرفع التلقائي
+          # ملاحظة: أزلنا --no-wait لكي يستمر السكريبت في العمل حتى انتهاء الرفع للمتجر
+          # سيستخدم الإعدادات من ملف eas.json المرفوع على GitHub
           eas build --platform ios --profile production --non-interactive --auto-submit
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
       email:
         recipients:
-          - alabuo@gmail.com # سيصلك إيميل عند انتهاء العملية بنجاح# اسم المشروع: Iron-Metal
-workflows:
-  ios-release:
-    name: IronMetal iOS Production
-    instance_type: mac_mini_m1
-    max_build_duration: 60
-    environment:
-      vars:
-        # إعدادات لضمان عدم التوقف لطلب أي مدخلات يدوية أو SMS
-        EXPO_APPLE_TEAM_ID: "9MLYHHLY82"
-        EXPO_ASC_API_KEY_ID: "XLB4TLKY66"
-        EXPO_ASC_API_KEY_ISSUER_ID: "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-        EXPO_NO_APPLE_ID_AUTH: "1"
-        EAS_NO_VCS: "1"
-        EAS_BUILD_NO_EXPO_GO_WARNING: "true"
-      groups:
-        - expo # تأكد أن EXPO_TOKEN و APP_STORE_CONNECT_P8 مضافين في هذه المجموعة في Codemagic
-    scripts:
-      - name: Install Dependencies
-        script: |
-          npm install
-          npm install -g eas-cli
-      - name: Build and Submit to App Store
-        script: |
-          # 1. استخراج ملف المفتاح (.p8) من المتغيرات البيئية
-          # سيتم إنشاء الملف في مجلد المشروع لكي يراه EAS CLI
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
-          
-          # 2. تحديد مسار المفتاح للمتغير الخاص بـ EAS
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-
-          # 3. تشغيل عملية البناء والرفع التلقائي
-          # الأمر --auto-submit هو الحل الجذري الذي يربط البناء بالرفع مباشرة
-          # وسيستخدم الإعدادات الموجودة في ملف eas.json الخاص بك
-          eas build --platform ios --profile production --non-interactive --auto-submit
-    artifacts:
-      - build/ios/ipa/*.ipa
-    publishing:
-      email:
-        recipients:
-          - alabuo@gmail.com # سيصلك إيميل عند انتهاء العملية بنجاح
+          - alabuo@gmail.com
