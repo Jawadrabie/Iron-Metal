@@ -23,9 +23,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.akafi.ironmetal",
-      "buildNumber": "14",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": true
+      "buildNumber": "16",
+      "usesIcloudStorage": false,
+      "config": {
+        "usesNonExemptEncryption": false
       },
       "associatedDomains": ["applinks:iron-metal.net"]
     },
@@ -62,7 +63,6 @@
           ]
         }
       ]
-
     },
     "web": {
       "favicon": "./assets/icon/logo6.png"
