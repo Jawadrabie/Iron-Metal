@@ -3,7 +3,7 @@
     "name": "Iron & Metal",
     "slug": "mobile",
     "scheme": "ironmetal",
-    "version": "1.0.6", 
+    "version": "1.0.6",
     "updates": {
       "fallbackToCacheTimeout": 0,
       "checkAutomatically": "NEVER"
@@ -22,10 +22,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.akafi.ironmetal", 
-      "buildNumber": "17", 
+      "bundleIdentifier": "com.akafi.ironmetal",
+      "buildNumber": "17",
       "usesIcloudStorage": false,
-      "itsAppUsesNonExemptEncryption": false, 
+      "itsAppUsesNonExemptEncryption": false,
       "associatedDomains": ["applinks:iron-metal.net"]
     },
     "android": {
@@ -34,52 +34,15 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
       "package": "com.alabuotrading.ironandmetal",
-      "versionCode": 7, 
-      "googleServicesFile": "./google-services.json",
-      "intentFilters": [
-        {
-          "autoVerify": true,
-          "action": "VIEW",
-          "category": ["BROWSABLE", "DEFAULT"],
-          "data": [
-            {
-              "scheme": "https",
-              "host": "iron-metal.net",
-              "pathPrefix": "/"
-            }
-          ]
-        }
-      ]
-    },
-    "web": {
-      "favicon": "./assets/icon/logo6.png"
+      "versionCode": 7,
+      "googleServicesFile": "./google-services.json"
     },
     "extra": {
       "eas": {
         "projectId": "bb9dca3c-7b06-473d-a39a-66ebda95f1d5"
       }
     },
-    "plugins": [
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#ffffff",
-          "image": "./assets/icon/logo6.png",
-          "imageWidth": 18,
-          "resizeMode": "contain",
-          "dark": {
-            "image": "./assets/icon/logo6.png",
-            "backgroundColor": "#ffffff"
-          }
-        }
-      ],
-      "expo-web-browser",
-      "expo-asset",
-      "expo-font",
-      "expo-notifications"
-    ],
     "owner": "mnqwzxp"
   }
 }
