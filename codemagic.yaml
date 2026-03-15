@@ -1,33 +1,28 @@
 workflows:
-  ios-expo-workflow:
-    name: IronMetal Final Deployment
+  ios-release:
+    name: IronMetal iOS Production
     instance_type: mac_mini_m1
+    max_build_duration: 60
     environment:
+      vars:
+        # بيانات المفتاح الصامت (API Key) لضمان عدم طلب SMS
+        EXPO_APPLE_TEAM_ID: "9MLYHHLY82"
+        EXPO_ASC_API_KEY_ID: "XLB4TLKY66"
+        EXPO_ASC_API_KEY_ISSUER_ID: "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
+        EXPO_NO_APPLE_ID_AUTH: "1"
+        EAS_NO_VCS: "1"
       groups:
-        - expo
-        - apple
-      node: latest
+        - expo # تأكد من إضافة EXPO_TOKEN هنا في إعدادات Codemagic
     scripts:
-      - name: Install dependencies
-        script: npm install
-      - name: Install EAS CLI
-        script: npm install -g eas-cli
-      - name: Production Build & Push
+      - name: Install Dependencies
         script: |
-          # 1. إنشاء ملف المفتاح p8 باستخدام المحتوى الموجود في متغيراتك
+          npm install
+          npm install -g eas-cli
+      - name: Build iOS App
+        script: |
+          # 1. كتابة ملف المفتاح p8 من المتغيرات (تأكد من إضافته في Environment Variables)
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
-
-          # 2. حقن البيانات الجديدة التي أكدتها (عبد الكافي)
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
-          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
-          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
-          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
           
-          # إعدادات إضافية لتجنب التعليق
-          export EAS_NO_VCS=1
-          export EAS_BUILD_NO_EXPO_GO_WARNING=true
-
-          # 3. أمر البناء المباشر
-          # سيقوم هذا الأمر ببدء البناء في سحابة Expo. 
-          # بما أن المفتاح للمالك، سيتجاوز مشكلة الـ Validation تلقائياً هناك.
+          # 2. تشغيل البناء (سيجد الشهادات جاهزة في السحاب الآن)
           eas build --platform ios --profile production --non-interactive --no-wait
