@@ -1,6 +1,6 @@
 workflows:
   ios-expo-workflow:
-    name: IronMetal Final Deploy
+    name: IronMetal Final Deployment
     instance_type: mac_mini_m1
     environment:
       groups:
@@ -12,23 +12,22 @@ workflows:
         script: npm install
       - name: Install EAS CLI
         script: npm install -g eas-cli
-      - name: Production Build & Upload
+      - name: Production Build & Push
         script: |
-          # 1. إنشاء ملف المفتاح الجديد (p8) الخاص بعبد الكافي
-          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_NEW.p8
+          # 1. إنشاء ملف المفتاح p8 باستخدام المحتوى الموجود في متغيراتك
+          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
 
-          # 2. إعداد متغيرات البيئة (استخدم القيم التي أعطاك إياها بدقة)
-          export EXPO_ASC_API_KEY_PATH="./AuthKey_NEW.p8"
-          export EXPO_ASC_API_KEY_ID="KEY_ID_الجديد"
-          export EXPO_ASC_API_KEY_ISSUER_ID="ISSUER_ID_الجديد"
-          export EXPO_APPLE_TEAM_ID="9MLYHHL Y82"
+          # 2. حقن البيانات الجديدة التي أكدتها (عبد الكافي)
+          export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
+          export EXPO_ASC_API_KEY_ID="XLB4TLKY66"
+          export EXPO_ASC_API_KEY_ISSUER_ID="990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
+          export EXPO_APPLE_TEAM_ID="9MLYHHLY82"
           
+          # إعدادات إضافية لتجنب التعليق
           export EAS_NO_VCS=1
           export EAS_BUILD_NO_EXPO_GO_WARNING=true
 
-          # 3. محاولة مسح أي سجلات شهادات قديمة عالقة في إكسبو
-          eas credentials --platform ios --profile production --non-interactive || true
-
-          # 4. البناء السحابي مع تجاهل الأخطاء السابقة
-          # سيقوم EAS الآن بإنشاء شهادة جديدة لأن المفتاح يخص صاحب الحساب
+          # 3. أمر البناء المباشر
+          # سيقوم هذا الأمر ببدء البناء في سحابة Expo. 
+          # بما أن المفتاح للمالك، سيتجاوز مشكلة الـ Validation تلقائياً هناك.
           eas build --platform ios --profile production --non-interactive --no-wait
