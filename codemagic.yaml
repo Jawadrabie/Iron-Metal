@@ -2,11 +2,11 @@
 workflows:
   ios-release:
     name: IronMetal iOS Production
-    instance_type: mac_mini_m1
+    instance_type: mac_mini_m1 # استخدام جهاز M1 لسرعة البناء
     max_build_duration: 60
     environment:
       vars:
-        # إعدادات ثابتة لتخطي طلبات التحقق اليدوي و SMS
+        # إعدادات ثابتة لتسهيل عملية المصادقة مع آبل و Expo
         EXPO_APPLE_TEAM_ID: "9MLYHHLY82"
         EXPO_ASC_API_KEY_ID: "XLB4TLKY66"
         EXPO_ASC_API_KEY_ISSUER_ID: "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
@@ -14,23 +14,27 @@ workflows:
         EAS_NO_VCS: "1"
         EAS_BUILD_NO_EXPO_GO_WARNING: "true"
       groups:
-        - expo   # ضروري لقراءة EXPO_TOKEN
-        - apple  # ضروري لقراءة APP_STORE_CONNECT_P8 (حسب صورتك الأخيرة)
+        - expo   # تأكد من إضافة EXPO_TOKEN داخل هذه المجموعة في موقع Codemagic
+        - apple  # تأكد من إضافة APP_STORE_CONNECT_P8 داخل هذه المجموعة
     scripts:
       - name: Install Dependencies
         script: |
+          # تثبيت المكتبات وتحديث أداة EAS
           npm install
           npm install -g eas-cli
       - name: Build and Submit to App Store
         script: |
-          # 1. إنشاء ملف المفتاح وضمان تنسيقه (لمنع خطأ invalid curve name)
-          printf "%b" "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
+          # 1. إنشاء ملف المفتاح ومعالجة الأسطر الجديدة (حل مشكلة invalid curve name)
+          echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           
-          # 2. تحديد مسار المفتاح لـ EAS
+          # 2. حماية ملف المفتاح (إجراء أمني مطلوب أحياناً)
+          chmod 600 ./AuthKey_XLB4TLKY66.p8
+          
+          # 3. تحديد مسار المفتاح لـ EAS لكي يتمكن من توقيع التطبيق
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           
-          # 3. تشغيل البناء والرفع التلقائي للمتجر
-          # سيستخدم الإعدادات من ملف eas.json المرفوع على GitHub (تأكد من وجود ascAppId)
+          # 4. تشغيل البناء والرفع التلقائي للمتجر
+          # سيستخدم البروفايل 'production' من ملف eas.json لحقن مفاتيح Supabase
           eas build --platform ios --profile production --non-interactive --auto-submit
     artifacts:
       - build/ios/ipa/*.ipa
