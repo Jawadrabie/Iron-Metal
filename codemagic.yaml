@@ -1,18 +1,20 @@
 workflows:
+  # هذا هو اسم الـ Workflow، تأكد أنه يظهر في لوحة تحكم Codemagic
   ios-release:
     name: IronMetal iOS Production
     instance_type: mac_mini_m1
     max_build_duration: 60
     environment:
       vars:
-        # بيانات المفتاح الصامت (API Key) لضمان عدم طلب SMS
+        # بيانات المفتاح الصامت لضمان عدم طلب SMS نهائياً
         EXPO_APPLE_TEAM_ID: "9MLYHHLY82"
         EXPO_ASC_API_KEY_ID: "XLB4TLKY66"
         EXPO_ASC_API_KEY_ISSUER_ID: "990d71a4-1bd0-4ca7-a3f9-417d062f6ac1"
         EXPO_NO_APPLE_ID_AUTH: "1"
         EAS_NO_VCS: "1"
+        EAS_BUILD_NO_EXPO_GO_WARNING: "true"
       groups:
-        - expo # تأكد من إضافة EXPO_TOKEN هنا في إعدادات Codemagic
+        - expo # تأكد من وجود EXPO_TOKEN و APP_STORE_CONNECT_P8 داخل هذه المجموعة في الإعدادات
     scripts:
       - name: Install Dependencies
         script: |
@@ -20,9 +22,10 @@ workflows:
           npm install -g eas-cli
       - name: Build iOS App
         script: |
-          # 1. كتابة ملف المفتاح p8 من المتغيرات (تأكد من إضافته في Environment Variables)
+          # 1. إنشاء ملف المفتاح من المتغير المخزن في Codemagic
           echo "$APP_STORE_CONNECT_P8" > ./AuthKey_XLB4TLKY66.p8
           export EXPO_ASC_API_KEY_PATH="./AuthKey_XLB4TLKY66.p8"
           
-          # 2. تشغيل البناء (سيجد الشهادات جاهزة في السحاب الآن)
+          # 2. تشغيل البناء باستخدام الشهادات التي جهزناها يدوياً
+          # تم إضافة --non-interactive لضمان عدم توقف البناء طلباً لأي إدخال
           eas build --platform ios --profile production --non-interactive --no-wait
